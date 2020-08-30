@@ -1,4 +1,4 @@
-query datasetSamples($dataSet: [String!]!) {
+query DatasetSamples($dataSet: [String!]!) {
   dataSets(dataSet: $dataSet){
     samples{
       name

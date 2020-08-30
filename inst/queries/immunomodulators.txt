@@ -1,4 +1,4 @@
-query immunomodulators($geneType: [String!], $entrez: [Int!]) {
+query Immunomodulators($geneType: [String!], $entrez: [Int!]) {
   genes(geneType: $geneType, entrez: $entrez){
     entrez
     hgnc

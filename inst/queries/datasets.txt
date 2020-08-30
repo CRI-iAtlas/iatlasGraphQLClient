@@ -1,4 +1,4 @@
-query datasets($dataSet: [String!]!) {
+query Datasets($dataSet: [String!]) {
   dataSets(dataSet: $dataSet){
     name
     display
