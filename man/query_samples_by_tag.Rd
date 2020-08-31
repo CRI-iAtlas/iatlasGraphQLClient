@@ -10,7 +10,7 @@ query_samples_by_tag(
   tags = NA,
   features = NA,
   feature_classes = NA,
-  sample_names = NA,
+  samples = NA,
   patients = NA,
   ...
 )
@@ -26,7 +26,7 @@ query_samples_by_tag(
 
 \item{feature_classes}{A vector of strings}
 
-\item{sample_names}{A vector of strings}
+\item{samples}{A vector of strings}
 
 \item{patients}{A vector of strings}
 

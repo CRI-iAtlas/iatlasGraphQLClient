@@ -262,10 +262,10 @@ test_that("query_expression_by_genes", {
     "rna_seq_expr"
   )
   result1 <- query_expression_by_genes(
-    "entrez" = 135L, sample = "TCGA-XF-A9T8", query_dir = query_dir
+    "entrez" = 135L, samples = "TCGA-XF-A9T8", query_dir = query_dir
   )
   result2 <- query_expression_by_genes(
-    "entrez" = 0L, sample = "TCGA-XF-A9T8", query_dir = query_dir
+    "entrez" = 0L, samples = "TCGA-XF-A9T8", query_dir = query_dir
   )
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)

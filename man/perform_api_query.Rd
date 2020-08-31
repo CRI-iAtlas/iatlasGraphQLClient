@@ -7,7 +7,7 @@
 perform_api_query(
   variables,
   query_file,
-  query_dir = "inst/queries",
+  query_dir = system.file("queries", package = "iatlas.api.client"),
   api_url = "http://ec2-54-190-27-240.us-west-2.compute.amazonaws.com/api"
 )
 }

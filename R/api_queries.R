@@ -750,7 +750,7 @@ query_samples_by_mutation_status <- function(
 #' @param tags A vector of strings
 #' @param features A vector of strings
 #' @param feature_classes A vector of strings
-#' @param sample_names A vector of strings
+#' @param samples A vector of strings
 #' @param patients A vector of strings
 #' @param ... Arguments to create_result_from_api_query
 #'
@@ -762,7 +762,7 @@ query_samples_by_tag <- function(
   tags = NA,
   features = NA,
   feature_classes = NA,
-  sample_names = NA,
+  samples = NA,
   patients = NA,
   ...
 ){
@@ -773,7 +773,7 @@ query_samples_by_tag <- function(
       "tag" = tags,
       "feature" = features,
       "featureClass" = feature_classes,
-      "name" = sample_names,
+      "name" = samples,
       "patient" = patients
     ),
     query_file = "samples_by_tag.txt",
@@ -814,7 +814,7 @@ query_samples_by_tag <- function(
 #' @param tags A vector of strings
 #' @param features A vector of strings
 #' @param feature_classes A vector of strings
-#' @param sample_names A vector of strings
+#' @param samples A vector of strings
 #' @param patients A vector of strings
 #' @param ... Arguments to create_result_from_api_query
 #'
@@ -826,7 +826,7 @@ query_tag_samples <- function(
   tags = NA,
   features = NA,
   feature_classes = NA,
-  sample_names = NA,
+  samples = NA,
   patients = NA,
   ...
 ){
@@ -837,7 +837,7 @@ query_tag_samples <- function(
       "tag" = tags,
       "feature" = features,
       "featureClass" = feature_classes,
-      "name" = sample_names,
+      "name" = samples,
       "patient" = patients
     ),
     query_file = "tag_samples.txt",
@@ -957,42 +957,4 @@ query_cohort_selector <- function(
     arrange_cols = "name",
     ...
   )
-#
-#
-#   tbl <- perform_api_query(
-#     "cohort_selection",
-#     list(
-#       dataSet = datasets,
-#       related = related_tags,
-#       tag = tags,
-#       feature = features,
-#       featureClass = feature_classes,
-#       sample = samples
-#     )
-#   ) %>%
-#     purrr::pluck(1) %>%
-#     dplyr::as_tibble()
-#
-#   if(nrow(tbl) == 0) {
-#     tbl <- dplyr::tibble(
-#       "name" = character(),
-#       "display" = character(),
-#       "characteristics" = character(),
-#       "color" = character(),
-#       "size" = integer(),
-#       "samples" = list()
-#     )
-#   } else {
-#     tbl <- tbl %>%
-#       dplyr::select(
-#         "name",
-#         "display",
-#         "characteristics",
-#         "color",
-#         "size" = "sampleCount",
-#         "samples"
-#       ) %>%
-#       dplyr::arrange(.data$name)
-#   }
-#   return(tbl)
 }
