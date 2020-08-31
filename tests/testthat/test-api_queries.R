@@ -273,7 +273,41 @@ test_that("query_expression_by_genes", {
   expect_equal(nrow(result2), 0L)
 })
 
-# gene types ----------------------------------------------------------------
+# genes expression by tag -----------------------------------------------------
+
+test_that("query_genes_expression_by_tag", {
+  expected_columns <- c(
+    "tag_name",
+    "tag_display",
+    "tag_color",
+    "tag_characteristics",
+    "sample",
+    "entrez",
+    "hgnc",
+    "rna_seq_expr"
+  )
+
+  result1 <- query_genes_expression_by_tag(
+    "PCAWG",
+    "Immune_Subtype",
+    tags = "C1",
+    entrez = c(1:2),
+    query_dir = query_dir
+  )
+  result2 <- query_genes_expression_by_tag(
+    "not_a_dataset",
+    "Immune_Subtype",
+    tags = "C1",
+    entrez = 1,
+    query_dir = query_dir
+  )
+  expect_named(result1, expected_columns)
+  expect_named(result2, expected_columns)
+  expect_true(nrow(result1) > 0)
+  expect_equal(nrow(result2), 0)
+})
+
+# gene types ------------------------------------------------------------------
 
 test_that("query_gene_types", {
   expected_columns <- c("display", "name")

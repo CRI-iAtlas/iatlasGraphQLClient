@@ -1,0 +1,34 @@
+query GenesExpressionByTag(
+  $dataSet: [String!]!
+  $related: [String!]!
+  $tag: [String!]
+  $feature: [String!]
+  $featureClass: [String!]
+  $entrez: [Int!]
+  $geneType: [String!]
+  $sample: [String!]
+) {
+  genesByTag(
+    dataSet: $dataSet
+    related: $related
+    tag: $tag
+    feature: $feature
+    featureClass: $featureClass
+    entrez: $entrez
+    geneType: $geneType
+    sample: $sample
+  ){
+    characteristics
+    color
+    display
+    tag
+    genes {
+      entrez
+      hgnc
+      samples {
+        name
+        rnaSeqExpr
+      }
+    }
+  }
+}
