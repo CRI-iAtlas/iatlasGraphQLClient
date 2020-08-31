@@ -594,7 +594,10 @@ query_expression_by_genes <- function(
 #' @param tags A vector of strings
 #' @param feature_classes A vector of strings
 #' @param samples A vector of strings
+#' @param entrez A vector of integers
+#' @param gene_types A vector of strings
 #' @param ... Arguments to create_result_from_api_query
+#'
 #' @export
 #' @importFrom magrittr %>%
 query_genes_expression_by_tag <- function(
