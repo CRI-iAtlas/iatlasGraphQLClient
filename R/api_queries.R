@@ -651,9 +651,10 @@ query_genes_by_gene_types <- function(gene_types = NA, ...){
 #'
 #' @export
 #' @importFrom magrittr %>%
-query_mutations <- function(entrez = NA, codes = NA, types = NA, ...){
+query_mutations <- function(ids = NA, entrez = NA, codes = NA, types = NA, ...){
   tbl <- create_result_from_api_query(
     query_args =  list(
+      "mutationId" = ids,
       "entrez" = entrez,
       "mutationCode" = codes,
       "mutationType" = types

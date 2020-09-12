@@ -301,7 +301,7 @@ test_that("query_genes_by_gene_types", {
 
 test_that("mutations", {
   expected_columns <-  c("id", "entrez", "hgnc", "code")
-  result1 <- query_mutations(query_dir = query_dir)
+  result1 <- query_mutations(ids = 1, query_dir = query_dir)
   result2 <- query_mutations(entrez = -1, query_dir = query_dir)
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
