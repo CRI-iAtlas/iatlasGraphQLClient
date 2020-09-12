@@ -7,8 +7,9 @@
 perform_api_query(
   variables,
   query_file,
-  query_dir = "inst/queries",
-  api_url = "http://ec2-54-190-27-240.us-west-2.compute.amazonaws.com/api"
+  query_dir = system.file("queries", package = "iatlas.api.client"),
+  api_url = "http://ec2-54-190-27-240.us-west-2.compute.amazonaws.com/api",
+  flatten_json = F
 )
 }
 \arguments{
@@ -19,6 +20,9 @@ perform_api_query(
 \item{query_dir}{A string, that is to the directory of the query file}
 
 \item{api_url}{A string, that is the URL of the API server}
+
+\item{flatten_json}{A boolean, is passed to
+jsonlite::fromJSON(flatten = flatten_json)}
 }
 \description{
 Perform API Query

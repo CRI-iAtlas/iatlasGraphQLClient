@@ -84,13 +84,13 @@ test_that("query_feature_values", {
 test_that("query_features_range", {
   expected_columns <- c("name", "display", "value_min", "value_max")
   result1 <- query_features_range(
-    "Lymphocytes_Aggregate1",
     "PCAWG",
+    features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
   result2 <- query_features_range(
-    "not_a_feature",
     "PCAWG",
+    features = "not_a_feature",
     query_dir = query_dir
   )
   expect_named(result1, expected_columns)

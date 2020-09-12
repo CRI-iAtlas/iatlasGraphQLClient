@@ -58,10 +58,10 @@ query_dataset_samples <- function(datasets, ...){
 #' @param ... Arguments to create_result_from_api_query
 #' @export
 query_features <- function(
-  features = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  features = NA,
   feature_classes = NA,
   samples = NA,
   max_value = NA,
@@ -115,10 +115,10 @@ query_features <- function(
 #' @export
 #' @importFrom magrittr %>%
 query_feature_values <- function(
-  features = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  features = NA,
   feature_classes = NA,
   samples = NA,
   max_value = NA,
@@ -178,10 +178,10 @@ query_feature_values <- function(
 #' @export
 #' @importFrom magrittr %>%
 query_features_range <- function(
-  features = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  features = NA,
   feature_classes = NA,
   samples = NA,
   ...
@@ -287,10 +287,10 @@ query_feature_values_by_tag <- function(
 #' @export
 #' @importFrom magrittr %>%
 query_features_values_by_tag <- function(
-  features = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  features = NA,
   feature_classes = NA,
   samples = NA,
   ...
@@ -665,13 +665,18 @@ query_mutations <- function(entrez = NA, codes = NA, types = NA, ...){
       "hgnc" = character(),
       "code" =  character()
     ),
-    select_cols = c("id", "code" = "mutationCode", "gene"),
+    select_cols = c(
+      "id",
+      "code" = "mutationCode",
+      "entrez" = "gene.entrez",
+      "hgnc" = "gene.hgnc"
+    ),
+    flatten_json = T,
     ...
   )
   if(nrow(tbl) == 0) return(tbl)
   else {
     tbl %>%
-      separate_combined_column("gene") %>%
       dplyr::select(
         "id",
         "entrez",
@@ -927,7 +932,6 @@ query_cohort_selector <- function(
   samples = NA,
   ...
 ){
-
   create_result_from_api_query(
     query_args =  list(
       "dataSet" = datasets,
@@ -957,42 +961,4 @@ query_cohort_selector <- function(
     arrange_cols = "name",
     ...
   )
-#
-#
-#   tbl <- perform_api_query(
-#     "cohort_selection",
-#     list(
-#       dataSet = datasets,
-#       related = related_tags,
-#       tag = tags,
-#       feature = features,
-#       featureClass = feature_classes,
-#       sample = samples
-#     )
-#   ) %>%
-#     purrr::pluck(1) %>%
-#     dplyr::as_tibble()
-#
-#   if(nrow(tbl) == 0) {
-#     tbl <- dplyr::tibble(
-#       "name" = character(),
-#       "display" = character(),
-#       "characteristics" = character(),
-#       "color" = character(),
-#       "size" = integer(),
-#       "samples" = list()
-#     )
-#   } else {
-#     tbl <- tbl %>%
-#       dplyr::select(
-#         "name",
-#         "display",
-#         "characteristics",
-#         "color",
-#         "size" = "sampleCount",
-#         "samples"
-#       ) %>%
-#       dplyr::arrange(.data$name)
-#   }
-#   return(tbl)
 }

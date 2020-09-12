@@ -5,10 +5,10 @@
 \title{Query Feature Values}
 \usage{
 query_feature_values(
-  features = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  features = NA,
   feature_classes = NA,
   samples = NA,
   max_value = NA,
@@ -17,13 +17,13 @@ query_feature_values(
 )
 }
 \arguments{
-\item{features}{A vector of strings}
-
 \item{datasets}{A vector of strings}
 
 \item{parent_tags}{A vector of strings}
 
 \item{tags}{A vector of strings}
+
+\item{features}{A vector of strings}
 
 \item{feature_classes}{A vector of strings}
 

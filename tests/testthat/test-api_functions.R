@@ -55,25 +55,13 @@ test_that("perform_api_query", {
     result2 <- perform_api_query(list("dataSet" = NA), "datasets.txt", query_dir)
     expect_named(result2, "dataSets")
     expect_named(result2$dataSets, c("display", "name"))
-})
-
-test_that("separate_combined_column", {
-    tbl <- perform_api_query(
-        list(
-            entrez = NA,
-            mutationCode = NA,
-            mutationType = NA
-        ),
-        "mutations.txt",
-        query_dir
-    ) %>%
-        purrr::pluck(1) %>%
-        dplyr::as_tibble()
-
+    result3 <- perform_api_query(
+      list(entrez = NA, mutationCode = NA, mutationType = NA),
+      "mutations.txt",
+      query_dir,
+      flatten_json = T
+    )
     expect_named(
-        separate_combined_column(tbl, "gene"),
-        c("entrez", "hgnc", "id", "mutationCode")
+      result3$mutations, c("id", "mutationCode", "gene.entrez", "gene.hgnc")
     )
 })
-
-
