@@ -10,6 +10,7 @@ create_result_from_api_query(
   default_tbl,
   select_cols,
   arrange_cols = NULL,
+  flatten_json = F,
   ...
 )
 }
@@ -23,6 +24,9 @@ create_result_from_api_query(
 \item{select_cols}{A vector of strings passed to dplyr::select}
 
 \item{arrange_cols}{A vector fo strings passed to dplyr::arrange}
+
+\item{flatten_json}{A boolean, is passed to
+jsonlite::fromJSON(flatten = flatten_json)}
 
 \item{...}{Arguments passed to perform_api_query}
 }

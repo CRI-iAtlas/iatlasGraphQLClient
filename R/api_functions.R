@@ -60,6 +60,8 @@ perform_api_query <- function(
 #' @param select_cols A vector of strings passed to dplyr::select
 #' @param arrange_cols A vector fo strings passed to dplyr::arrange
 #' @param ... Arguments passed to perform_api_query
+#' @param flatten_json A boolean, is passed to
+#' jsonlite::fromJSON(flatten = flatten_json)
 #'
 #' @export
 #' @importFrom magrittr %>%
