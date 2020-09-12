@@ -44,7 +44,6 @@ perform_api_query <- function(
     ghql_query_obj
   )
   query <- ghql_query_obj$queries$query
-
   result <-
     ghql_con$exec(query, variables) %>%
     jsonlite::fromJSON(flatten = flatten_json) %>%
@@ -71,10 +70,13 @@ create_result_from_api_query <- function(
   default_tbl,
   select_cols,
   arrange_cols = NULL,
+  flatten_json = F,
   ...
 ){
   tbl <-
-    perform_api_query(query_args, query_file, ...) %>%
+    perform_api_query(
+      query_args, query_file, flatten_json = flatten_json, ...
+    ) %>%
     purrr::pluck(1) %>%
     dplyr::as_tibble()
   if (nrow(tbl) == 0) {
