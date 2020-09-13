@@ -1,0 +1,5 @@
+query Samples($name: [String!], $patient: [String!]) {
+  samples(name: $name, patient: $patient){
+    name
+  }
+}

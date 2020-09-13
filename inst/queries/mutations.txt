@@ -1,11 +1,13 @@
 query Mutations(
   $entrez: [Int!]
   $mutationCode: [String!]
+  $mutationId: [Int!]
   $mutationType: [String!]
 ) {
   mutations(
     entrez: $entrez
     mutationCode: $mutationCode
+    mutationId: $mutationId
     mutationType: $mutationType
   ){
     id
