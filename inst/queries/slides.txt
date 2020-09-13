@@ -1,0 +1,9 @@
+query Slides($name: [String!]) {
+  slides(name: $name){
+    name
+    description
+    patient {
+      barcode
+    }
+  }
+}

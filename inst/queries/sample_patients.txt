@@ -1,0 +1,14 @@
+query SamplePatients($name: [String!], $patient: [String!]) {
+  samples(name: $name, patient: $patient){
+    name
+    patient {
+      ageAtDiagnosis
+      barcode
+      ethnicity
+      gender
+      height
+      race
+      weight
+    }
+  }
+}

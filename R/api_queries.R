@@ -644,6 +644,7 @@ query_genes_by_gene_types <- function(gene_types = NA, ...){
 
 #' query_mutations
 #'
+#' @param ids A vector of integers
 #' @param entrez A vector of integers
 #' @param codes A vector of strings
 #' @param types A vector of strings
@@ -662,9 +663,9 @@ query_mutations <- function(ids = NA, entrez = NA, codes = NA, types = NA, ...){
     query_file = "mutations.txt",
     default_tbl = dplyr::tibble(
       "id" = character(),
+      "code" =  character(),
       "entrez" = integer(),
-      "hgnc" = character(),
-      "code" =  character()
+      "hgnc" = character()
     ),
     select_cols = c(
       "id",
@@ -675,17 +676,44 @@ query_mutations <- function(ids = NA, entrez = NA, codes = NA, types = NA, ...){
     flatten_json = T,
     ...
   )
-  if(nrow(tbl) == 0) return(tbl)
-  else {
-    tbl %>%
-      dplyr::select(
-        "id",
-        "entrez",
-        "hgnc",
-        "code"
-      )
-  }
 }
+
+# patients --------------------------------------------------------------------
+
+#TODO: Improve: https://gitlab.com/cri-iatlas/iatlas-api/-/issues/28, https://gitlab.com/cri-iatlas/iatlas-api/-/issues/29
+#' Query Patients
+#'
+#' @param patients A list of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_patients <- function(patients, ...){
+  tbl <- create_result_from_api_query(
+    query_args =  list("barcode" = patients),
+    query_file = "patients.txt",
+    default_tbl = dplyr::tibble(
+      "patient" = character(),
+      "age_at_diagnosis" = numeric(),
+      "ethnicity" = character(),
+      "gender" = character(),
+      "height" = numeric(),
+      "race" = character(),
+      "weight" = numeric()
+    ),
+    select_cols = c(
+      "patient" = "barcode",
+      "age_at_diagnosis" = "ageAtDiagnosis",
+      "ethnicity",
+      "gender",
+      "height",
+      "race",
+      "weight"
+    ),
+    ...
+  )
+}
+
 # related ---------------------------------------------------------------------
 
 #' Query Dataset Tags
@@ -710,6 +738,66 @@ query_dataset_tags <- function(dataset, ...){
   }
 }
 
+# samples ---------------------------------------------------------------------
+
+#TODO: Improve: https://gitlab.com/cri-iatlas/iatlas-api/-/issues/29
+#' Query Samples
+#'
+#' @param samples A list of strings
+#' @param patients A list of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_samples <- function(samples = NA, patients = NA, ...){
+  tbl <- create_result_from_api_query(
+    query_args =  list("name" = samples, "patient" = patients),
+    query_file = "samples.txt",
+    default_tbl = dplyr::tibble("name" = character()),
+    select_cols = c("name"),
+    ...
+  )
+}
+
+#TODO: Improve: https://gitlab.com/cri-iatlas/iatlas-api/-/issues/29
+#' Query Sample Patients
+#'
+#' @param samples A list of strings
+#' @param patients A list of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_sample_patients <- function(samples = NA, patients = NA, ...){
+  tbl <- create_result_from_api_query(
+    query_args =  list("name" = samples, "patient" = patients),
+    query_file = "sample_patients.txt",
+    default_tbl = dplyr::tibble(
+      "sample" = character(),
+      "patient" = character(),
+      "age_at_diagnosis" = numeric(),
+      "ethnicity" = character(),
+      "gender" = character(),
+      "height" = numeric(),
+      "race" = character(),
+      "weight" = numeric()
+    ),
+    select_cols = c(
+      "sample" = "name",
+      "patient" = "patient.barcode",
+      "age_at_diagnosis" = "patient.ageAtDiagnosis",
+      "ethnicity" = "patient.ethnicity",
+      "gender" = "patient.gender",
+      "height" = "patient.height",
+      "race" = "patient.race",
+      "weight" = "patient.weight"
+    ),
+    flatten_json = T,
+    ...
+  )
+}
+
+#TODO: add query: https://gitlab.com/cri-iatlas/iatlas-api/-/issues/30
 
 # samples by mutation status --------------------------------------------------
 
@@ -857,6 +945,34 @@ query_tag_samples <- function(
       tidyr::unnest("samples") %>%
       dplyr::select("sample" = "name")
   }
+}
+
+# slides ----------------------------------------------------------------------
+
+#' query_slides
+#'
+#' @param slides A vector of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_slides <- function(slides = NA, ...){
+  tbl <- create_result_from_api_query(
+    query_args =  list("name" = slides),
+    query_file = "slides.txt",
+    default_tbl = dplyr::tibble(
+      "slide" = character(),
+      "description" = character(),
+      "patient" = character()
+    ),
+    select_cols = c(
+      "slide" = "name",
+      "description",
+      "patient" = "patient.barcode"
+    ),
+    flatten_json = T,
+    ...
+  )
 }
 
 # tags ------------------------------------------------------------------------

@@ -4,9 +4,11 @@
 \alias{query_mutations}
 \title{query_mutations}
 \usage{
-query_mutations(entrez = NA, codes = NA, types = NA, ...)
+query_mutations(ids = NA, entrez = NA, codes = NA, types = NA, ...)
 }
 \arguments{
+\item{ids}{A vector of integers}
+
 \item{entrez}{A vector of integers}
 
 \item{codes}{A vector of strings}

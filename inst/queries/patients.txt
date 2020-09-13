@@ -1,0 +1,11 @@
+query Patients($barcode: [String!]!) {
+  patients(barcode: $barcode){
+    ageAtDiagnosis
+    barcode
+    ethnicity
+    gender
+    height
+    race
+    weight
+  }
+}

@@ -56,12 +56,13 @@ test_that("perform_api_query", {
     expect_named(result2, "dataSets")
     expect_named(result2$dataSets, c("display", "name"))
     result3 <- perform_api_query(
-      list(entrez = NA, mutationCode = NA, mutationType = NA),
+      list(entrez = NA, mutationId = NA, mutationCode = NA, mutationType = NA),
       "mutations.txt",
       query_dir,
       flatten_json = T
     )
     expect_named(
-      result3$mutations, c("id", "mutationCode", "gene.entrez", "gene.hgnc")
+      result3$mutations,
+      c("id", "mutationCode", "gene.entrez", "gene.hgnc")
     )
 })
