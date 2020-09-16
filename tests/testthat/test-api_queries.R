@@ -1,5 +1,13 @@
 query_dir  <- system.file("queries", package = "iatlas.api.client")
 
+# copy number results ---------------------------------------------------------
+
+# test_that("query_copy_number_result_genes",{
+#   result1 <- query_copy_number_result_genes(datasets = "TCGA", tags = "C1", query_dir = query_dir)
+#   result1 <- query_copy_number_result_genes(datasets = "TCGA", tags = "C1")
+#   print(result1)
+# })
+
 # datasets ------------------------------------------------------------------
 
 test_that("query_datasets", {

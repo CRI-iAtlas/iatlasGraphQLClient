@@ -1,8 +1,8 @@
 query CopyNumberResultGenes(
   $dataSet: [String!]
+  $tag: [String!]
   $feature: [String!]
   $entrez: [Int!]
-  $tag: [String!]
   $direction: DirectionEnum
   $minPValue: Float
   $maxPValue: Float
@@ -15,9 +15,9 @@ query CopyNumberResultGenes(
 ) {
   copyNumberResults(
     dataSet: $dataSet
+    tag: $tag
     feature: $feature
     entrez: $entrez
-    tag: $tag
     direction: $direction
     minPValue: $minPValue
     maxPValue: $maxPValue
@@ -27,12 +27,15 @@ query CopyNumberResultGenes(
     minMeanCnv: $minMeanCnv
     minTStat: $minTStat
     page: $page
-  ) {
-    items{
-      gene{
+){
+    items {
+      gene {
         entrez
         hgnc
       }
     }
+    page
+    pages
+    total
   }
 }

@@ -32,8 +32,7 @@ perform_api_query <- function(
   variables,
   query_file,
   query_dir = system.file("queries", package = "iatlas.api.client"),
-  api_url = "http://ec2-54-190-27-240.us-west-2.compute.amazonaws.com/api",
-  flatten_json = F
+  api_url = "http://ec2-54-190-27-240.us-west-2.compute.amazonaws.com/api"
 ){
   ghql_con <- ghql::GraphqlClient$new(api_url)
   ghql_query_obj <- ghql::Query$new()
@@ -46,10 +45,8 @@ perform_api_query <- function(
   query <- ghql_query_obj$queries$query
   result <-
     ghql_con$exec(query, variables) %>%
-    jsonlite::fromJSON(flatten = flatten_json) %>%
+    jsonlite::fromJSON() %>%
     purrr::pluck("data")
-
-  return(result)
 }
 
 #' Create Result From API Query
@@ -70,23 +67,30 @@ create_result_from_api_query <- function(
   query_args,
   query_file,
   default_tbl,
-  select_cols,
+  select_cols = NULL,
   arrange_cols = NULL,
-  flatten_json = F,
+  paginated = F,
   ...
 ){
   tbl <-
-    perform_api_query(
-      query_args, query_file, flatten_json = flatten_json, ...
-    ) %>%
-    purrr::pluck(1) %>%
+    perform_api_query(query_args, query_file, ...) %>%
+    purrr::pluck(1)
+
+  if(paginated){
+    tbl <- purrr::pluck(tbl, "items")
+  }
+  if (is.null(tbl)) {
+    return(default_tbl)
+  }
+  tbl <- tbl %>%
+    jsonlite::flatten(.) %>%
     dplyr::as_tibble()
-  if (nrow(tbl) == 0) {
-    tbl <- default_tbl
-  } else {
-    tbl <- tbl %>%
-      dplyr::select(select_cols) %>%
-      dplyr::arrange(!!!rlang::syms(arrange_cols))
+
+  if(!is.null(select_cols)) {
+    tbl <- dplyr::select(tbl, select_cols)
+  }
+  if(!is.null(arrange_cols)) {
+    tbl <- dplyr::arrange(tbl, !!!rlang::syms(arrange_cols))
   }
   return(tbl)
 }
