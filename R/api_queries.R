@@ -1,47 +1,5 @@
 utils::globalVariables(".")
 
-# copy number results ---------------------------------------------------------
-
-query_copy_number_result_genes <- function(
-  datasets = NA,
-  tags = NA,
-  features = NA,
-  entrez = NA,
-  direction = NA,
-  min_p_value = NA,
-  max_p_value = NA,
-  min_log10_p_value = NA,
-  max_log10_p_value = NA,
-  min_mean_normal = NA,
-  min_mean_cnv = NA,
-  min_t_stat = NA,
-  page = NA,
-  ...
-){
-  tbl <- create_result_from_api_query(
-    query_args =  list(
-      dataSet = datasets,
-      tag = tags,
-      feature = features,
-      entrez = entrez,
-      direction = direction,
-      minPValue = min_p_value,
-      maxPValue = max_p_value,
-      minLog10PValue = min_log10_p_value,
-      maxLog10PValue = max_log10_p_value,
-      minMeanNormal = min_mean_normal,
-      minMeanCnv = min_mean_cnv,
-      minTStat = min_t_stat,
-      page = page
-    ),
-    query_file = "copy_number_result_genes.txt",
-    default_tbl = dplyr::tibble("name" = character()),
-    # select_cols = c("")
-    ...
-  )
-
-}
-
 # datasets --------------------------------------------------------------------
 
 #' Query Datasets

@@ -1,4 +1,4 @@
-query CopyNumberResults(
+query CopyNumberResults2(
   $dataSet: [String!]
   $tag: [String!]
   $feature: [String!]
@@ -35,16 +35,7 @@ query CopyNumberResults(
       pValue
       log10PValue
       tStat
-      dataSet{
-        name
-        display
-      }
-      feature{
-        name
-        display
-      }
       gene{
-        entrez
         hgnc
       }
       tag{

@@ -114,8 +114,24 @@ test_that("create_result_from_api_query", {
     query_dir = query_dir
   )
   expect_named(result4, c("id", "code", "entrez", "hgnc"))
+})
 
-  result5 <- create_result_from_api_query(
+test_that("add_pages_to_query_args",{
+  args1 <- list("dataset" = "TCGA", "page" = NA)
+  result1 <- add_pages_to_query_args(args1, 2)
+  expect_equal(result1, list(list("dataset" = "TCGA", "page" = 2)))
+  result2 <- add_pages_to_query_args(args1, 3)
+  expect_equal(
+    result2,
+    list(
+      list("dataset" = "TCGA", "page" = 2),
+      list("dataset" = "TCGA", "page" = 3)
+    )
+  )
+})
+
+test_that("create_result_from_paginated_api_query", {
+  result1 <- create_result_from_paginated_api_query(
     query_args = list(
       dataSet = "TCGA",
       tag = "C1",
@@ -132,8 +148,36 @@ test_that("create_result_from_api_query", {
       page = NA
     ),
     query_file = "copy_number_result_genes.txt",
-    query_dir = query_dir,
-    paginated = T
+    query_dir = query_dir
   )
-  expect_named(result5, c("gene.entrez", "gene.hgnc"))
+  expect_named(result1, c("gene.entrez", "gene.hgnc"))
+  expect_true(nrow(result1) > 0)
+
+  result2 <- create_result_from_paginated_api_query(
+    query_args = list(
+      feature = "not_a_feature",
+      page = NA
+    ),
+    query_file = "cnr_test.txt",
+    default_tbl = dplyr::tibble(
+      "p_value" = double()
+    ),
+    query_dir = query_dir
+  )
+  expect_named(result2, c("p_value"))
+  expect_equal(nrow(result2), 0)
+
+  result3 <- create_result_from_paginated_api_query(
+    query_args = list(
+      feature = "frac_altered",
+      page = NA
+    ),
+    query_file = "cnr_test.txt",
+    default_tbl = dplyr::tibble(
+      "p_value" = double()
+    ),
+    query_dir = query_dir
+  )
+  expect_named(result3, c("pValue"))
+  expect_true(nrow(result3) > 100000)
 })

@@ -1,0 +1,16 @@
+query CNRTest(
+  $feature: [String!]
+  $page: Int
+) {
+  copyNumberResults(
+    feature: $feature
+    page: $page
+  ) {
+    items {
+      pValue
+    }
+    page
+    pages
+    total
+  }
+}

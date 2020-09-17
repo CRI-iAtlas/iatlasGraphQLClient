@@ -23,8 +23,6 @@ add_ghql_query_from_text_file <- function(
 #' @param query_file A string, that is a path to a text file
 #' @param query_dir A string, that is to the directory of the query file
 #' @param api_url A string, that is the URL of the API server
-#' @param flatten_json A boolean, is passed to
-#' jsonlite::fromJSON(flatten = flatten_json)
 #'
 #' @export
 #' @importFrom magrittr %>%
@@ -49,39 +47,15 @@ perform_api_query <- function(
     purrr::pluck("data")
 }
 
-#' Create Result From API Query
+#' Format Query Result
 #'
-#' @param query_args A named list
-#' @param query_file A string, that is a path to a text file
-#' @param default_tbl A tibble
+#' @param tbl A Tibble
 #' @param select_cols A vector of strings passed to dplyr::select
 #' @param arrange_cols A vector fo strings passed to dplyr::arrange
-#' @param ... Arguments passed to perform_api_query
-#' @param flatten_json A boolean, is passed to
-#' jsonlite::fromJSON(flatten = flatten_json)
 #'
 #' @export
 #' @importFrom magrittr %>%
-#' @importFrom rlang !!!
-create_result_from_api_query <- function(
-  query_args,
-  query_file,
-  default_tbl,
-  select_cols = NULL,
-  arrange_cols = NULL,
-  paginated = F,
-  ...
-){
-  tbl <-
-    perform_api_query(query_args, query_file, ...) %>%
-    purrr::pluck(1)
-
-  if(paginated){
-    tbl <- purrr::pluck(tbl, "items")
-  }
-  if (is.null(tbl)) {
-    return(default_tbl)
-  }
+format_query_result <- function(tbl, select_cols, arrange_cols){
   tbl <- tbl %>%
     jsonlite::flatten(.) %>%
     dplyr::as_tibble()
@@ -93,4 +67,82 @@ create_result_from_api_query <- function(
     tbl <- dplyr::arrange(tbl, !!!rlang::syms(arrange_cols))
   }
   return(tbl)
+}
+
+#' Create Result From API Query
+#'
+#' @param query_args A named list
+#' @param query_file A string, that is a path to a text file
+#' @param default_tbl A tibble
+#' @param select_cols A vector of strings passed to dplyr::select
+#' @param arrange_cols A vector fo strings passed to dplyr::arrange
+#' @param ... Arguments passed to perform_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+#' @importFrom rlang !!!
+create_result_from_api_query <- function(
+  query_args,
+  query_file,
+  default_tbl,
+  select_cols = NULL,
+  arrange_cols = NULL,
+  ...
+){
+  tbl <-
+    perform_api_query(query_args, query_file, ...) %>%
+    purrr::pluck(1)
+  if (is.null(tbl)) {
+    return(default_tbl)
+  }
+  format_query_result(tbl, select_cols, arrange_cols)
+}
+
+#' Add Pages To Query Arguments
+#'
+#' @param query_args A named list
+#' @param n_pages An integer
+#'
+#' @export
+add_pages_to_query_args <- function(query_args, n_pages){
+  query_args$page <- NULL
+  pages <- 2:n_pages
+  query_args_list <- purrr::map(pages, ~c(query_args, list("page" = .x)))
+}
+
+#' Create Result From Paginated API Query
+#'
+#' @param query_args A named list
+#' @param query_file A string, that is a path to a text file
+#' @param default_tbl A tibble
+#' @param select_cols A vector of strings passed to dplyr::select
+#' @param arrange_cols A vector fo strings passed to dplyr::arrange
+#' @param ... Arguments passed to perform_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+#' @importFrom rlang !!!
+create_result_from_paginated_api_query <- function(
+  query_args,
+  query_file,
+  default_tbl,
+  select_cols = NULL,
+  arrange_cols = NULL,
+  ...
+){
+  result <-
+    perform_api_query(query_args, query_file, ...) %>%
+    purrr::pluck(1)
+  tbl <- purrr::pluck(result, "items")
+  if (is.null(tbl)) {
+    return(default_tbl)
+  }
+  if(result$pages > 1){
+    query_args_list <- add_pages_to_query_args(query_args, result$pages)
+    tbl <-
+      purrr::map(query_args_list, perform_api_query, query_file, ...) %>%
+      purrr::map(purrr::pluck, 1, "items") %>%
+      dplyr::bind_rows(tbl, .)
+  }
+  format_query_result(tbl, select_cols, arrange_cols)
 }
