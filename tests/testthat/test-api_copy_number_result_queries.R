@@ -56,10 +56,10 @@ test_that("query_copy_number_results2",{
     "hgnc"
   )
   result1 <- query_copy_number_results2(
-    dataset = "TCGA", tags = "C1", feature = "leukocyte_fraction", query_dir = query_dir
+    datasets = "TCGA", tags = "C1", features = "leukocyte_fraction", query_dir = query_dir
   )
   result2 <- query_copy_number_results2(
-    dataset = "none", tags = "C1", feature = "leukocyte_fraction", query_dir = query_dir
+    datasets = "none", tags = "C1", features = "leukocyte_fraction", query_dir = query_dir
   )
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
