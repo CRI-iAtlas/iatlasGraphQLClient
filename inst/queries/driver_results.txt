@@ -1,0 +1,61 @@
+query DriverResults(
+  $dataSet: [String!]
+  $tag: [String!]
+  $feature: [String!]
+  $entrez: [Int!]
+  $mutationCode: [String!]
+  $minPValue: Float
+  $maxPValue: Float
+  $minLog10PValue: Float
+  $maxLog10PValue: Float
+  $minFoldChange: Float
+  $minLog10FoldChange: Float
+  $minNumWildTypes: Int
+  $minNumMutants: Int
+  $page: Int
+) {
+  driverResults(
+    dataSet: $dataSet
+    tag: $tag
+    feature: $feature
+    entrez: $entrez
+    mutationCode: $mutationCode
+    minPValue: $minPValue
+    maxPValue: $maxPValue
+    minLog10PValue: $minLog10PValue
+    maxLog10PValue: $maxLog10PValue
+    minFoldChange: $minFoldChange
+    minLog10FoldChange: $minLog10FoldChange
+    minNumWildTypes: $minNumWildTypes
+    minNumMutants: $minNumMutants
+    page: $page
+  ){
+    items {
+      dataSet{
+        name
+        display
+      }
+      feature{
+        name
+        display
+      }
+      gene{
+        entrez
+        hgnc
+      }
+      tag{
+        name
+        display
+      }
+      pValue
+      foldChange
+      log10PValue
+      log10FoldChange
+      numMutants
+      numWildTypes
+    }
+    page
+    pages
+    total
+  }
+}
