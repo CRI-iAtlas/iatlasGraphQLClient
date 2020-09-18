@@ -10,6 +10,7 @@ test_that("query_driver_results",{
     "tag_display",
     "entrez",
     "hgnc",
+    "mutation_code",
     "p_value",
     "fold_change",
     "log10_p_value",
