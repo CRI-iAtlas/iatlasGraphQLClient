@@ -32,17 +32,17 @@
     },
     "backports": {
       "Package": "backports",
-      "Version": "1.1.9",
+      "Version": "1.1.10",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b29e2d989dfb2e71ca3fd7d5bb1c0d58"
+      "Hash": "05ffd2d4acb51aee70f1de68ad7a6aed"
     },
     "callr": {
       "Package": "callr",
-      "Version": "3.4.3",
+      "Version": "3.4.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "643163a00cb536454c624883a10ae0bc"
+      "Hash": "e56fe17ffeddfdcfcef40981e41e1c40"
     },
     "cli": {
       "Package": "cli",
@@ -158,10 +158,10 @@
     },
     "jsonlite": {
       "Package": "jsonlite",
-      "Version": "1.7.0",
+      "Version": "1.7.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "2657f20b9a74c996c602e74ebe540b06"
+      "Hash": "1ec84e070b88b37ed169f19def40d47c"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -228,10 +228,10 @@
     },
     "processx": {
       "Package": "processx",
-      "Version": "3.4.3",
+      "Version": "3.4.4",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "f4f13345fcb00c51ace12f65dd18749f"
+      "Hash": "03446ed0b8129916f73676726cb3c48f"
     },
     "ps": {
       "Package": "ps",
@@ -277,10 +277,10 @@
     },
     "stringi": {
       "Package": "stringi",
-      "Version": "1.4.6",
+      "Version": "1.5.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e99d8d656980d2dd416a962ae55aec90"
+      "Hash": "a063ebea753c92910a4cca7b18bc1f05"
     },
     "stringr": {
       "Package": "stringr",
