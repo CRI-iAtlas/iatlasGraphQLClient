@@ -485,8 +485,8 @@ test_that("tags", {
     "sample_count"
   )
 
-  result1 <- query_tags("PCAWG", "Immune_Subtype", query_dir = query_dir)
-  result2 <- query_tags("PCAWG", "not_a_tag", query_dir = query_dir)
+  result1 <- query_tags(query_dir = query_dir)
+  result2 <- query_tags("not_a_tag", query_dir = query_dir)
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
   expect_true(nrow(result1) > 0)

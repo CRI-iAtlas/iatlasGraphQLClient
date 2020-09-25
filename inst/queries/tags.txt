@@ -1,6 +1,6 @@
 query Tags(
-  $dataSet: [String!]!
-  $related: [String!]!
+  $dataSet: [String!]
+  $related: [String!]
   $tag: [String!]
   $feature: [String!]
   $featureClass: [String!]

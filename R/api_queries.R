@@ -1071,8 +1071,8 @@ query_slides <- function(slides = NA, ...){
 #' @export
 #' @importFrom magrittr %>%
 query_tags <- function(
-  datasets,
-  parent_tags,
+  datasets = NA,
+  parent_tags = NA,
   tags = NA,
   features = NA,
   feature_classes = NA,
