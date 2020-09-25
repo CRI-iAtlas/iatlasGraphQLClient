@@ -343,6 +343,33 @@ test_that("mutations", {
   expect_equal(nrow(result2), 0)
 })
 
+# mutations by samples --------------------------------------------------------
+
+test_that("mutations_by_samples", {
+  expected_columns <-  c(
+    "sample",
+    "mutation_id",
+    "entrez",
+    "hgnc",
+    "mutation_code",
+    "mutation_name",
+    "mutation_display",
+    "mutation_status"
+  )
+  result1 <- query_mutations_by_samples(
+    "samples"= c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
+    "entrez" = 25,
+    query_dir = query_dir
+  )
+  result2 <- query_mutations_by_samples(
+    "samples"= "not_a_sample", query_dir = query_dir
+  )
+  expect_named(result1, expected_columns)
+  expect_named(result2, expected_columns)
+  expect_true(nrow(result1) > 0)
+  expect_equal(nrow(result2), 0)
+})
+
 # patients --------------------------------------------------------------------
 
 test_that("patients", {

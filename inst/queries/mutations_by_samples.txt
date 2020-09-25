@@ -1,0 +1,39 @@
+query MutationsBySample(
+  $entrez: [Int!]
+  $mutationCode: [String!]
+  $mutationId: [Int!]
+  $mutationType: [String!]
+  $sample: [String!]
+  $status: [StatusEnum!]
+  $page: Int
+) {
+  mutationsBySample(
+    entrez: $entrez
+    mutationCode: $mutationCode
+    mutationId: $mutationId
+    mutationType: $mutationType
+    sample: $sample
+    status: $status
+    page: $page
+  ){
+    items{
+      name
+      mutations{
+        id
+        gene{
+          entrez
+          hgnc
+        }
+        mutationCode
+        mutationType{
+          display
+          name
+        }
+        status
+      }
+    }
+    page
+    pages
+    total
+  }
+}

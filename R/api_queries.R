@@ -761,6 +761,83 @@ query_mutations <- function(ids = NA, entrez = NA, codes = NA, types = NA, ...){
   )
 }
 
+# mutations by samples --------------------------------------------------------
+
+query_mutations_by_samples <- function(
+  entrez = NA,
+  mutation_codes = NA,
+  mutation_types = NA,
+  mutation_ids = NA,
+  mutation_status = NA,
+  samples = NA,
+  page = NA,
+  ...
+){
+  tbl <- create_result_from_paginated_api_query(
+    query_args =  list(
+      entrez = entrez,
+      mutationCode = mutation_codes,
+      mutationType = mutation_types,
+      mutationId = mutation_ids,
+      status = mutation_status,
+      sample = samples,
+      page = page
+    ),
+    query_file = "mutations_by_samples.txt",
+    default_tbl = dplyr::tibble(
+      "sample" = character(),
+      "mutation_id" = integer(),
+      "entrez" = integer(),
+      "hgnc" = character(),
+      "mutation_code" = character(),
+      "mutation_name"  = character(),
+      "mutation_display" = character(),
+      "mutation_status" = character(),
+    ),
+    unnest_cols = "mutations",
+    select_cols = c(
+      "sample" = "name",
+      "mutation_id" = "id",
+      "entrez" = "gene.entrez",
+      "hgnc" = "gene.hgnc",
+      "mutation_code" = "mutationCode",
+      "mutation_name"  = "mutationType.name",
+      "mutation_display" = "mutationType.display",
+      "mutation_status" = "status"
+    ),
+    ...
+  )
+  # tbl <-
+  #   perform_api_query(
+  #     list(
+  #       entrez = 25,
+  #       mutationCode = NA,
+  #       mutationType = NA,
+  #       mutationId = NA,
+  #       status = NA,
+  #       sample = c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
+  #       page = NA
+  #     ),
+  #     "mutations_by_samples.txt"
+  #   ) %>%
+  #   purrr::pluck(1) %>%
+  #   purrr::pluck("items") %>%
+  #   format_query_result(
+  #     .,
+  #     unnest_cols = "mutations",
+  #     select_cols =  c(
+  #       "sample" = "name",
+  #       "mutation_id" = "id",
+  #       "entrez" = "gene.entrez",
+  #       "hgnc" = "gene.hgnc",
+  #       "mutation_code" = "mutationCode",
+  #       "mutation_name"  = "mutationType.name",
+  #       "mutation_display" = "mutationType.display",
+  #       "mutation_status" = "status"
+  #     )
+  #   )
+}
+
 # patients --------------------------------------------------------------------
 
 #TODO: Improve: https://gitlab.com/cri-iatlas/iatlas-api/-/issues/28, https://gitlab.com/cri-iatlas/iatlas-api/-/issues/29

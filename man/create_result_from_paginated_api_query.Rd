@@ -8,6 +8,7 @@ create_result_from_paginated_api_query(
   query_args,
   query_file,
   default_tbl,
+  unnest_cols = NULL,
   select_cols = NULL,
   arrange_cols = NULL,
   ...
@@ -19,6 +20,8 @@ create_result_from_paginated_api_query(
 \item{query_file}{A string, that is a path to a text file}
 
 \item{default_tbl}{A tibble}
+
+\item{unnest_cols}{A vector of strings passed to tidyr::unnest}
 
 \item{select_cols}{A vector of strings passed to dplyr::select}
 

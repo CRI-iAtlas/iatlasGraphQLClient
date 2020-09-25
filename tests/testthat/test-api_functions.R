@@ -54,6 +54,49 @@ test_that("perform_api_query", {
     expect_named(result4$copyNumberResults$items$gene, c("entrez", "hgnc"))
 })
 
+test_that("format_query_result",{
+  expected_columns <-  c(
+    "sample",
+    "mutation_id",
+    "entrez",
+    "hgnc",
+    "mutation_code",
+    "mutation_name",
+    "mutation_display",
+    "mutation_status"
+  )
+  result <-
+    perform_api_query(
+      variables =  list(
+        entrez = 25,
+        mutationCode = NA,
+        mutationType = NA,
+        mutationId = NA,
+        status = NA,
+        sample = c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
+        page = NA
+      ),
+      query_file = "mutations_by_samples.txt",
+      query_dir = query_dir
+    ) %>%
+    purrr::pluck(1) %>%
+    purrr::pluck("items") %>%
+    format_query_result(
+      unnest_cols = "mutations",
+      select_cols = c(
+        "sample" = "name",
+        "mutation_id" = "id",
+        "entrez" = "gene.entrez",
+        "hgnc" = "gene.hgnc",
+        "mutation_code" = "mutationCode",
+        "mutation_name"  = "mutationType.name",
+        "mutation_display" = "mutationType.display",
+        "mutation_status" = "status"
+      )
+    )
+  expect_named(result, expected_columns)
+})
+
 test_that("create_result_from_api_query", {
   result1 <- create_result_from_api_query(
     query_args = list("dataSet" = NA),
@@ -167,7 +210,7 @@ test_that("create_result_from_paginated_api_query", {
   )
   expect_named(result2, c("p_value"))
   expect_equal(nrow(result2), 0)
-  #
+
   # result3 <- create_result_from_paginated_api_query(
   #   query_args = list(
   #     feature = "frac_altered",

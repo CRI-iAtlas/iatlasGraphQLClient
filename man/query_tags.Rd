@@ -5,8 +5,8 @@
 \title{Query Tags}
 \usage{
 query_tags(
-  datasets,
-  parent_tags,
+  datasets = NA,
+  parent_tags = NA,
   tags = NA,
   features = NA,
   feature_classes = NA,

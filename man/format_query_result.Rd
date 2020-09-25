@@ -4,10 +4,17 @@
 \alias{format_query_result}
 \title{Format Query Result}
 \usage{
-format_query_result(tbl, select_cols, arrange_cols)
+format_query_result(
+  tbl,
+  unnest_cols = NULL,
+  select_cols = NULL,
+  arrange_cols = NULL
+)
 }
 \arguments{
 \item{tbl}{A Tibble}
+
+\item{unnest_cols}{A vector of strings passed to tidyr::unnest}
 
 \item{select_cols}{A vector of strings passed to dplyr::select}
 

@@ -50,12 +50,23 @@ perform_api_query <- function(
 #' Format Query Result
 #'
 #' @param tbl A Tibble
+#' @param unnest_cols A vector of strings passed to tidyr::unnest
 #' @param select_cols A vector of strings passed to dplyr::select
 #' @param arrange_cols A vector fo strings passed to dplyr::arrange
 #'
 #' @export
 #' @importFrom magrittr %>%
-format_query_result <- function(tbl, select_cols, arrange_cols){
+format_query_result <- function(
+  tbl,
+  unnest_cols = NULL,
+  select_cols = NULL,
+  arrange_cols = NULL
+){
+
+  if(!is.null(unnest_cols)) {
+    tbl <- tidyr::unnest(tbl, unnest_cols)
+  }
+
   tbl <- tbl %>%
     jsonlite::flatten(.) %>%
     dplyr::as_tibble()
@@ -74,6 +85,7 @@ format_query_result <- function(tbl, select_cols, arrange_cols){
 #' @param query_args A named list
 #' @param query_file A string, that is a path to a text file
 #' @param default_tbl A tibble
+#' @param unnest_cols A vector of strings passed to tidyr::unnest
 #' @param select_cols A vector of strings passed to dplyr::select
 #' @param arrange_cols A vector fo strings passed to dplyr::arrange
 #' @param ... Arguments passed to perform_api_query
@@ -85,6 +97,7 @@ create_result_from_api_query <- function(
   query_args,
   query_file,
   default_tbl,
+  unnest_cols = NULL,
   select_cols = NULL,
   arrange_cols = NULL,
   ...
@@ -95,7 +108,7 @@ create_result_from_api_query <- function(
   if (is.null(tbl)) {
     return(default_tbl)
   }
-  format_query_result(tbl, select_cols, arrange_cols)
+  format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
 }
 
 #' Add Pages To Query Arguments
@@ -115,6 +128,7 @@ add_pages_to_query_args <- function(query_args, n_pages){
 #' @param query_args A named list
 #' @param query_file A string, that is a path to a text file
 #' @param default_tbl A tibble
+#' @param unnest_cols A vector of strings passed to tidyr::unnest
 #' @param select_cols A vector of strings passed to dplyr::select
 #' @param arrange_cols A vector fo strings passed to dplyr::arrange
 #' @param ... Arguments passed to perform_api_query
@@ -126,6 +140,7 @@ create_result_from_paginated_api_query <- function(
   query_args,
   query_file,
   default_tbl,
+  unnest_cols = NULL,
   select_cols = NULL,
   arrange_cols = NULL,
   ...
@@ -144,5 +159,5 @@ create_result_from_paginated_api_query <- function(
       purrr::map(purrr::pluck, 1, "items") %>%
       dplyr::bind_rows(tbl, .)
   }
-  format_query_result(tbl, select_cols, arrange_cols)
+  format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
 }
