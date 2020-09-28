@@ -1,7 +1,31 @@
-query SamplePatients($name: [String!], $patient: [String!]) {
-  samples(name: $name, patient: $patient){
+query SamplePatients(
+  $ethnicity: [EthnicityEnum!]
+  $gender: [GenderEnum!]
+  $maxAgeAtDiagnosis: Int
+  $maxHeight: Float
+  $maxWeight: Float
+  $minAgeAtDiagnosis: Int
+  $minHeight: Float
+  $minWeight: Float
+  $name: [String!]
+  $patient: [String!]
+  $race: [RaceEnum!]
+) {
+  samples(
+    ethnicity: $ethnicity
+    gender: $gender
+    maxAgeAtDiagnosis: $maxAgeAtDiagnosis
+    maxHeight: $maxHeight
+    maxWeight: $maxWeight
+    minAgeAtDiagnosis: $minAgeAtDiagnosis
+    minHeight: $minHeight
+    minWeight: $minWeight
+    name: $name
+    patient: $patient
+    race: $race
+  ){
     name
-    patient {
+    patient{
       ageAtDiagnosis
       barcode
       ethnicity

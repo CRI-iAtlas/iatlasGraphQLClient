@@ -1,4 +1,4 @@
-query Patients(
+query PatientSlides(
   $barcode: [String!]
   $dataSet: [String!]
   $ethnicity: [EthnicityEnum!]
@@ -28,12 +28,10 @@ query Patients(
     sample: $sample
     slide: $slide
   ){
-    ageAtDiagnosis
     barcode
-    ethnicity
-    gender
-    height
-    race
-    weight
+    slides {
+      name
+      description
+    }
   }
 }
