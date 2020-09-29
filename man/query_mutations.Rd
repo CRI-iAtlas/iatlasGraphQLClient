@@ -4,7 +4,15 @@
 \alias{query_mutations}
 \title{query_mutations}
 \usage{
-query_mutations(ids = NA, entrez = NA, codes = NA, types = NA, ...)
+query_mutations(
+  ids = NA,
+  entrez = NA,
+  codes = NA,
+  types = NA,
+  samples = NA,
+  status = NA,
+  ...
+)
 }
 \arguments{
 \item{ids}{A vector of integers}
@@ -14,6 +22,10 @@ query_mutations(ids = NA, entrez = NA, codes = NA, types = NA, ...)
 \item{codes}{A vector of strings}
 
 \item{types}{A vector of strings}
+
+\item{samples}{A vector of strings}
+
+\item{status}{A string}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

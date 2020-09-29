@@ -3,18 +3,26 @@ query Mutations(
   $mutationCode: [String!]
   $mutationId: [Int!]
   $mutationType: [String!]
+  $sample: [String!]
+  $status: [StatusEnum!]
 ) {
   mutations(
     entrez: $entrez
     mutationCode: $mutationCode
     mutationId: $mutationId
     mutationType: $mutationType
+    sample: $sample
+    status: $status
   ){
     id
-    mutationCode
     gene {
       entrez
       hgnc
+    }
+    mutationCode
+    mutationType{
+      name
+      display
     }
   }
 }

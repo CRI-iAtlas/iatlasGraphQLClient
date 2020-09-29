@@ -7,30 +7,46 @@
 #' @param entrez A vector of integers
 #' @param codes A vector of strings
 #' @param types A vector of strings
+#' @param samples A vector of strings
+#' @param status A string
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
-query_mutations <- function(ids = NA, entrez = NA, codes = NA, types = NA, ...){
+query_mutations <- function(
+  ids = NA,
+  entrez = NA,
+  codes = NA,
+  types = NA,
+  samples = NA,
+  status = NA,
+  ...
+  ){
   tbl <- create_result_from_api_query(
     query_args =  list(
       "mutationId" = ids,
       "entrez" = entrez,
       "mutationCode" = codes,
-      "mutationType" = types
+      "mutationType" = types,
+      "sample" = samples,
+      "status" = status
     ),
     query_file = "mutations.txt",
     default_tbl = dplyr::tibble(
       "id" = character(),
-      "code" =  character(),
       "entrez" = integer(),
-      "hgnc" = character()
+      "hgnc" = character(),
+      "code" =  character(),
+      "mutation_type_name" = character(),
+      "mutation_type_display" = character(),
     ),
     select_cols = c(
       "id",
-      "code" = "mutationCode",
       "entrez" = "gene.entrez",
-      "hgnc" = "gene.hgnc"
+      "hgnc" = "gene.hgnc",
+      "code" = "mutationCode",
+      "mutation_type_name" = "mutationType.name",
+      "mutation_type_display" = "mutationType.display"
     ),
     ...
   )
@@ -600,6 +616,76 @@ query_tags <- function(
     arrange_cols = "name",
     ...
   )
+}
+
+#' Query Tags to Tags
+#'
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param features A vector of strings
+#' @param feature_classes A vector of strings
+#' @param samples A vector of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_tags_to_tags <- function(
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  features = NA,
+  feature_classes = NA,
+  samples = NA,
+  ...
+){
+  tbl <- create_result_from_api_query(
+    query_args =  list(
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "feature" = features,
+      "featureClass" = feature_classes,
+      "sample" = samples
+    ),
+    query_file = "tags_to_tags.txt",
+    default_tbl = dplyr::tibble(
+      "tag_name" = character(),
+      "tag_display" = character(),
+      "tag_characteristics" = character(),
+      "tag_color" = character(),
+      "parent_name" = character(),
+      "parent_display" = character(),
+      "parent_characteristics" = character(),
+      "parent_color" = character()
+    ),
+    select_cols = c(
+      "tag_name" = "name",
+      "tag_display" =  "display",
+      "tag_characteristics" = "characteristics",
+      "tag_color" = "color",
+      "related"
+    ),
+    arrange_cols = "tag_name",
+    ...
+  )
+  if(nrow(tbl) > 0){
+    tbl <- tbl %>%
+      tidyr::unnest("related") %>%
+      dplyr::select(
+        "tag_name",
+        "tag_display",
+        "tag_characteristics",
+        "tag_color",
+        "parent_name" = "name",
+        "parent_display" = "display",
+        "parent_characteristics" = "characteristics",
+        "parent_color" = "color"
+      )
+  }
+  return(tbl)
+
+
 }
 
 #' query_cohort_selector

@@ -124,7 +124,12 @@ test_that("create_result_from_api_query", {
 
   result3 <- create_result_from_api_query(
     query_args = list(
-      entrez = NA, mutationId = NA, mutationCode = NA, mutationType = NA
+      entrez = NA,
+      mutationId = NA,
+      mutationCode = NA,
+      mutationType = NA,
+      sample = NA,
+      status = NA
     ),
     query_file = "mutations.txt",
     default_tbl = dplyr::tibble(
@@ -135,11 +140,26 @@ test_that("create_result_from_api_query", {
     ),
     query_dir = query_dir
   )
-  expect_named(result3, c("id", "mutationCode", "gene.entrez", "gene.hgnc"))
+  expect_named(
+    result3,
+    c(
+      "id",
+      "mutationCode",
+      "gene.entrez",
+      "gene.hgnc",
+      "mutationType.display",
+      "mutationType.name"
+    )
+  )
 
   result4 <- create_result_from_api_query(
     query_args = list(
-      entrez = NA, mutationId = NA, mutationCode = NA, mutationType = NA
+      entrez = NA,
+      mutationId = NA,
+      mutationCode = NA,
+      mutationType = NA,
+      sample = NA,
+      status = NA
     ),
     query_file = "mutations.txt",
     default_tbl = dplyr::tibble(

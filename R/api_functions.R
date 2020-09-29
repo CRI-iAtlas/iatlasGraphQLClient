@@ -67,10 +67,8 @@ format_query_result <- function(
   }
 
   tbl <- tbl %>%
-    dplyr::as_tibble() %>%
     jsonlite::flatten(.) %>%
     dplyr::as_tibble()
-
 
   if(!is.null(select_cols)) {
     tbl <- dplyr::select(tbl, select_cols)

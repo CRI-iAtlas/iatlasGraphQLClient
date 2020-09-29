@@ -1,0 +1,28 @@
+query TagsToTags(
+  $dataSet: [String!]
+  $related: [String!]
+  $tag: [String!]
+  $feature: [String!]
+  $featureClass: [String!]
+  $sample: [String!]
+) {
+  tags(
+    dataSet: $dataSet
+    related: $related
+    tag: $tag
+    feature: $feature
+    featureClass: $featureClass
+    sample: $sample
+  ){
+    characteristics
+    color
+    display
+    name
+    related{
+      characteristics
+      color
+      display
+      name
+    }
+  }
+}
