@@ -51,7 +51,7 @@ query_mutations <- function(
     ),
     ...
   ) %>%
-    dplyr::mutate("mutation_name" = stringr::str_c("hgnc", ":", "code"))
+    dplyr::mutate("mutation_name" = stringr::str_c(.data$hgnc, ":", .data$code))
 }
 
 # mutations by samples --------------------------------------------------------
@@ -114,7 +114,7 @@ query_mutations_by_samples <- function(
     ),
     ...
   ) %>%
-    dplyr::mutate("mutation_name" = stringr::str_c("hgnc", ":", "code"))
+    dplyr::mutate("mutation_name" = stringr::str_c(.data$hgnc, ":", .data$code))
 }
 
 # patients --------------------------------------------------------------------
