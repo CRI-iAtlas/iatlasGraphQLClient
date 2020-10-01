@@ -39,6 +39,7 @@ query_mutations <- function(
       "code" =  character(),
       "mutation_type_name" = character(),
       "mutation_type_display" = character(),
+      "mutation_name" = character()
     ),
     select_cols = c(
       "id",
@@ -49,7 +50,8 @@ query_mutations <- function(
       "mutation_type_display" = "mutationType.display"
     ),
     ...
-  )
+  ) %>%
+    dplyr::mutate("mutation_name" = stringr::str_c("hgnc", ":", "code"))
 }
 
 # mutations by samples --------------------------------------------------------
@@ -93,10 +95,11 @@ query_mutations_by_samples <- function(
       "mutation_id" = integer(),
       "entrez" = integer(),
       "hgnc" = character(),
-      "mutation_code" = character(),
-      "mutation_name"  = character(),
-      "mutation_display" = character(),
-      "mutation_status" = character(),
+      "code" = character(),
+      "mutation_type_name"  = character(),
+      "mutation_type_display" = character(),
+      "status" = character(),
+      "mutation_name" = character()
     ),
     unnest_cols = "mutations",
     select_cols = c(
@@ -104,13 +107,14 @@ query_mutations_by_samples <- function(
       "mutation_id" = "id",
       "entrez" = "gene.entrez",
       "hgnc" = "gene.hgnc",
-      "mutation_code" = "mutationCode",
-      "mutation_name"  = "mutationType.name",
-      "mutation_display" = "mutationType.display",
-      "mutation_status" = "status"
+      "code" = "mutationCode",
+      "mutation_type_name" = "mutationType.name",
+      "mutation_type_display" = "mutationType.display",
+      "status"
     ),
     ...
-  )
+  ) %>%
+    dplyr::mutate("mutation_name" = stringr::str_c("hgnc", ":", "code"))
 }
 
 # patients --------------------------------------------------------------------

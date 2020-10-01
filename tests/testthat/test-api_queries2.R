@@ -9,7 +9,8 @@ test_that("mutations", {
     "hgnc",
     "code",
     "mutation_type_name",
-    "mutation_type_display"
+    "mutation_type_display",
+    "mutation_name"
   )
   result1 <- query_mutations(ids = 1, query_dir = query_dir)
   result2 <- query_mutations(entrez = -1, query_dir = query_dir)
@@ -27,10 +28,12 @@ test_that("mutations_by_samples", {
     "mutation_id",
     "entrez",
     "hgnc",
-    "mutation_code",
-    "mutation_name",
-    "mutation_display",
-    "mutation_status"
+    "code",
+    "mutation_type_name",
+    "mutation_type_display",
+    "status",
+    "mutation_name"
+
   )
   result1 <- query_mutations_by_samples(
     "samples"= c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
