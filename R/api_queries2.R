@@ -54,6 +54,19 @@ query_mutations <- function(
 
 # mutations by samples --------------------------------------------------------
 
+#' Query Mutations BY Samples
+#'
+#' @param entrez A vector of integers
+#' @param samples A vector of strings
+#' @param mutation_codes A vector of strings
+#' @param mutation_types A vector of strings
+#' @param mutation_ids A string
+#' @param mutation_status An integer
+#' @param page An integer
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
 query_mutations_by_samples <- function(
   entrez = NA,
   mutation_codes = NA,
