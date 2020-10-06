@@ -3,20 +3,30 @@ query FeatureValuesByTag(
   $related: [String!]
   $tag: [String!]
   $feature: [String!]
+  $featureClass: [String!]
   $sample: [String!]
+  $maxValue: Float
+  $minValue: Float
+
 ) {
   featuresByTag(
     dataSet: $dataSet
     related: $related
     tag: $tag
     feature: $feature
+    featureClass: $featureClass
     sample: $sample
+    maxValue: $maxValue
+    minValue: $minValue
   ){
-    tag
-    display
-    color
     characteristics
+    color
+    tag
+    longDisplay
+    shortDisplay
     features{
+      name
+      display
       samples {
         name
         value

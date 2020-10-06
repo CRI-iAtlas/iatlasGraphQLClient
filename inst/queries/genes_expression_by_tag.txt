@@ -20,7 +20,8 @@ query GenesExpressionByTag(
   ){
     characteristics
     color
-    display
+    longDisplay
+    shortDisplay
     tag
     genes {
       entrez

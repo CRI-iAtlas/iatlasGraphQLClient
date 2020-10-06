@@ -27,7 +27,8 @@ test_that("query_copy_number_results",{
     "feature_name",
     "feature_display",
     "tag_name",
-    "tag_display",
+    "tag_long_display",
+    "tag_short_display",
     "entrez",
     "hgnc"
   )
@@ -52,7 +53,8 @@ test_that("query_copy_number_results2",{
     "log10_p_value",
     "t_stat",
     "tag_name",
-    "tag_display",
+    "tag_long_display",
+    "tag_short_display",
     "hgnc"
   )
   result1 <- query_copy_number_results2(

@@ -6,29 +6,56 @@
 \usage{
 query_samples_by_tag(
   datasets = NA,
-  parent_tags = NA,
-  tags = NA,
+  ethnicities = NA,
   features = NA,
   feature_classes = NA,
+  genders = NA,
+  max_age_at_diagnosis = NA,
+  max_height = NA,
+  max_weight = NA,
+  min_age_at_diagnosis = NA,
+  min_height = NA,
+  min_weight = NA,
   samples = NA,
   patients = NA,
+  races = NA,
+  parent_tags = NA,
+  tags = NA,
   ...
 )
 }
 \arguments{
 \item{datasets}{A vector of strings}
 
-\item{parent_tags}{A vector of strings}
-
-\item{tags}{A vector of strings}
+\item{ethnicities}{A vector of strings}
 
 \item{features}{A vector of strings}
 
 \item{feature_classes}{A vector of strings}
 
+\item{genders}{A vector of strings}
+
+\item{max_age_at_diagnosis}{An integer}
+
+\item{max_height}{A float}
+
+\item{max_weight}{A float}
+
+\item{min_age_at_diagnosis}{An integer}
+
+\item{min_height}{A float}
+
+\item{min_weight}{A float}
+
 \item{samples}{A vector of strings}
 
 \item{patients}{A vector of strings}
+
+\item{races}{A vector of strings}
+
+\item{parent_tags}{A vector of strings}
+
+\item{tags}{A vector of strings}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

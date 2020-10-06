@@ -16,12 +16,14 @@ query TagsToTags(
   ){
     characteristics
     color
-    display
+    longDisplay
+    shortDisplay
     name
     related{
       characteristics
       color
-      display
+      longDisplay
+      shortDisplay
       name
     }
   }

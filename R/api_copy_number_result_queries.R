@@ -63,7 +63,8 @@ query_copy_number_results <- function(
       "feature_name" = character(),
       "feature_display" = character(),
       "tag_name" = character(),
-      "tag_display" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
       "entrez" = integer(),
       "hgnc" = character()
     ),
@@ -79,7 +80,8 @@ query_copy_number_results <- function(
       "feature_name" = "feature.name",
       "feature_display" = "feature.display",
       "tag_name" = "tag.name",
-      "tag_display" = "tag.display",
+      "tag_long_display" = "tag.longDisplay",
+      "tag_short_display" = "tag.shortDisplay",
       "entrez" = "gene.entrez",
       "hgnc" = "gene.hgnc"
     ),
@@ -146,7 +148,8 @@ query_copy_number_results2 <- function(
       "log10_p_value" = double(),
       "t_stat" = double(),
       "tag_name" = character(),
-      "tag_display" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
       "hgnc" = character()
     ),
     select_cols = c(
@@ -157,7 +160,8 @@ query_copy_number_results2 <- function(
       "log10_p_value" = "log10PValue",
       "t_stat" = "tStat",
       "tag_name" = "tag.name",
-      "tag_display" = "tag.display",
+      "tag_long_display" = "tag.longDisplay",
+      "tag_short_display" = "tag.shortDisplay",
       "hgnc" = "gene.hgnc"
     ),
     ...

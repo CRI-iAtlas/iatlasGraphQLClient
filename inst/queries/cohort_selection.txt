@@ -15,7 +15,8 @@ query CohortSelector(
     sample: $sample
   ){
     characteristics
-    display
+    longDisplay
+    shortDisplay
     color
     name
     sampleCount

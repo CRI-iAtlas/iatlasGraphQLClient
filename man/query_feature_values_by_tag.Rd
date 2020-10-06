@@ -5,24 +5,33 @@
 \title{Query Feature Values By Tag}
 \usage{
 query_feature_values_by_tag(
-  feature,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  features = NA,
+  feature_classes = NA,
   samples = NA,
+  max_value = NA,
+  min_value = NA,
   ...
 )
 }
 \arguments{
-\item{feature}{A vector of strings}
-
 \item{datasets}{A vector of strings}
 
 \item{parent_tags}{A vector of strings}
 
 \item{tags}{A vector of strings}
 
+\item{features}{A vector of strings}
+
+\item{feature_classes}{A vector of strings}
+
 \item{samples}{A vector of strings}
+
+\item{max_value}{A numeric}
+
+\item{min_value}{A numeric}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

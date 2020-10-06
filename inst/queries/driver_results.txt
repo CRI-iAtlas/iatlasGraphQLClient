@@ -45,7 +45,8 @@ query DriverResults(
       }
       tag{
         name
-        display
+        longDisplay
+        shortDisplay
       }
       mutationCode
       pValue

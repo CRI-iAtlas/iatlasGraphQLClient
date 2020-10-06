@@ -216,82 +216,27 @@ query_features_range <- function(
 
 #' Query Feature Values By Tag
 #'
-#' @param feature A vector of strings
-#' @param datasets A vector of strings
-#' @param parent_tags A vector of strings
-#' @param tags A vector of strings
-#' @param samples A vector of strings
-#' @param ... Arguments to create_result_from_api_query
-#' @export
-#' @importFrom magrittr %>%
-query_feature_values_by_tag <- function(
-  feature,
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
-  samples = NA,
-  ...
-){
-  tbl <- create_result_from_api_query(
-    query_args =  list(
-      dataSet = datasets,
-      related = parent_tags,
-      tag = tags,
-      feature = feature,
-      sample = samples
-    ),
-    query_file = "feature_values_by_tag.txt",
-    default_tbl = dplyr::tibble(
-      "tag_name" = character(),
-      "tag_display"  = character(),
-      "tag_color"  = character(),
-      "tag_characteristics"  = character(),
-      "sample" = character(),
-      "value" = double()
-    ),
-    select_cols = c(
-      "tag_name" = "tag",
-      "tag_display" = "display",
-      "tag_color" = "color",
-      "tag_characteristics" = "characteristics",
-      "features"
-    ),
-    ...
-  )
-  if(nrow(tbl) == 0) return(tbl)
-  else {
-    tbl %>%
-      tidyr::unnest(cols = "features", keep_empty = T) %>%
-      tidyr::unnest(cols = "samples", keep_empty = T) %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_color",
-        "tag_characteristics",
-        "sample" = "name",
-        "value"
-      )
-  }
-}
-
-#' Query Features Values By Tag
-#'
 #' @param features A vector of strings
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
 #' @param feature_classes A vector of strings
 #' @param samples A vector of strings
+#' @param max_value A numeric
+#' @param min_value A numeric
 #' @param ... Arguments to create_result_from_api_query
+#'
 #' @export
 #' @importFrom magrittr %>%
-query_features_values_by_tag <- function(
+query_feature_values_by_tag <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
   features = NA,
   feature_classes = NA,
   samples = NA,
+  max_value = NA,
+  min_value = NA,
   ...
 ){
   tbl <- create_result_from_api_query(
@@ -301,23 +246,26 @@ query_features_values_by_tag <- function(
       tag = tags,
       feature = features,
       featureClass = feature_classes,
-      sample = samples
+      sample = samples,
+      maxValue = max_value,
+      minValue = min_value
     ),
-    query_file = "features_values_by_tag.txt",
+    query_file = "feature_values_by_tag.txt",
     default_tbl = dplyr::tibble(
       "tag_name" = character(),
-      "tag_display"  = character(),
+      "tag_short_display"  = character(),
+      "tag_long_display"  = character(),
       "tag_color"  = character(),
-      "tag_characteristics"  = character(),
-      "sample" = character(),
-      "feature_name" = character(),
+      "tag_characteristics" = character(),
       "feature_display" = character(),
-      "feature_value" = double(),
-      "feature_order" = integer()
+      "feature_name" = character(),
+      "sample" = character(),
+      "value" = double()
     ),
     select_cols = c(
       "tag_name" = "tag",
-      "tag_display" = "display",
+      "tag_short_display"  = "shortDisplay",
+      "tag_long_display"  = "longDisplay",
       "tag_color" = "color",
       "tag_characteristics" = "characteristics",
       "features"
@@ -328,30 +276,17 @@ query_features_values_by_tag <- function(
   else {
     tbl %>%
       tidyr::unnest(cols = "features", keep_empty = T) %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_color",
-        "tag_characteristics",
+      dplyr::rename(
         "feature_name" = "name",
-        "feature_display" = "display",
-        "feature_order" = "order",
-        "samples"
+        "feature_display" = "display"
       ) %>%
       tidyr::unnest(cols = "samples", keep_empty = T) %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_color",
-        "tag_characteristics",
-        "sample" = "name",
-        "feature_name",
-        "feature_display",
-        "feature_value" = "value",
-        "feature_order"
+      dplyr::rename(
+        "sample" = "name"
       )
   }
 }
+
 
 # features_by_class -----------------------------------------------------------
 
@@ -624,17 +559,19 @@ query_genes_expression_by_tag <- function(
     query_file = "genes_expression_by_tag.txt",
     default_tbl = dplyr::tibble(
       "tag_name" = character(),
-      "tag_display"  = character(),
+      "tag_long_display"  = character(),
+      "tag_short_display"  = character(),
       "tag_color"  = character(),
       "tag_characteristics"  = character(),
-      "sample" = character(),
       "entrez" = integer(),
       "hgnc" = character(),
+      "sample" = character(),
       "rna_seq_expr" = character()
     ),
     select_cols = c(
       "tag_name" = "tag",
-      "tag_display" = "display",
+      "tag_long_display" = "longDisplay",
+      "tag_short_display" = "shortDisplay",
       "tag_color" = "color",
       "tag_characteristics" = "characteristics",
       "genes"
@@ -645,24 +582,9 @@ query_genes_expression_by_tag <- function(
   else {
     tbl %>%
       tidyr::unnest(cols = "genes", keep_empty = T) %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_color",
-        "tag_characteristics",
-        "entrez",
-        "hgnc",
-        "samples"
-      ) %>%
       tidyr::unnest(cols = "samples", keep_empty = T) %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_color",
-        "tag_characteristics",
+      dplyr::rename(
         "sample" = "name",
-        "entrez",
-        "hgnc",
         "rna_seq_expr" = "rnaSeqExpr"
       )
   }

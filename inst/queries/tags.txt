@@ -16,7 +16,8 @@ query Tags(
   ){
     characteristics
     color
-    display
+    longDisplay
+    shortDisplay
     name
     sampleCount
   }

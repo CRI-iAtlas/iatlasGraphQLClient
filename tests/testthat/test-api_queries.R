@@ -107,23 +107,26 @@ test_that("query_features_range", {
 test_that("query_feature_values_by_tag", {
   expected_columns <- c(
     "tag_name",
-    "tag_display",
+    "tag_short_display",
+    "tag_long_display",
     "tag_color",
     "tag_characteristics",
+    "feature_display",
+    "feature_name",
     "sample",
     "value"
   )
 
   result1 <- query_feature_values_by_tag(
-    "Lymphocytes_Aggregate1",
     datasets = "PCAWG",
     parent_tags = "Immune_Subtype",
+    features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
   result2 <- query_feature_values_by_tag(
-    "not_a_feature",
     datasets = "PCAWG",
     parent_tags = "Immune_Subtype",
+    features = "not_a_feature",
     query_dir = query_dir
   )
   expect_named(result1, expected_columns)
@@ -133,37 +136,6 @@ test_that("query_feature_values_by_tag", {
   expect_equal(nrow(result2), 0)
 })
 
-test_that("query_features_values_by_tag", {
-  expected_columns <- c(
-    "tag_name",
-    "tag_display",
-    "tag_color",
-    "tag_characteristics",
-    "sample",
-    "feature_name",
-    "feature_display",
-    "feature_value",
-    "feature_order"
-  )
-
-  result1 <- query_features_values_by_tag(
-    datasets = "PCAWG",
-    parent_tags = "Immune_Subtype",
-    feature_classes = "EPIC",
-    query_dir = query_dir
-  )
-  result2 <- query_features_values_by_tag(
-    datasets = "PCAWG",
-    parent_tags = "Immune_Subtype",
-    feature_classes = "not_a_class",
-    query_dir = query_dir
-  )
-  expect_named(result1, expected_columns)
-  expect_named(result2, expected_columns)
-
-  expect_true(nrow(result1) > 0)
-  expect_equal(nrow(result2), 0)
-})
 
 # features_by_class ---------------------------------------------------------
 
@@ -278,12 +250,13 @@ test_that("query_expression_by_genes", {
 test_that("query_genes_expression_by_tag", {
   expected_columns <- c(
     "tag_name",
-    "tag_display",
+    "tag_long_display",
+    "tag_short_display",
     "tag_color",
     "tag_characteristics",
-    "sample",
     "entrez",
     "hgnc",
+    "sample",
     "rna_seq_expr"
   )
 

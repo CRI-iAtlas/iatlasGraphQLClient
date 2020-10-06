@@ -86,7 +86,7 @@ test_that("query_patient_slides", {
 # related ---------------------------------------------------------------------
 
 test_that("query_dataset_tags", {
-  expected_columns <- c("name", "display")
+  expected_columns <- c("long_display", "name",  "short_display")
   result1 <- query_dataset_tags("PCAWG", query_dir = query_dir)
   result2 <- query_dataset_tags("not_a_dataset", query_dir = query_dir)
   expect_named(result1, expected_columns)
@@ -153,7 +153,8 @@ test_that("query_samples_by_mutation_status", {
 test_that("query_samples_by_tag", {
   expected_names <- c(
     "tag_name",
-    "tag_display",
+    "tag_long_display",
+    "tag_short_display",
     "tag_characteristics",
     "tag_color",
     "sample"
@@ -201,7 +202,8 @@ test_that("query_slides", {
 test_that("tags", {
   expected_columns <- c(
     "name",
-    "display",
+    "long_display",
+    "short_display",
     "characteristics",
     "color",
     "sample_count"
@@ -218,13 +220,15 @@ test_that("tags", {
 test_that("tags_to_tags", {
   expected_columns <- c(
     "tag_name",
-    "tag_display",
+    "tag_long_display",
+    "tag_short_display",
     "tag_characteristics",
     "tag_color",
-    "parent_name",
-    "parent_display",
     "parent_characteristics",
-    "parent_color"
+    "parent_color",
+    "parent_long_display",
+    "parent_name",
+    "parent_short_display"
   )
 
   result1 <- query_tags_to_tags(query_dir = query_dir)
@@ -238,7 +242,8 @@ test_that("tags_to_tags", {
 test_that("query_cohort_selector", {
   expected_columns <- c(
     "name",
-    "display",
+    "long_display",
+    "short_display",
     "characteristics",
     "color",
     "size",

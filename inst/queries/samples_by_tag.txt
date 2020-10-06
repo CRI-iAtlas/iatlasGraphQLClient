@@ -1,24 +1,43 @@
 query SamplesByTag(
   $dataSet: [String!]
-  $related: [String!]
-  $tag:  [String!]
+  $ethnicity: [EthnicityEnum!]
   $feature: [String!]
   $featureClass: [String!]
+  $gender: [GenderEnum!]
+  $maxAgeAtDiagnosis: Int
+  $maxHeight: Float
+  $maxWeight: Float
+  $minAgeAtDiagnosis: Int
+  $minHeight: Float
+  $minWeight: Float
   $name: [String!]
   $patient: [String!]
+  $race: [RaceEnum!]
+  $related: [String!]
+  $tag: [String!]
 ) {
   samplesByTag(
     dataSet: $dataSet
-    related: $related
-    tag: $tag
+    ethnicity: $ethnicity
     feature: $feature
     featureClass: $featureClass
+    gender:  $gender
+    maxAgeAtDiagnosis: $maxAgeAtDiagnosis
+    maxHeight: $maxHeight
+    maxWeight: $maxWeight
+    minAgeAtDiagnosis: $minAgeAtDiagnosis
+    minHeight: $minHeight
+    minWeight: $minWeight
     name: $name
     patient: $patient
+    race: $race
+    related: $related
+    tag: $tag
   ){
     characteristics
     color
-    display
+    longDisplay
+    shortDisplay
     tag
     samples {
       name

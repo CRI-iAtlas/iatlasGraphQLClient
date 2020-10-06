@@ -272,7 +272,11 @@ query_dataset_tags <- function(dataset, ...){
   tbl <- create_result_from_api_query(
     query_args =  list("dataSet" = dataset, "related" = NA),
     query_file = "dataset_tags.txt",
-    default_tbl = dplyr::tibble("name" = character(), "display" = character()),
+    default_tbl = dplyr::tibble(
+      "long_display" = character(),
+      "name" = character(),
+      "short_display" = character()
+    ),
     select_cols = c("related"),
     ...
   )
@@ -280,7 +284,10 @@ query_dataset_tags <- function(dataset, ...){
   else {
     tbl %>%
       tidyr::unnest(cols = c("related"), keep_empty = T) %>%
-      dplyr::select("name", "display")
+      dplyr::rename(
+        "long_display" = "longDisplay",
+        "short_display" = "shortDisplay"
+      )
   }
 }
 
@@ -455,41 +462,70 @@ query_samples_by_mutation_status <- function(
 #' @param feature_classes A vector of strings
 #' @param samples A vector of strings
 #' @param patients A vector of strings
+#' @param max_age_at_diagnosis An integer
+#' @param max_height A float
+#' @param max_weight A float
+#' @param min_age_at_diagnosis An integer
+#' @param min_height A float
+#' @param min_weight A float
+#' @param ethnicities A vector of strings
+#' @param genders A vector of strings
+#' @param races A vector of strings
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
 query_samples_by_tag <- function(
   datasets = NA,
-  parent_tags = NA,
-  tags = NA,
+  ethnicities  = NA,
   features = NA,
   feature_classes = NA,
+  genders  = NA,
+  max_age_at_diagnosis  = NA,
+  max_height = NA,
+  max_weight  = NA,
+  min_age_at_diagnosis  = NA,
+  min_height  = NA,
+  min_weight = NA,
   samples = NA,
   patients = NA,
+  races  = NA,
+  parent_tags = NA,
+  tags = NA,
   ...
 ){
   tbl <- create_result_from_api_query(
     query_args =  list(
       "dataSet" = datasets,
-      "related" = parent_tags,
-      "tag" = tags,
+      "ethnicity" = ethnicities,
       "feature" = features,
       "featureClass" = feature_classes,
+      "gender" = genders,
+      "maxAgeAtDiagnosis" = max_age_at_diagnosis,
+      "maxHeight" = max_height,
+      "maxWeight" = max_weight,
+      "minAgeAtDiagnosis" = min_age_at_diagnosis,
+      "minHeight" = min_height,
+      "minWeight" = min_weight,
       "name" = samples,
-      "patient" = patients
+      "patient" = patients,
+      "race" = races,
+      "related" = parent_tags,
+      "tag" = tags
     ),
     query_file = "samples_by_tag.txt",
     default_tbl = dplyr::tibble(
       "tag_name" = character(),
-      "tag_display" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
       "tag_characteristics" = character(),
       "tag_color" = character(),
       "sample" = character()
     ),
     select_cols = c(
       "tag_name" = "tag",
-      "tag_display" = "display",
+      "tag_long_display" = "longDisplay",
+      "tag_short_display" = "shortDisplay",
       "tag_characteristics" = "characteristics",
       "tag_color" = "color",
       "samples"
@@ -500,13 +536,7 @@ query_samples_by_tag <- function(
   else {
     tbl %>%
       tidyr::unnest("samples") %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_characteristics",
-        "tag_color",
-        "sample" = "name"
-      )
+      dplyr::rename("sample" = "name")
   }
 }
 
@@ -618,14 +648,16 @@ query_tags <- function(
     query_file = "tags.txt",
     default_tbl = dplyr::tibble(
       "name" = character(),
-      "display" = character(),
+      "long_display" = character(),
+      "short_display" = character(),
       "characteristics" = character(),
       "color" = character(),
       "sample_count" = integer()
     ),
     select_cols = c(
       "name",
-      "display",
+      "long_display" = "longDisplay",
+      "short_display" = "shortDisplay",
       "characteristics",
       "color",
       "sample_count" = "sampleCount"
@@ -668,17 +700,20 @@ query_tags_to_tags <- function(
     query_file = "tags_to_tags.txt",
     default_tbl = dplyr::tibble(
       "tag_name" = character(),
-      "tag_display" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
       "tag_characteristics" = character(),
       "tag_color" = character(),
-      "parent_name" = character(),
-      "parent_display" = character(),
       "parent_characteristics" = character(),
-      "parent_color" = character()
+      "parent_color" = character(),
+      "parent_long_display" = character(),
+      "parent_name" = character(),
+      "parent_short_display" = character()
     ),
     select_cols = c(
       "tag_name" = "name",
-      "tag_display" =  "display",
+      "tag_long_display" =  "longDisplay",
+      "tag_short_display" =  "shortDisplay",
       "tag_characteristics" = "characteristics",
       "tag_color" = "color",
       "related"
@@ -689,13 +724,10 @@ query_tags_to_tags <- function(
   if(nrow(tbl) > 0){
     tbl <- tbl %>%
       tidyr::unnest("related") %>%
-      dplyr::select(
-        "tag_name",
-        "tag_display",
-        "tag_characteristics",
-        "tag_color",
+      dplyr::rename(
         "parent_name" = "name",
-        "parent_display" = "display",
+        "parent_long_display" = "longDisplay",
+        "parent_short_display" = "shortDisplay",
         "parent_characteristics" = "characteristics",
         "parent_color" = "color"
       )
@@ -739,7 +771,8 @@ query_cohort_selector <- function(
     query_file = "cohort_selection.txt",
     default_tbl = dplyr::tibble(
       "name" = character(),
-      "display" = character(),
+      "long_display" = character(),
+      "short_display" = character(),
       "characteristics" = character(),
       "color" = character(),
       "size" = integer(),
@@ -747,7 +780,8 @@ query_cohort_selector <- function(
     ),
     select_cols = c(
       "name",
-      "display",
+      "long_display" =  "longDisplay",
+      "short_display" =  "shortDisplay",
       "characteristics",
       "color",
       "size" = "sampleCount",
