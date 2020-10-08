@@ -21,6 +21,7 @@ query FeatureValues(
     name
     display
     order
+    class
     samples {
       name
       value

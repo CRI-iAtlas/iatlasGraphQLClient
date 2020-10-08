@@ -141,12 +141,14 @@ query_feature_values <- function(
       "feature_name" = character(),
       "feature_display" = character(),
       "feature_value" = double(),
-      "feature_order" = integer()
+      "feature_order" = integer(),
+      "feature_class" = character(),
     ),
     select_cols = c(
       "feature_name" = "name",
       "feature_display" = "display",
       "feature_order" = "order",
+      "feature_class" = "class",
       "samples"
     ),
     ...
@@ -160,7 +162,8 @@ query_feature_values <- function(
         "feature_name",
         "feature_display",
         "feature_value" = "value",
-        "feature_order"
+        "feature_order",
+        "feature_class"
       )
   }
 }
