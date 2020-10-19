@@ -1,0 +1,41 @@
+query Nodes(
+  $dataSet: [String!]
+  $entrez: [Int!]
+  $maxScore: Float
+  $minScore: Float
+  $related: [String!]
+  $network: [String!]
+  $tag: [String!]
+  $page: Int
+) {
+  nodes(
+    dataSet: $dataSet
+    entrez: $entrez
+    maxScore: $maxScore
+    minScore: $minScore
+    related: $related
+    network: $network
+    tag: $tag
+    page: $page
+  ) {
+    items{
+      label
+      name
+      score
+      x
+      y
+      tags {
+        name
+        shortDisplay
+        longDisplay
+      }
+      gene{
+        entrez
+        hgnc
+      }
+    }
+    page
+    pages
+    total
+  }
+}

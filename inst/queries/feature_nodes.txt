@@ -1,0 +1,41 @@
+query Nodes(
+  $dataSet: [String!]
+  $feature: [String!]
+  $maxScore: Float
+  $minScore: Float
+  $related: [String!]
+  $network: [String!]
+  $tag: [String!]
+  $page: Int
+) {
+  nodes(
+    dataSet: $dataSet
+    feature: $feature
+    maxScore: $maxScore
+    minScore: $minScore
+    related: $related
+    network: $network
+    tag: $tag
+    page: $page
+  ) {
+    items{
+      label
+      name
+      score
+      x
+      y
+      tags {
+        name
+        shortDisplay
+        longDisplay
+      }
+      feature{
+        name
+        display
+      }
+    }
+    page
+    pages
+    total
+  }
+}
