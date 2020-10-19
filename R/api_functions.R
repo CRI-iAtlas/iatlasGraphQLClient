@@ -30,7 +30,6 @@ perform_api_query <- function(
   variables,
   query_file,
   query_dir = system.file("queries", package = "iatlas.api.client"),
-  # api_url = "http://ec2-54-190-27-240.us-west-2.compute.amazonaws.com/api"
   api_url = "http://ec2-34-215-55-89.us-west-2.compute.amazonaws.com/api"
 ){
   ghql_con <- ghql::GraphqlClient$new(api_url)
@@ -151,6 +150,9 @@ create_result_from_paginated_api_query <- function(
   tbl <- purrr::pluck(result, "items")
   if (is.null(tbl)) {
     return(default_tbl)
+  }
+  if(is.null(result$pages)){
+    stop("Query result has no pages attribute")
   }
   if(result$pages > 1){
     query_args_list <- add_pages_to_query_args(query_args, result$pages)
