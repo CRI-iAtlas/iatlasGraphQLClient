@@ -1,0 +1,29 @@
+query PagnationTest(
+  $paging: PagingInput
+  $maxPValue: Float
+  $feature: [String!]
+  $distinct: Boolean
+) {
+  copyNumberResults(
+    paging: $paging
+    feature: $feature
+    maxPValue: $maxPValue
+    distinct: $distinct
+  ) {
+    items {
+      pValue
+    }
+    paging{
+    type
+    pages
+    total
+    page
+    limit
+    hasNextPage
+    hasPreviousPage
+    startCursor
+    endCursor
+  }
+  error
+  }
+}

@@ -17,7 +17,7 @@ query_copy_number_result_genes(
   min_mean_normal = NA,
   min_mean_cnv = NA,
   min_t_stat = NA,
-  page = NA,
+  paging = NA,
   ...
 )
 }
@@ -46,7 +46,7 @@ query_copy_number_result_genes(
 
 \item{min_t_stat}{A double}
 
-\item{page}{An integer}
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

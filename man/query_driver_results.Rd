@@ -18,7 +18,7 @@ query_driver_results(
   min_log10_fold_change = NA,
   min_num_wild_types = NA,
   min_num_mutants = NA,
-  page = NA,
+  paging = NA,
   ...
 )
 }
@@ -49,7 +49,7 @@ query_driver_results(
 
 \item{min_num_mutants}{An integer}
 
-\item{page}{An integer}
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

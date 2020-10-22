@@ -1,5 +1,13 @@
-query DatasetSamples($dataSet: [String!]!) {
-  dataSets(dataSet: $dataSet){
+query DatasetSamples(
+  $dataSet: [String!]
+  $sample: [String!]
+  $dataSetType: [String!]
+) {
+  dataSets(
+    dataSet: $dataSet
+    sample: $sample
+    dataSetType: $dataSetType
+  ){
     samples{
       name
     }

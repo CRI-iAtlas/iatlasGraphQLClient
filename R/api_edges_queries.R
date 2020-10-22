@@ -6,9 +6,13 @@ utils::globalVariables(".")
 #' @param node2 A vector of strings
 #' @param page An integer
 #' @param ... Arguments to create_result_from_paginated_api_query
+#' @param max_score A double
+#' @param min_score A double
 #'
 #' @export
 query_edges <- function(
+  max_score = NA,
+  min_score = NA,
   node1 = NA,
   node2 = NA,
   page = NA,
@@ -16,9 +20,11 @@ query_edges <- function(
 ){
   tbl <- create_result_from_paginated_api_query(
     query_args =  list(
-      node1 = node1,
-      node2 = node2,
-      page = page
+      "maxScore" = max_score,
+      "minScore" = min_score,
+      "node1" = node1,
+      "node2" = node2,
+      "page" = page
     ),
     query_file = "edges.txt",
     default_tbl = dplyr::tibble(

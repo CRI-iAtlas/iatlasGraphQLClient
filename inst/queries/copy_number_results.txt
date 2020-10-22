@@ -1,8 +1,10 @@
 query CopyNumberResults(
+  $paging: PagingInput
+  $distinct: Boolean
   $dataSet: [String!]
-  $tag: [String!]
   $feature: [String!]
   $entrez: [Int!]
+  $tag: [String!]
   $direction: DirectionEnum
   $minPValue: Float
   $maxPValue: Float
@@ -11,9 +13,10 @@ query CopyNumberResults(
   $minMeanNormal: Float
   $minMeanCnv: Float
   $minTStat: Float
-  $page: Int
 ) {
   copyNumberResults(
+    paging: $paging
+    distinct: $distinct
     dataSet: $dataSet
     tag: $tag
     feature: $feature
@@ -26,8 +29,7 @@ query CopyNumberResults(
     minMeanNormal: $minMeanNormal
     minMeanCnv: $minMeanCnv
     minTStat: $minTStat
-    page: $page
-){
+  ){
     items {
       direction
       meanNormal
@@ -53,8 +55,17 @@ query CopyNumberResults(
         shortDisplay
       }
     }
-    page
-    pages
-    total
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
   }
 }

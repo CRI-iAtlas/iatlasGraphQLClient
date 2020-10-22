@@ -62,6 +62,7 @@ format_query_result <- function(
   select_cols = NULL,
   arrange_cols = NULL
 ){
+
   if(!is.null(unnest_cols)) {
     tbl <- tidyr::unnest(tbl, unnest_cols, keep_empty = T)
   }
@@ -162,4 +163,68 @@ create_result_from_paginated_api_query <- function(
       dplyr::bind_rows(tbl, .)
   }
   format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
+}
+
+#' Create Result From Paginated API Query2
+#'
+#' @param query_args A named list
+#' @param query_file A string, that is a path to a text file
+#' @param default_tbl A tibble
+#' @param unnest_cols A vector of strings passed to tidyr::unnest
+#' @param select_cols A vector of strings passed to dplyr::select
+#' @param arrange_cols A vector fo strings passed to dplyr::arrange
+#' @param ... Arguments passed to perform_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+#' @importFrom rlang !!!
+create_result_from_paginated_api_query2 <- function(
+  query_args,
+  query_file,
+  default_tbl,
+  unnest_cols = NULL,
+  select_cols = NULL,
+  arrange_cols = NULL,
+  ...
+){
+  result <-
+    perform_api_query(query_args, query_file, ...) %>%
+    purrr::pluck(1)
+
+  items <- result$items
+  paging <- result$paging
+
+
+  empty_result <- any(
+    is.null(items),
+    is.null(paging),
+    length(items) == 0,
+    nrow(items) == 0
+  )
+  if (empty_result) {
+    return(default_tbl)
+  }
+  if(is.null(paging$hasNextPage)){
+    return(format_query_result(items, unnest_cols, select_cols, arrange_cols))
+  }
+  if(paging$hasNextPage){
+    query_args$paging <- list("before" = paging$endCursor)
+    results1 <- format_query_result(
+      items,
+      unnest_cols,
+      select_cols,
+      arrange_cols
+    )
+    results2 <- create_result_from_paginated_api_query2(
+      query_args,
+      query_file,
+      default_tbl,
+      unnest_cols,
+      select_cols,
+      arrange_cols,
+    )
+    return(dplyr::bind_rows(results1, results2))
+  } else {
+    return(format_query_result(items, unnest_cols, select_cols, arrange_cols))
+  }
 }

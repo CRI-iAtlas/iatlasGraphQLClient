@@ -5,16 +5,30 @@ utils::globalVariables(".")
 #' Query Datasets
 #'
 #' @param datasets A vector of strings that are names of datasets
+#' @param samples A vector of strings
+#' @param types A vector of strings
 #' @param ... Arguments to create_result_from_api_query
+#'
 #' @export
-query_datasets <- function(datasets = NA, ...){
+query_datasets <- function(
+  datasets = NA,
+  samples = NA,
+  types = NA,
+  ...
+  ){
   create_result_from_api_query(
-    query_args = list("dataSet" = datasets),
+    query_args = list(
+      "dataSet" = datasets,
+      "sample" = samples,
+      "dataSetType" = types
+    ),
     query_file = "datasets.txt",
     default_tbl = dplyr::tibble(
-      "display" = character(), "name" = character()
+      "display" = character(),
+      "name" = character(),
+      "type" = character()
     ),
-    select_cols = c("display", "name"),
+    select_cols = c("display", "name", "type"),
     arrange_cols = "display",
     ...
   )
@@ -23,12 +37,24 @@ query_datasets <- function(datasets = NA, ...){
 #' Query Dataset Samples
 #'
 #' @param datasets A vector of strings that are names of datasets
+#' @param samples A vector of strings
+#' @param types A vector of strings
 #' @param ... Arguments to create_result_from_api_query
+#'
 #' @export
 #' @importFrom magrittr %>%
-query_dataset_samples <- function(datasets, ...){
+query_dataset_samples <- function(
+  datasets = NA,
+  samples = NA,
+  types = NA,
+  ...
+){
   tbl <- create_result_from_api_query(
-    query_args =  list("dataSet" = datasets),
+    query_args = list(
+      "dataSet" = datasets,
+      "sample" = samples,
+      "dataSetType" = types
+    ),
     query_file = "dataset_samples.txt",
     default_tbl = dplyr::tibble("name" = character()),
     select_cols = c("samples"),
@@ -347,25 +373,40 @@ query_features_by_class <- function(
 
 #' Query Genes
 #'
-#' @param gene_types A vector of strings
+#' @param datasets A vector of integers
 #' @param entrez A vector of integers
+#' @param gene_types A vector of strings
+#' @param max_rnaseq_expr A double
+#' @param min_rnaseq_expr A double
+#' @param parent_tags A vector of strings
 #' @param samples A vector of strings
+#' @param tags A vector of strings
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 query_genes <- function(
-  gene_types = NA,
+  datasets = NA,
   entrez = NA,
+  gene_types = NA,
+  max_rnaseq_expr = NA,
+  min_rnaseq_expr = NA,
+  parent_tags = NA,
   samples = NA,
+  tags = NA,
   ...
 ){
   create_result_from_api_query(
     query_args = list(
-      "geneType" = gene_types,
+      "dataSet" = datasets,
       "entrez" = entrez,
-      "sample" = samples
+      "geneType" = gene_types,
+      "maxRnaSeqExpr" = max_rnaseq_expr,
+      "minRnaSeqExpr" = min_rnaseq_expr,
+      "related" = parent_tags,
+      "sample" = samples,
+      "tag" = tags
     ),
     query_file = "genes.txt",
     default_tbl = dplyr::tibble(
@@ -477,28 +518,44 @@ query_io_targets <- function(gene_types = "io_target", entrez = NA, ...){
   )
 }
 
-#' Query Expression By Genes
+#' Query Gene Expression
 #'
-#' @param gene_types A vector of strings
+#' @param datasets A vector of integers
 #' @param entrez A vector of integers
+#' @param gene_types A vector of strings
+#' @param max_rnaseq_expr A double
+#' @param min_rnaseq_expr A double
+#' @param parent_tags A vector of strings
 #' @param samples A vector of strings
+#' @param tags A vector of strings
 #' @param ... Arguments to create_result_from_api_query
+#'
 #' @export
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-query_expression_by_genes <- function(
-  gene_types = NA,
+query_gene_expression <- function(
+  datasets = NA,
   entrez = NA,
+  gene_types = NA,
+  max_rnaseq_expr = NA,
+  min_rnaseq_expr = NA,
+  parent_tags = NA,
   samples = NA,
+  tags = NA,
   ...
 ){
   tbl <- create_result_from_api_query(
-    query_args =  list(
-      "geneType" = gene_types,
+    query_args = list(
+      "dataSet" = datasets,
       "entrez" = entrez,
-      "sample" = samples
+      "geneType" = gene_types,
+      "maxRnaSeqExpr" = max_rnaseq_expr,
+      "minRnaSeqExpr" = min_rnaseq_expr,
+      "related" = parent_tags,
+      "sample" = samples,
+      "tag" = tags
     ),
-    query_file = "expression_by_genes.txt",
+    query_file = "gene_expression.txt",
     default_tbl = dplyr::tibble(
       "sample" = character(),
       "entrez" = character(),

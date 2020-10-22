@@ -1,4 +1,4 @@
-utils::globalVariables(".")
+# TODO: convert to new pagination functionutils::globalVariables(".")
 
 #' Query Driver Results
 #'
@@ -15,7 +15,7 @@ utils::globalVariables(".")
 #' @param min_log10_fold_change A double
 #' @param min_num_wild_types An integer
 #' @param min_num_mutants An integer
-#' @param page An integer
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
@@ -33,10 +33,10 @@ query_driver_results <- function(
   min_log10_fold_change = NA,
   min_num_wild_types = NA,
   min_num_mutants = NA,
-  page = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_paginated_api_query2(
     query_args =  list(
       dataSet = datasets,
       tag = tags,
@@ -51,7 +51,8 @@ query_driver_results <- function(
       minLog10FoldChange = min_log10_fold_change,
       minNumWildTypes = min_num_wild_types,
       minNumMutants = min_num_mutants,
-      page = page
+      paging = paging,
+      distinct = F
     ),
     query_file = "driver_results.txt",
     default_tbl = dplyr::tibble(

@@ -1,4 +1,4 @@
-query Genes(
+query GeneExpression(
   $dataSet: [String!]
   $entrez: [Int!]
   $geneType: [String!]
@@ -20,14 +20,9 @@ query Genes(
   ){
     entrez
     hgnc
-    description
-    friendlyName
-    ioLandscapeName
-    geneFamily
-    geneFunction
-    immuneCheckpoint
-    pathway
-    superCategory
-    therapyType
+    samples{
+      name
+      rnaSeqExpr
+    }
   }
 }

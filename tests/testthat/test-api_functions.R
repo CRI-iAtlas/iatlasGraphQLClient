@@ -1,19 +1,17 @@
-query_dir  <- system.file("queries", package = "iatlas.api.client")
-test_query <- stringr::str_c(query_dir,  "/cohort_selection.txt")
 
 test_that("add_ghql_query_from_text_file", {
     ghql_query_object <- ghql::Query$new()
     expect_length(ghql_query_object$queries, 0)
     add_ghql_query_from_text_file(
         "test_query1",
-        test_query,
+        stringr::str_c(query_dir,  "/cohort_selection.txt"),
         ghql_query_object
     )
     expect_length(ghql_query_object$queries, 1)
     expect_named(ghql_query_object$queries, "test_query1")
     add_ghql_query_from_text_file(
         "test_query2",
-        test_query,
+        stringr::str_c(query_dir,  "/cohort_selection.txt"),
         ghql_query_object
     )
     expect_length(ghql_query_object$queries, 2)
@@ -21,37 +19,90 @@ test_that("add_ghql_query_from_text_file", {
 })
 
 test_that("perform_api_query", {
-    result1 <- perform_api_query(list("name" = NA), "gene_types.txt", query_dir)
-    expect_named(result1, "geneTypes")
-    expect_named(result1$geneTypes, c("display", "name"))
-    result2 <- perform_api_query(list("dataSet" = NA), "datasets.txt", query_dir)
-    expect_named(result2, c("dataSets"))
-    expect_named(result2$dataSets, c("display", "name"))
-    result4 <- perform_api_query(
-      list(
-        dataSet = "TCGA",
-        tag = "C1",
-        feature = NA,
-        entrez = c(1,2),
-        direction = NA,
-        minPValue = NA,
-        maxPValue = NA,
-        minLog10PValue = NA,
-        maxLog10PValue = NA,
-        minMeanNormal = NA,
-        minMeanCnv = NA,
-        minTStat = NA,
-        page = NA
+  result1 <- perform_api_query(list("name" = NA), "gene_types.txt", query_dir)
+  expect_named(result1, "geneTypes")
+  expect_named(result1$geneTypes, c("display", "name"))
+
+  result3 <- perform_api_query(
+    list(
+      paging = NA,
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = T
+    ),
+    "pagination_test.txt",
+    query_dir
+  )
+  expect_named(result3, c("copyNumberResults"))
+  expect_named(result3$copyNumberResults, c("error", "items", "paging"))
+  expect_null(result3$copyNumberResults$error)
+  expect_named(
+    result3$copyNumberResults$paging,
+    c(
+      "endCursor",
+      "hasNextPage",
+      "hasPreviousPage",
+      "limit",
+      "page",
+      "pages",
+      "startCursor",
+      "total",
+      "type"
+    )
+  )
+  expect_named(result3$copyNumberResults$items, "pValue")
+  expect_true(length(result3$copyNumberResults$items) > 0)
+
+  result4 <- perform_api_query(
+    list(
+      "paging" = list("first" = 10),
+      "feature" = NA,
+      "maxPValue" = NA,
+      "distinct" = F
+    ),
+    "pagination_test.txt",
+    query_dir
+  )
+  expect_named(result4, c("copyNumberResults"))
+  expect_named(result4$copyNumberResults, c("error", "items", "paging"))
+  expect_null(result4$copyNumberResults$error)
+  expect_named(
+    result4$copyNumberResults$paging,
+    c(
+      "endCursor",
+      "hasNextPage",
+      "hasPreviousPage",
+      "limit",
+      "page",
+      "pages",
+      "startCursor",
+      "total",
+      "type"
+    )
+  )
+  expect_false(is.null(result4$copyNumberResults$paging$hasNextPage))
+  expect_false(is.null(result4$copyNumberResults$paging$endCursor))
+
+  expect_named(result4$copyNumberResults$items, "pValue")
+  expect_equal(length(result4$copyNumberResults$items$pValue), 10)
+
+  result5 <- perform_api_query(
+    list(
+      "paging" = list(
+        "first" = 1,
+        "before" = result4$copyNumberResults$paging$endCursor
       ),
-      "copy_number_result_genes.txt",
-      query_dir,
-    )
-    expect_named(
-      result4$copyNumberResults,
-      c("items", "page", "pages", "total")
-    )
-    expect_named(result4$copyNumberResults$items, "gene")
-    expect_named(result4$copyNumberResults$items$gene, c("entrez", "hgnc"))
+      "feature" = NA,
+      "maxPValue" = NA,
+      "distinct" = F
+    ),
+    "pagination_test.txt",
+    query_dir
+  )
+
+  print(length(result5$copyNumberResults$items$pValue))
+  expect_named(result5$copyNumberResults$items, "pValue")
+  expect_equal(length(result5$copyNumberResults$items$pValue), 1)
 })
 
 test_that("format_query_result",{
@@ -98,29 +149,6 @@ test_that("format_query_result",{
 })
 
 test_that("create_result_from_api_query", {
-  result1 <- create_result_from_api_query(
-    query_args = list("dataSet" = NA),
-    query_file = "datasets.txt",
-    default_tbl = dplyr::tibble(
-      "display" = character(), "name" = character()
-    ),
-    select_cols = c("display", "Name" = "name"),
-    arrange_cols = c("display", "Name"),
-    query_dir = query_dir
-  )
-  expect_named(result1, c("display", "Name"))
-
-  result2 <- create_result_from_api_query(
-    query_args = list("dataSet" = "not_a_dataset"),
-    query_file = "datasets.txt",
-    default_tbl = dplyr::tibble(
-      "display" = character(), "name" = character()
-    ),
-    select_cols = c("display", "name"),
-    arrange_cols = "name",
-    query_dir = query_dir
-  )
-  expect_named(result2, c("display", "name"))
 
   result3 <- create_result_from_api_query(
     query_args = list(
@@ -193,55 +221,53 @@ test_that("add_pages_to_query_args",{
   )
 })
 
-# TODO: uncomment when queries faster
-test_that("create_result_from_paginated_api_query", {
-  result1 <- create_result_from_paginated_api_query(
+test_that("create_result_from_paginated_api_query2", {
+
+  result1 <- create_result_from_paginated_api_query2(
     query_args = list(
-      dataSet = "TCGA",
-      tag = "C1",
-      feature = NA,
-      entrez = c(1,2),
-      direction = NA,
-      minPValue = NA,
-      maxPValue = NA,
-      minLog10PValue = NA,
-      maxLog10PValue = NA,
-      minMeanNormal = NA,
-      minMeanCnv = NA,
-      minTStat = NA,
-      page = NA
+      paging = NA,
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = F
     ),
-    query_file = "copy_number_result_genes.txt",
+    query_file = "pagination_test.txt",
+    default_tbl = dplyr::tibble("pValue" = double()),
     query_dir = query_dir
   )
-  expect_named(result1, c("gene.entrez", "gene.hgnc"))
+  expect_named(result1, c("pValue"))
   expect_true(nrow(result1) > 0)
+  expect_true(nrow(result1) < 100000)
 
-  result2 <- create_result_from_paginated_api_query(
+  result2 <- create_result_from_paginated_api_query2(
     query_args = list(
+      paging = NA,
       feature = "not_a_feature",
-      page = NA
+      maxPValue = NA,
+      distinct = F
     ),
-    query_file = "cnr_test.txt",
+    query_file = "pagination_test.txt",
+    default_tbl = dplyr::tibble("pValue" = double()),
+    query_dir = query_dir
+  )
+  expect_named(result2, c("pValue"))
+  expect_true(nrow(result2) == 0)
+
+  result3 <- create_result_from_paginated_api_query2(
+    query_args = list(
+      paging = list(
+        "first" = 10
+      ),
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = F
+    ),
+    query_file = "pagination_test.txt",
     default_tbl = dplyr::tibble(
-      "p_value" = double()
+      "pValue" = double()
     ),
     query_dir = query_dir
   )
-  expect_named(result2, c("p_value"))
-  expect_equal(nrow(result2), 0)
-
-  # result3 <- create_result_from_paginated_api_query(
-  #   query_args = list(
-  #     feature = "frac_altered",
-  #     page = NA
-  #   ),
-  #   query_file = "cnr_test.txt",
-  #   default_tbl = dplyr::tibble(
-  #     "p_value" = double()
-  #   ),
-  #   query_dir = query_dir
-  # )
-  # expect_named(result3, c("pValue"))
-  # expect_true(nrow(result3) > 100000)
+  expect_named(result3, c("pValue"))
+  expect_true(nrow(result3) > 10)
 })
+

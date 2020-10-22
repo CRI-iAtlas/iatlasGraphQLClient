@@ -4,9 +4,20 @@
 \alias{query_edges}
 \title{Query Edges}
 \usage{
-query_edges(node1 = NA, node2 = NA, page = NA, ...)
+query_edges(
+  max_score = NA,
+  min_score = NA,
+  node1 = NA,
+  node2 = NA,
+  page = NA,
+  ...
+)
 }
 \arguments{
+\item{max_score}{A double}
+
+\item{min_score}{A double}
+
 \item{node1}{A vector of strings}
 
 \item{node2}{A vector of strings}

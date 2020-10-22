@@ -1,5 +1,5 @@
-query_dir  <- system.file("queries", package = "iatlas.api.client")
 
+# TODO: fix tests
 test_that("query_driver_results",{
   expected_columns <- c(
     "dataset_name",

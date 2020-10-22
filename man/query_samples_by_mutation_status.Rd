@@ -4,14 +4,64 @@
 \alias{query_samples_by_mutation_status}
 \title{query_samples_by_mutation_status}
 \usage{
-query_samples_by_mutation_status(ids = NA, status = NA, samples = NA, ...)
+query_samples_by_mutation_status(
+  datasets = NA,
+  ethnicities = NA,
+  features = NA,
+  feature_classes = NA,
+  genders = NA,
+  max_age_at_diagnosis = NA,
+  max_height = NA,
+  max_weight = NA,
+  min_age_at_diagnosis = NA,
+  min_height = NA,
+  min_weight = NA,
+  mutation_ids = NA,
+  mutation_statuses = NA,
+  patients = NA,
+  races = NA,
+  parent_tags = NA,
+  samples = NA,
+  tags = NA,
+  ...
+)
 }
 \arguments{
-\item{ids}{A vector of integers}
+\item{datasets}{A vector of strings}
 
-\item{status}{A string, either "Wt" or "Mut"}
+\item{ethnicities}{A vector of strings}
+
+\item{features}{A vector of strings}
+
+\item{feature_classes}{A vector of strings}
+
+\item{genders}{A vector of strings}
+
+\item{max_age_at_diagnosis}{An integer}
+
+\item{max_height}{A double}
+
+\item{max_weight}{A double}
+
+\item{min_age_at_diagnosis}{An integer}
+
+\item{min_height}{A double}
+
+\item{min_weight}{A double}
+
+\item{mutation_ids}{A vector of integers}
+
+\item{mutation_statuses}{A vector of strings}
+
+\item{patients}{A vector of strings}
+
+\item{races}{A vector of strings}
+
+\item{parent_tags}{A vector of strings}
 
 \item{samples}{A vector of strings}
+
+\item{tags}{A vector of strings}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

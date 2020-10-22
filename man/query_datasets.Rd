@@ -4,10 +4,14 @@
 \alias{query_datasets}
 \title{Query Datasets}
 \usage{
-query_datasets(datasets = NA, ...)
+query_datasets(datasets = NA, samples = NA, types = NA, ...)
 }
 \arguments{
 \item{datasets}{A vector of strings that are names of datasets}
+
+\item{samples}{A vector of strings}
+
+\item{types}{A vector of strings}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

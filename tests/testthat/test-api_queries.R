@@ -3,11 +3,12 @@ query_dir  <- system.file("queries", package = "iatlas.api.client")
 # datasets ------------------------------------------------------------------
 
 test_that("query_datasets", {
+  expected_names <- c("display", "name", "type")
   result1 <- query_datasets(query_dir = query_dir)
-  expect_named(result1, c("display", "name"))
+  expect_named(result1, expected_names)
   expect_true(nrow(result1) > 0)
   result2 <- query_datasets("non_dataset", query_dir = query_dir)
-  expect_named(result2, c("display", "name"))
+  expect_named(result2, expected_names)
   expect_equal(nrow(result2), 0)
 })
 
@@ -203,13 +204,6 @@ test_that("query_immunomodulators", {
   expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
 
-  ARG1_publications <- result1 %>%
-    dplyr::filter(.data$entrez == 383L) %>%
-    tidyr::unnest(cols = "publications") %>%
-    dplyr::pull("pubmedId") %>%
-    sort()
-
-  expect_equal(ARG1_publications, c(19764983L, 23890059L))
 })
 
 test_that("query_io_targets", {
@@ -227,17 +221,17 @@ test_that("query_io_targets", {
   )
 })
 
-test_that("query_expression_by_genes", {
+test_that("query_gene_expression", {
   expected_columns <- c(
     "sample",
     "entrez",
     "hgnc",
     "rna_seq_expr"
   )
-  result1 <- query_expression_by_genes(
+  result1 <- query_gene_expression(
     "entrez" = 135L, samples = "TCGA-XF-A9T8", query_dir = query_dir
   )
-  result2 <- query_expression_by_genes(
+  result2 <- query_gene_expression(
     "entrez" = 0L, samples = "TCGA-XF-A9T8", query_dir = query_dir
   )
   expect_named(result1, expected_columns)

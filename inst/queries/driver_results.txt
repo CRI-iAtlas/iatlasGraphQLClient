@@ -12,7 +12,8 @@ query DriverResults(
   $minLog10FoldChange: Float
   $minNumWildTypes: Int
   $minNumMutants: Int
-  $page: Int
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   driverResults(
     dataSet: $dataSet
@@ -28,7 +29,8 @@ query DriverResults(
     minLog10FoldChange: $minLog10FoldChange
     minNumWildTypes: $minNumWildTypes
     minNumMutants: $minNumMutants
-    page: $page
+    paging: $paging
+    distinct: $distinct
   ){
     items {
       dataSet{
@@ -56,8 +58,17 @@ query DriverResults(
       numMutants
       numWildTypes
     }
-    page
-    pages
-    total
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
   }
 }

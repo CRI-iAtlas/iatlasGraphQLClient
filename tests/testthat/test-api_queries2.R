@@ -134,17 +134,19 @@ test_that("query_samples_by_mutation_status", {
   expected_names <- c("sample", "status")
   result1 <- query_samples_by_mutation_status(
     samples = "TCGA-2Z-A9J8", query_dir = query_dir)
-  result2 <- query_samples_by_mutation_status(
-    777, "Mut", "TCGA-2Z-A9J8", query_dir = query_dir
-  )
-  result3 <- query_samples_by_mutation_status(
-    777, "Mut", "none", query_dir = query_dir
-  )
   expect_named(result1, expected_names)
-  expect_named(result2, expected_names)
-  expect_named(result3, expected_names)
   expect_true(nrow(result1) > 0)
+
+  result2 <- query_samples_by_mutation_status(
+    samples = "TCGA-2Z-A9J8", mutation_ids = 777, query_dir = query_dir
+  )
+  expect_named(result2, expected_names)
   expect_true(nrow(result2) > 0)
+
+  result3 <- query_samples_by_mutation_status(
+    samples = "not_a_sample", query_dir = query_dir
+  )
+  expect_named(result3, expected_names)
   expect_equal(nrow(result3),  0)
 })
 

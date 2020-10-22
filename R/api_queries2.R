@@ -419,24 +419,69 @@ query_sample_patients <- function(
 
 #' query_samples_by_mutation_status
 #'
-#' @param ids A vector of integers
-#' @param status A string, either "Wt" or "Mut"
 #' @param samples A vector of strings
 #' @param ... Arguments to create_result_from_api_query
+#' @param datasets A vector of strings
+#' @param ethnicities A vector of strings
+#' @param features A vector of strings
+#' @param feature_classes A vector of strings
+#' @param genders A vector of strings
+#' @param max_age_at_diagnosis An integer
+#' @param max_height A double
+#' @param max_weight A double
+#' @param min_age_at_diagnosis An integer
+#' @param min_height A double
+#' @param min_weight A double
+#' @param mutation_ids A vector of integers
+#' @param mutation_statuses A vector of strings
+#' @param patients A vector of strings
+#' @param races A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
 #'
 #' @export
 #' @importFrom magrittr %>%
 query_samples_by_mutation_status <- function(
-  ids = NA,
-  status = NA,
+  datasets = NA,
+  ethnicities  = NA,
+  features = NA,
+  feature_classes = NA,
+  genders  = NA,
+  max_age_at_diagnosis  = NA,
+  max_height = NA,
+  max_weight  = NA,
+  min_age_at_diagnosis  = NA,
+  min_height  = NA,
+  min_weight = NA,
+  mutation_ids = NA,
+  mutation_statuses = NA,
+  patients = NA,
+  races  = NA,
+  parent_tags = NA,
   samples = NA,
+  tags = NA,
   ...
 ){
   tbl <- create_result_from_api_query(
     query_args =  list(
-      "mutationId" = ids,
-      "mutationStatus"= status,
-      "sample" = samples
+      "dataSet" = datasets,
+      "ethnicity" = ethnicities,
+      "feature" = features,
+      "featureClass" = feature_classes,
+      "gender" = genders,
+      "maxAgeAtDiagnosis" = max_age_at_diagnosis,
+      "maxHeight" = max_height,
+      "maxWeight" = max_weight,
+      "minAgeAtDiagnosis" = min_age_at_diagnosis,
+      "minHeight" = min_height,
+      "minWeight" = min_weight,
+      "mutationId" = mutation_ids,
+      "mutationStatus" = mutation_statuses,
+      "patient" = patients,
+      "race" = races,
+      "related" = parent_tags,
+      "sample" = samples,
+      "tag" = tags
     ),
     query_file = "samples_by_mutation_status.txt",
     default_tbl = dplyr::tibble("sample" = character(), "status" = character()),

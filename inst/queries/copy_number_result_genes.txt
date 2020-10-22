@@ -11,7 +11,8 @@ query CopyNumberResultGenes(
   $minMeanNormal: Float
   $minMeanCnv: Float
   $minTStat: Float
-  $page: Int
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   copyNumberResults(
     dataSet: $dataSet
@@ -26,16 +27,26 @@ query CopyNumberResultGenes(
     minMeanNormal: $minMeanNormal
     minMeanCnv: $minMeanCnv
     minTStat: $minTStat
-    page: $page
-){
+    paging: $paging
+    distinct: $distinct
+  ){
     items {
       gene {
         entrez
         hgnc
       }
     }
-    page
-    pages
-    total
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
   }
 }
