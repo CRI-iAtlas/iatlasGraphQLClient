@@ -9,7 +9,8 @@ test_that("query_gene_nodes",{
     "x",
     "y",
     "entrez",
-    "hgnc"
+    "hgnc",
+    "gene_friendly_name"
   )
   result1 <- query_gene_nodes(
     datasets = "TCGA",

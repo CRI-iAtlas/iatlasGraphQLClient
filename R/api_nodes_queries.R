@@ -44,7 +44,8 @@ query_gene_nodes <- function(
       "x"  = character(),
       "y"  = character(),
       "entrez"  = character(),
-      "hgnc"  = character()
+      "hgnc"  = character(),
+      "gene_friendly_name" = character()
     ),
     select_cols = c(
       "label",
@@ -54,7 +55,8 @@ query_gene_nodes <- function(
       "x",
       "y",
       "entrez"  = "gene.entrez",
-      "hgnc"  = "gene.hgnc"
+      "hgnc"  = "gene.hgnc",
+      "gene_friendly_name" = "gene.friendlyName"
     ),
     ...
   )
