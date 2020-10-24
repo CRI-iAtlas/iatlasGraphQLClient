@@ -100,7 +100,6 @@ test_that("perform_api_query", {
     query_dir
   )
 
-  print(length(result5$copyNumberResults$items$pValue))
   expect_named(result5$copyNumberResults$items, "pValue")
   expect_equal(length(result5$copyNumberResults$items$pValue), 1)
 })
