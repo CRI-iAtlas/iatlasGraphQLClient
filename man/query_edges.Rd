@@ -9,7 +9,7 @@ query_edges(
   min_score = NA,
   node1 = NA,
   node2 = NA,
-  page = NA,
+  paging = NA,
   ...
 )
 }
@@ -22,7 +22,7 @@ query_edges(
 
 \item{node2}{A vector of strings}
 
-\item{page}{An integer}
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_paginated_api_query}
 }

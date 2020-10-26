@@ -3,14 +3,16 @@ query Edges(
   $minScore: Float
   $node1: [String!]
   $node2: [String!]
-  $page: Int
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   edges(
     maxScore: $maxScore
     minScore: $minScore
     node1: $node1
     node2: $node2
-    page: $page
+    paging: $paging
+    distinct: $distinct
   ) {
     items{
       label
@@ -23,8 +25,17 @@ query Edges(
         name
       }
     }
-    page
-    pages
-    total
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
   }
 }
