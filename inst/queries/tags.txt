@@ -19,6 +19,21 @@ query Tags(
     longDisplay
     shortDisplay
     name
-    sampleCount
+    related{
+      characteristics
+      color
+      longDisplay
+      shortDisplay
+      name
+    }
+    publications{
+      firstAuthorLastName
+      doId
+      journal
+      name
+      pubmedId
+      title
+      year
+    }
   }
 }

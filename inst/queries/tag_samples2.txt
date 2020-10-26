@@ -1,4 +1,4 @@
-query CohortSelector(
+query TagSamples2(
   $dataSet: [String!]!
   $related: [String!]!
   $tag: [String!]

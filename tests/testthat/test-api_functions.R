@@ -4,14 +4,14 @@ test_that("add_ghql_query_from_text_file", {
     expect_length(ghql_query_object$queries, 0)
     add_ghql_query_from_text_file(
         "test_query1",
-        stringr::str_c(query_dir,  "/cohort_selection.txt"),
+        stringr::str_c(query_dir,  "/pagination_test.txt"),
         ghql_query_object
     )
     expect_length(ghql_query_object$queries, 1)
     expect_named(ghql_query_object$queries, "test_query1")
     add_ghql_query_from_text_file(
         "test_query2",
-        stringr::str_c(query_dir,  "/cohort_selection.txt"),
+        stringr::str_c(query_dir,  "/pagination_test.txt"),
         ghql_query_object
     )
     expect_length(ghql_query_object$queries, 2)
