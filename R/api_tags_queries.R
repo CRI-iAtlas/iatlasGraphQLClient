@@ -53,27 +53,43 @@ query_tags <- function(
   )
   tbl %>%
     dplyr::mutate(
-      "parent_tags" = purrr::map(
-        .data$parent_tags,
-        dplyr::select,
-        "name",
-        "long_display" =  "longDisplay",
-        "short_display" =  "shortDisplay",
-        "characteristics",
-        "color"
-      ),
-      "publications" = purrr::map(
-        .data$publications,
-        dplyr::select,
-        "name",
-        "title",
-        "do_id" = "doId",
-        "pubmed_id" = "pubmedId",
-        "journal",
-        "first_author_last_name" = "firstAuthorLastName",
-        "year"
-      )
+      "parent_tags" = purrr::map(.data$parent_tags, format_parent_tag),
+      "publications" = purrr::map(.data$publications, format_publication)
     )
+}
+
+format_parent_tag <- function(x){
+  if(length(x) == 0){
+    return(x)
+  } else {
+    tbl <- dplyr::select(
+      x,
+      "name",
+      "long_display" =  "longDisplay",
+      "short_display" =  "shortDisplay",
+      "characteristics",
+      "color"
+    )
+    return(tbl)
+  }
+}
+
+format_publication <- function(x){
+  if(length(x) == 0){
+    return(x)
+  } else {
+    tbl <- dplyr::select(
+      x,
+      "name",
+      "title",
+      "do_id" = "doId",
+      "pubmed_id" = "pubmedId",
+      "journal",
+      "first_author_last_name" = "firstAuthorLastName",
+      "year"
+    )
+    return(tbl)
+  }
 }
 
 #' Tag Samples2
