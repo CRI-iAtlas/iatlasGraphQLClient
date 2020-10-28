@@ -151,6 +151,9 @@ test_that("create_result_from_api_query", {
 
   result3 <- create_result_from_api_query(
     query_args = list(
+      dataSet = NA,
+      related = NA,
+      tag = NA,
       entrez = NA,
       mutationId = NA,
       mutationCode = NA,
@@ -181,6 +184,9 @@ test_that("create_result_from_api_query", {
 
   result4 <- create_result_from_api_query(
     query_args = list(
+      dataSet = NA,
+      related = NA,
+      tag = NA,
       entrez = NA,
       mutationId = NA,
       mutationCode = NA,

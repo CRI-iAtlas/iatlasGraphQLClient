@@ -1,18 +1,24 @@
 query Mutations(
+  $dataSet: [String!]
   $entrez: [Int!]
   $mutationCode: [String!]
   $mutationId: [Int!]
   $mutationType: [String!]
+  $related: [String!]
   $sample: [String!]
   $status: [StatusEnum!]
+  $tag: [String!]
 ) {
   mutations(
+    dataSet: $dataSet
     entrez: $entrez
     mutationCode: $mutationCode
     mutationId: $mutationId
     mutationType: $mutationType
+    related: $related
     sample: $sample
     status: $status
+    tag: $tag
   ){
     id
     gene {
