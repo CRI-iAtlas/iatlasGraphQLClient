@@ -1,4 +1,4 @@
-query Nodes(
+query GeneNodes(
   $dataSet: [String!]
   $entrez: [Int!]
   $maxScore: Float
@@ -6,7 +6,8 @@ query Nodes(
   $related: [String!]
   $network: [String!]
   $tag: [String!]
-  $page: Int
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   nodes(
     dataSet: $dataSet
@@ -16,7 +17,8 @@ query Nodes(
     related: $related
     network: $network
     tag: $tag
-    page: $page
+    paging: $paging
+    distinct: $distinct
   ) {
     items{
       label
@@ -35,8 +37,17 @@ query Nodes(
         friendlyName
       }
     }
-    page
-    pages
-    total
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
   }
 }

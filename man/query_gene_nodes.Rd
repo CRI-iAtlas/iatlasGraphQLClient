@@ -12,7 +12,7 @@ query_gene_nodes(
   parent_tags = NA,
   network = NA,
   tags = NA,
-  page = NA,
+  paging = NA,
   ...
 )
 }
@@ -31,7 +31,7 @@ query_gene_nodes(
 
 \item{tags}{A vector of strings}
 
-\item{page}{An integer}
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_paginated_api_query}
 }

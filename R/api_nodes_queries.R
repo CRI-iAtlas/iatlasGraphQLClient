@@ -4,12 +4,12 @@ utils::globalVariables(".")
 #'
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
-#' @param page An integer
 #' @param max_score A float
 #' @param min_score A float
 #' @param parent_tags A vector of strings
 #' @param network A vector of strings
 #' @param entrez A vector of integers
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_paginated_api_query
 #'
 #' @export
@@ -21,19 +21,20 @@ query_gene_nodes <- function(
   parent_tags = NA,
   network = NA,
   tags = NA,
-  page = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_paginated_api_query2(
     query_args =  list(
-      dataSet = datasets,
-      entrez = entrez,
-      maxScore = max_score,
-      minScore = min_score,
-      related = parent_tags,
-      network = network,
-      tag = tags,
-      page = page
+      "dataSet" = datasets,
+      "entrez" = entrez,
+      "maxScore" = max_score,
+      "minScore" = min_score,
+      "related" = parent_tags,
+      "network" = network,
+      "tag" = tags,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "gene_nodes.txt",
     default_tbl = dplyr::tibble(
@@ -67,11 +68,11 @@ query_gene_nodes <- function(
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
 #' @param features A vector of strings
-#' @param page An integer
 #' @param max_score A float
 #' @param min_score A float
 #' @param parent_tags A vector of strings
 #' @param network A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_paginated_api_query
 #'
 #' @export
@@ -83,19 +84,20 @@ query_feature_nodes <- function(
   parent_tags = NA,
   network = NA,
   tags = NA,
-  page = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_paginated_api_query2(
     query_args =  list(
-      dataSet = datasets,
-      feature = features,
-      maxScore = max_score,
-      minScore = min_score,
-      related = parent_tags,
-      network = network,
-      tag = tags,
-      page = page
+      "dataSet" = datasets,
+      "feature" = features,
+      "maxScore" = max_score,
+      "minScore" = min_score,
+      "related" = parent_tags,
+      "network" = network,
+      "tag" = tags,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "feature_nodes.txt",
     default_tbl = dplyr::tibble(
