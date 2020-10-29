@@ -31,7 +31,7 @@ query_copy_number_results <- function(
   min_mean_normal = NA,
   min_mean_cnv = NA,
   min_t_stat = NA,
-  paging = NA,
+  paging = list("first" = 100000),
   ...
 ){
   tbl <- create_result_from_paginated_api_query2(
@@ -122,7 +122,7 @@ query_copy_number_result_genes <- function(
   min_mean_normal = NA,
   min_mean_cnv = NA,
   min_t_stat = NA,
-  paging = NA,
+  paging = list("first" = 100000),
   ...
 ){
 

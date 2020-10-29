@@ -64,13 +64,16 @@ test_that("query_gene_expression", {
     "rna_seq_expr"
   )
   result1 <- query_gene_expression(
-    "entrez" = 135L, samples = "TCGA-XF-A9T8", query_dir = query_dir
+    entrez = c(135L, 136L),
+    samples = c("TCGA-XF-A9T8", "TCGA-2G-AAFN"),
+    query_dir = query_dir
   )
+  expect_named(result1, expected_columns)
+  expect_equal(nrow(result1), 4L)
+
   result2 <- query_gene_expression(
     "entrez" = 0L, samples = "TCGA-XF-A9T8", query_dir = query_dir
   )
-  expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
-  expect_equal(nrow(result1), 1L)
   expect_equal(nrow(result2), 0L)
 })

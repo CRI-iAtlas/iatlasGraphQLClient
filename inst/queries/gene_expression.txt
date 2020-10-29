@@ -20,9 +20,7 @@ query GeneExpression(
   ){
     entrez
     hgnc
-    samples{
-      name
-      rnaSeqExpr
-    }
+    rnaSeqExprs
+    samples
   }
 }

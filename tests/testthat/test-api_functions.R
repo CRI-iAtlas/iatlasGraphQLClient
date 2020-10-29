@@ -25,10 +25,10 @@ test_that("perform_api_query", {
 
   result3 <- perform_api_query(
     list(
-      paging = NA,
-      feature = "frac_altered",
-      maxPValue = 0.1e-170,
-      distinct = T
+      "paging" = list("first" = 10),
+      "feature" = "frac_altered",
+      "maxPValue" = 0.1e-170,
+      "distinct" = T
     ),
     "pagination_test.txt",
     query_dir
@@ -230,7 +230,7 @@ test_that("create_result_from_paginated_api_query2", {
 
   result1 <- create_result_from_paginated_api_query2(
     query_args = list(
-      paging = NA,
+      paging = list("first" = 100000),
       feature = "frac_altered",
       maxPValue = 0.1e-170,
       distinct = F

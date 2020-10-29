@@ -26,10 +26,8 @@ query GenesExpressionByTag(
     genes {
       entrez
       hgnc
-      samples {
-        name
-        rnaSeqExpr
-      }
+      rnaSeqExprs
+      samples
     }
   }
 }

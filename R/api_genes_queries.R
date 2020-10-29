@@ -190,18 +190,21 @@ query_gene_expression <- function(
       "hgnc" = character(),
       "rna_seq_expr" = double()
     ),
-    select_cols = c("entrez", "hgnc", "samples"),
+    select_cols = c(
+      "sample" = "samples", "entrez", "hgnc", "rna_seq_expr" = "rnaSeqExprs"
+    ),
+    unnest_cols = c("samples", "rnaSeqExprs"),
     ...
   )
-  if(nrow(tbl) == 0) return(tbl)
-  else {
-    tbl %>%
-      tidyr::unnest(cols = "samples", keep_empty = T) %>%
-      dplyr::select(
-        "sample" = "name",
-        "entrez",
-        "hgnc",
-        "rna_seq_expr" = "rnaSeqExpr"
-      )
-  }
+  # if(nrow(tbl) == 0) return(tbl)
+  # else {
+  #   tbl %>%
+  #     tidyr::unnest(cols = "samples", keep_empty = T) %>%
+  #     dplyr::select(
+  #       "sample" = "name",
+  #       "entrez",
+  #       "hgnc",
+  #       "rna_seq_expr" = "rnaSeqExpr"
+  #     )
+  # }
 }

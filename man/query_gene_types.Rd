@@ -2,7 +2,76 @@
 % Please edit documentation in R/api_queries.R
 \name{query_gene_types}
 \alias{query_gene_types}
-\title{Query Gene Types}
+\title{#' Query Genes Expression By Tag
+#'
+#' @param features A vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param feature_classes A vector of strings
+#' @param samples A vector of strings
+#' @param entrez A vector of integers
+#' @param gene_types A vector of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_genes_expression_by_tag <- function(
+  datasets,
+  parent_tags,
+  tags = NA,
+  entrez = NA,
+  gene_types = NA,
+  features = NA,
+  feature_classes = NA,
+  samples = NA,
+  ...
+){
+  tbl <- create_result_from_api_query(
+    query_args =  list(
+      dataSet = datasets,
+      related = parent_tags,
+      tag = tags,
+      entrez = entrez,
+      geneType = gene_types,
+      feature = features,
+      featureClass = feature_classes,
+      sample = samples
+    ),
+    query_file = "genes_expression_by_tag.txt",
+    default_tbl = dplyr::tibble(
+      "tag_name" = character(),
+      "tag_long_display"  = character(),
+      "tag_short_display"  = character(),
+      "tag_color"  = character(),
+      "tag_characteristics"  = character(),
+      "entrez" = integer(),
+      "hgnc" = character(),
+      "sample" = character(),
+      "rna_seq_expr" = character()
+    ),
+    # select_cols = c(
+    #   "tag_name" = "tag",
+    #   "tag_long_display" = "longDisplay",
+    #   "tag_short_display" = "shortDisplay",
+    #   "tag_color" = "color",
+    #   "tag_characteristics" = "characteristics",
+    #   "genes"
+    # ),
+    ...
+  )
+  # if(nrow(tbl) == 0) return(tbl)
+  # else {
+  #   tbl %>%
+  #     tidyr::unnest(cols = "genes", keep_empty = T) %>%
+  #     tidyr::unnest(cols = "samples", keep_empty = T) %>%
+  #     dplyr::rename(
+  #       "sample" = "name",
+  #       "rna_seq_expr" = "rnaSeqExpr"
+  #     )
+  # }
+}
+Query Gene Types}
 \usage{
 query_gene_types(gene_types = NA, ...)
 }
@@ -12,5 +81,74 @@ query_gene_types(gene_types = NA, ...)
 \item{...}{Arguments to create_result_from_api_query}
 }
 \description{
+#' Query Genes Expression By Tag
+#'
+#' @param features A vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param feature_classes A vector of strings
+#' @param samples A vector of strings
+#' @param entrez A vector of integers
+#' @param gene_types A vector of strings
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_genes_expression_by_tag <- function(
+  datasets,
+  parent_tags,
+  tags = NA,
+  entrez = NA,
+  gene_types = NA,
+  features = NA,
+  feature_classes = NA,
+  samples = NA,
+  ...
+){
+  tbl <- create_result_from_api_query(
+    query_args =  list(
+      dataSet = datasets,
+      related = parent_tags,
+      tag = tags,
+      entrez = entrez,
+      geneType = gene_types,
+      feature = features,
+      featureClass = feature_classes,
+      sample = samples
+    ),
+    query_file = "genes_expression_by_tag.txt",
+    default_tbl = dplyr::tibble(
+      "tag_name" = character(),
+      "tag_long_display"  = character(),
+      "tag_short_display"  = character(),
+      "tag_color"  = character(),
+      "tag_characteristics"  = character(),
+      "entrez" = integer(),
+      "hgnc" = character(),
+      "sample" = character(),
+      "rna_seq_expr" = character()
+    ),
+    # select_cols = c(
+    #   "tag_name" = "tag",
+    #   "tag_long_display" = "longDisplay",
+    #   "tag_short_display" = "shortDisplay",
+    #   "tag_color" = "color",
+    #   "tag_characteristics" = "characteristics",
+    #   "genes"
+    # ),
+    ...
+  )
+  # if(nrow(tbl) == 0) return(tbl)
+  # else {
+  #   tbl %>%
+  #     tidyr::unnest(cols = "genes", keep_empty = T) %>%
+  #     tidyr::unnest(cols = "samples", keep_empty = T) %>%
+  #     dplyr::rename(
+  #       "sample" = "name",
+  #       "rna_seq_expr" = "rnaSeqExpr"
+  #     )
+  # }
+}
 Query Gene Types
 }

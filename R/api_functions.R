@@ -62,11 +62,9 @@ format_query_result <- function(
   select_cols = NULL,
   arrange_cols = NULL
 ){
-
   if(!is.null(unnest_cols)) {
     tbl <- tidyr::unnest(tbl, unnest_cols, keep_empty = T)
   }
-
   tbl <- tbl %>%
     jsonlite::flatten(.) %>%
     dplyr::as_tibble()
