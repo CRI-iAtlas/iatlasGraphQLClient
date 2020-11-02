@@ -1,4 +1,3 @@
-# TODO: convert to new pagination functionutils::globalVariables(".")
 
 #' Query Driver Results
 #'
@@ -36,7 +35,7 @@ query_driver_results <- function(
   paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query2(
+  tbl <- create_result_from_paginated_api_query(
     query_args =  list(
       dataSet = datasets,
       tag = tags,

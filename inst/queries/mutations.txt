@@ -8,6 +8,8 @@ query Mutations(
   $sample: [String!]
   $status: [StatusEnum!]
   $tag: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   mutations(
     dataSet: $dataSet
@@ -19,16 +21,32 @@ query Mutations(
     sample: $sample
     status: $status
     tag: $tag
+    paging: $paging
+    distinct: $distinct
   ){
-    id
-    gene {
-      entrez
-      hgnc
+    items{
+      id
+      gene{
+        entrez
+        hgnc
+      }
+      mutationCode
+      mutationType{
+        name
+        display
+      }
     }
-    mutationCode
-    mutationType{
-      name
-      display
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
+    error
   }
 }

@@ -1,7 +1,7 @@
 
 # mutations by samples --------------------------------------------------------
 
-test_that("mutations_by_samples", {
+test_that("mutations_by_sample", {
   expected_columns <-  c(
     "sample",
     "mutation_id",
@@ -14,12 +14,12 @@ test_that("mutations_by_samples", {
     "mutation_name"
 
   )
-  result1 <- query_mutations_by_samples(
+  result1 <- query_mutations_by_sample(
     "samples"= c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
     "entrez" = 25,
     query_dir = query_dir
   )
-  result2 <- query_mutations_by_samples(
+  result2 <- query_mutations_by_sample(
     "samples"= "not_a_sample", query_dir = query_dir
   )
   expect_named(result1, expected_columns)
@@ -105,8 +105,6 @@ test_that("query_sample_patients", {
   expect_equal(nrow(result2), 0)
 })
 
-
-
 # samples by mutation status --------------------------------------------------
 
 test_that("query_samples_by_mutation_status", {
@@ -127,43 +125,6 @@ test_that("query_samples_by_mutation_status", {
   )
   expect_named(result3, expected_names)
   expect_equal(nrow(result3),  0)
-})
-
-# samples by tag ------------------------------------------------------------
-
-test_that("query_samples_by_tag", {
-  expected_names <- c(
-    "tag_name",
-    "tag_long_display",
-    "tag_short_display",
-    "tag_characteristics",
-    "tag_color",
-    "sample"
-  )
-  result1 <- query_samples_by_tag(
-    datasets = "PCAWG", parent_tags = "Immune_Subtype", query_dir = query_dir
-  )
-  result2 <- query_samples_by_tag(
-    datasets = "PCAWG", parent_tags = "not_a_tag", query_dir = query_dir
-  )
-  expect_named(result1, expected_names)
-  expect_named(result2, expected_names)
-  expect_true(nrow(result1) > 0)
-  expect_equal(nrow(result2), 0)
-})
-
-test_that("query_tag_samples", {
-  expected_names <- c("sample")
-  result1 <- query_tag_samples(
-    datasets = "PCAWG", tags = "C1", query_dir = query_dir
-  )
-  result2 <- query_tag_samples(
-    datasets = "PCAWG", tags = "not_a_tag", query_dir = query_dir
-  )
-  expect_named(result1, expected_names)
-  expect_named(result2, expected_names)
-  expect_true(nrow(result1) > 0)
-  expect_equal(nrow(result2), 0)
 })
 
 # slides ----------------------------------------------------------------------

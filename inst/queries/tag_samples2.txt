@@ -19,7 +19,13 @@ query TagSamples2(
     shortDisplay
     color
     name
-    sampleCount
     samples
+    related{
+      characteristics
+      color
+      longDisplay
+      shortDisplay
+      name
+    }
   }
 }

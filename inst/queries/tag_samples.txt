@@ -1,23 +1,25 @@
 query TagSamples(
-  $dataSet: [String!]
-  $related: [String!]
-  $tag:  [String!]
+  $dataSet: [String!]!
+  $related: [String!]!
+  $tag: [String!]
   $feature: [String!]
   $featureClass: [String!]
-  $name: [String!]
-  $patient: [String!]
+  $sample: [String!]
 ) {
-  samplesByTag(
+  tags(
     dataSet: $dataSet
     related: $related
     tag: $tag
     feature: $feature
     featureClass: $featureClass
-    name: $name
-    patient: $patient
+    sample: $sample
   ){
-    samples {
-      name
-    }
+    characteristics
+    longDisplay
+    shortDisplay
+    color
+    name
+    sampleCount
+    samples
   }
 }

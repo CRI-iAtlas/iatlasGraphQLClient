@@ -109,18 +109,6 @@ create_result_from_api_query <- function(
   format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
 }
 
-#' Add Pages To Query Arguments
-#'
-#' @param query_args A named list
-#' @param n_pages An integer
-#'
-#' @export
-add_pages_to_query_args <- function(query_args, n_pages){
-  query_args$page <- NULL
-  pages <- 2:n_pages
-  query_args_list <- purrr::map(pages, ~c(query_args, list("page" = .x)))
-}
-
 #' Create Result From Paginated API Query
 #'
 #' @param query_args A named list
@@ -135,48 +123,6 @@ add_pages_to_query_args <- function(query_args, n_pages){
 #' @importFrom magrittr %>%
 #' @importFrom rlang !!!
 create_result_from_paginated_api_query <- function(
-  query_args,
-  query_file,
-  default_tbl,
-  unnest_cols = NULL,
-  select_cols = NULL,
-  arrange_cols = NULL,
-  ...
-){
-  result <-
-    perform_api_query(query_args, query_file, ...) %>%
-    purrr::pluck(1)
-  tbl <- purrr::pluck(result, "items")
-  if (is.null(tbl)) {
-    return(default_tbl)
-  }
-  if(is.null(result$pages)){
-    stop("Query result has no pages attribute")
-  }
-  if(result$pages > 1){
-    query_args_list <- add_pages_to_query_args(query_args, result$pages)
-    tbl <-
-      purrr::map(query_args_list, perform_api_query, query_file, ...) %>%
-      purrr::map(purrr::pluck, 1, "items") %>%
-      dplyr::bind_rows(tbl, .)
-  }
-  format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
-}
-
-#' Create Result From Paginated API Query2
-#'
-#' @param query_args A named list
-#' @param query_file A string, that is a path to a text file
-#' @param default_tbl A tibble
-#' @param unnest_cols A vector of strings passed to tidyr::unnest
-#' @param select_cols A vector of strings passed to dplyr::select
-#' @param arrange_cols A vector fo strings passed to dplyr::arrange
-#' @param ... Arguments passed to perform_api_query
-#'
-#' @export
-#' @importFrom magrittr %>%
-#' @importFrom rlang !!!
-create_result_from_paginated_api_query2 <- function(
   query_args,
   query_file,
   default_tbl,
@@ -213,7 +159,7 @@ create_result_from_paginated_api_query2 <- function(
       select_cols,
       arrange_cols
     )
-    results2 <- create_result_from_paginated_api_query2(
+    results2 <- create_result_from_paginated_api_query(
       query_args,
       query_file,
       default_tbl,

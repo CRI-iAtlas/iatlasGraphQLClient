@@ -2,7 +2,7 @@
 % Please edit documentation in R/api_mutations_queries.R
 \name{query_mutations}
 \alias{query_mutations}
-\title{query_mutations}
+\title{Query Mutations}
 \usage{
 query_mutations(
   datasets = NA,
@@ -14,6 +14,7 @@ query_mutations(
   samples = NA,
   status = NA,
   tags = NA,
+  paging = NA,
   ...
 )
 }
@@ -36,8 +37,10 @@ query_mutations(
 
 \item{tags}{A vector of strings}
 
+\item{paging}{A named list}
+
 \item{...}{Arguments to create_result_from_api_query}
 }
 \description{
-query_mutations
+Query Mutations
 }

@@ -104,131 +104,10 @@ test_that("perform_api_query", {
   expect_equal(length(result5$copyNumberResults$items$pValue), 1)
 })
 
-test_that("format_query_result",{
-  expected_columns <-  c(
-    "sample",
-    "mutation_id",
-    "entrez",
-    "hgnc",
-    "mutation_code",
-    "mutation_name",
-    "mutation_display",
-    "mutation_status"
-  )
-  result <-
-    perform_api_query(
-      variables =  list(
-        entrez = 25,
-        mutationCode = NA,
-        mutationType = NA,
-        mutationId = NA,
-        status = NA,
-        sample = c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
-        page = NA
-      ),
-      query_file = "mutations_by_samples.txt",
-      query_dir = query_dir
-    ) %>%
-    purrr::pluck(1) %>%
-    purrr::pluck("items") %>%
-    format_query_result(
-      unnest_cols = "mutations",
-      select_cols = c(
-        "sample" = "name",
-        "mutation_id" = "id",
-        "entrez" = "gene.entrez",
-        "hgnc" = "gene.hgnc",
-        "mutation_code" = "mutationCode",
-        "mutation_name"  = "mutationType.name",
-        "mutation_display" = "mutationType.display",
-        "mutation_status" = "status"
-      )
-    )
-  expect_named(result, expected_columns)
-})
 
-test_that("create_result_from_api_query", {
+test_that("create_result_from_paginated_api_query", {
 
-  result3 <- create_result_from_api_query(
-    query_args = list(
-      dataSet = NA,
-      related = NA,
-      tag = NA,
-      entrez = NA,
-      mutationId = NA,
-      mutationCode = NA,
-      mutationType = NA,
-      sample = NA,
-      status = NA
-    ),
-    query_file = "mutations.txt",
-    default_tbl = dplyr::tibble(
-      "id" = character(),
-      "code" =  character(),
-      "entrez" = integer(),
-      "hgnc" = character()
-    ),
-    query_dir = query_dir
-  )
-  expect_named(
-    result3,
-    c(
-      "id",
-      "mutationCode",
-      "gene.entrez",
-      "gene.hgnc",
-      "mutationType.display",
-      "mutationType.name"
-    )
-  )
-
-  result4 <- create_result_from_api_query(
-    query_args = list(
-      dataSet = NA,
-      related = NA,
-      tag = NA,
-      entrez = NA,
-      mutationId = NA,
-      mutationCode = NA,
-      mutationType = NA,
-      sample = NA,
-      status = NA
-    ),
-    query_file = "mutations.txt",
-    default_tbl = dplyr::tibble(
-      "id" = character(),
-      "code" =  character(),
-      "entrez" = integer(),
-      "hgnc" = character()
-    ),
-    select_cols = c(
-      "id",
-      "code" = "mutationCode",
-      "entrez" = "gene.entrez",
-      "hgnc" = "gene.hgnc"
-    ),
-    query_dir = query_dir
-  )
-  expect_named(result4, c("id", "code", "entrez", "hgnc"))
-})
-
-test_that("add_pages_to_query_args",{
-  args1 <- list("dataset" = "TCGA", "page" = NA)
-  result1 <- add_pages_to_query_args(args1, 2)
-  expect_equal(result1, list(list("dataset" = "TCGA", "page" = 2)))
-  result2 <- add_pages_to_query_args(args1, 3)
-  expect_equal(
-    result2,
-    list(
-      list("dataset" = "TCGA", "page" = 2),
-      list("dataset" = "TCGA", "page" = 3)
-    )
-  )
-})
-
-test_that("create_result_from_paginated_api_query2", {
-
-  result1 <- create_result_from_paginated_api_query2(
+  result1 <- create_result_from_paginated_api_query(
     query_args = list(
       paging = list("first" = 100000),
       feature = "frac_altered",
@@ -243,7 +122,7 @@ test_that("create_result_from_paginated_api_query2", {
   expect_true(nrow(result1) > 0)
   expect_true(nrow(result1) < 100000)
 
-  result2 <- create_result_from_paginated_api_query2(
+  result2 <- create_result_from_paginated_api_query(
     query_args = list(
       paging = NA,
       feature = "not_a_feature",
@@ -257,7 +136,7 @@ test_that("create_result_from_paginated_api_query2", {
   expect_named(result2, c("pValue"))
   expect_true(nrow(result2) == 0)
 
-  result3 <- create_result_from_paginated_api_query2(
+  result3 <- create_result_from_paginated_api_query(
     query_args = list(
       paging = list(
         "first" = 10

@@ -18,7 +18,7 @@ query_edges <- function(
   paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query2(
+  tbl <- create_result_from_paginated_api_query(
     query_args =  list(
       "maxScore" = max_score,
       "minScore" = min_score,

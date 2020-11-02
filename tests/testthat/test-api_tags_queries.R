@@ -51,7 +51,7 @@ test_that("query_tags", {
   expect_equal(result4$publications[[1]], list())
 })
 
-test_that("query_tag_samples2", {
+test_that("query_tag_samples", {
   expected_columns <- c(
     "name",
     "long_display",
@@ -62,10 +62,36 @@ test_that("query_tag_samples2", {
     "samples"
   )
 
-  result1 <- query_tag_samples2("PCAWG", "Immune_Subtype", query_dir = query_dir)
-  result2 <- query_tag_samples2("PCAWG", "not_a_tag", query_dir = query_dir)
+  result1 <- query_tag_samples("PCAWG", "Immune_Subtype", query_dir = query_dir)
+  result2 <- query_tag_samples("PCAWG", "not_a_tag", query_dir = query_dir)
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
   expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
 })
+
+test_that("query_tag_samples2", {
+  expected_columns1 <- c(
+    "sample",
+    "Immune_Subtype",
+    "PCAWG_Study"
+  )
+  expected_columns2 <- c("sample")
+  result1 <- query_tag_samples2(
+    datasets = "PCAWG",
+    parent_tags = c("Immune_Subtype", "PCAWG_Study"),
+    query_dir = query_dir
+  )
+  expect_named(result1, expected_columns1)
+  expect_true(nrow(result1) > 0)
+  result2 <- query_tag_samples2(
+    datasets = "not_a_dataset",
+    parent_tags = c("Immune_Subtype", "PCAWG_Study"),
+    query_dir = query_dir
+  )
+  expect_named(result2, expected_columns2)
+  expect_true(nrow(result2) == 0)
+})
+
+
+

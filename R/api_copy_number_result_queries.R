@@ -34,7 +34,7 @@ query_copy_number_results <- function(
   paging = list("first" = 100000),
   ...
 ){
-  tbl <- create_result_from_paginated_api_query2(
+  tbl <- create_result_from_paginated_api_query(
     query_args =  list(
       dataSet = datasets,
       tag = tags,
@@ -126,7 +126,7 @@ query_copy_number_result_genes <- function(
   ...
 ){
 
-  tbl <- create_result_from_paginated_api_query2(
+  tbl <- create_result_from_paginated_api_query(
     query_args =  list(
       dataSet = datasets,
       tag = tags,

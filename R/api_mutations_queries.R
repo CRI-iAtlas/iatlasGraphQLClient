@@ -1,5 +1,5 @@
 
-#' query_mutations
+#' Query Mutations
 #'
 #' @param datasets A vector of strings
 #' @param ids A vector of integers
@@ -11,6 +11,7 @@
 #' @param status A string
 #' @param tags A vector of strings
 #' @param ... Arguments to create_result_from_api_query
+#' @param paging A named list
 #'
 #' @export
 #' @importFrom magrittr %>%
@@ -24,9 +25,10 @@ query_mutations <- function(
   samples = NA,
   status = NA,
   tags = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_api_query(
+  tbl <- create_result_from_paginated_api_query(
     query_args =  list(
       "dataSet" = datasets,
       "mutationId" = ids,
@@ -36,7 +38,9 @@ query_mutations <- function(
       "related" = parent_tags,
       "sample" = samples,
       "status" = status,
-      "tag" = tags
+      "tag" = tags,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "mutations.txt",
     default_tbl = dplyr::tibble(
