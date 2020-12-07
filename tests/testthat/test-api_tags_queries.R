@@ -9,7 +9,7 @@ test_that("query_tags", {
     "publications"
   )
 
-  result1 <- query_tags(tags = "ACC.", query_dir = query_dir)
+  result1 <- query_tags(tags = "ACC_", query_dir = query_dir)
   result2 <- query_tags(tags = "not_a_tag", query_dir = query_dir)
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
