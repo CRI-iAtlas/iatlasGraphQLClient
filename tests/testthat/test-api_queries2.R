@@ -41,11 +41,16 @@ test_that("query_patients", {
     "weight"
   )
   result1 <- query_patients("TCGA-05-4244", query_dir = query_dir)
-  result2 <- query_patients("not_a_patient", query_dir = query_dir)
   expect_named(result1, expected_columns)
+  expect_equal(nrow(result1), 1)
+
+  result2 <- query_patients("not_a_patient", query_dir = query_dir)
   expect_named(result2, expected_columns)
-  expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
+
+  result3 <- query_patients(datasets = "PCAWG", query_dir = query_dir)
+  expect_named(result3, expected_columns)
+  expect_equal(nrow(result3), 455)
 })
 
 test_that("query_patient_slides", {
