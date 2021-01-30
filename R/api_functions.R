@@ -63,14 +63,14 @@ format_query_result <- function(
   arrange_cols = NULL
 ){
   if(!is.null(unnest_cols)) {
-    tbl <- tidyr::unnest(tbl, unnest_cols, keep_empty = T)
+    tbl <- tidyr::unnest(tbl, dplyr::all_of(unnest_cols), keep_empty = T)
   }
   tbl <- tbl %>%
     jsonlite::flatten(.) %>%
     dplyr::as_tibble()
 
   if(!is.null(select_cols)) {
-    tbl <- dplyr::select(tbl, select_cols)
+    tbl <- dplyr::select(tbl, dplyr::all_of(select_cols))
   }
   if(!is.null(arrange_cols)) {
     tbl <- dplyr::arrange(tbl, !!!rlang::syms(arrange_cols))
