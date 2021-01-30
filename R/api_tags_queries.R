@@ -213,7 +213,7 @@ query_tag_samples2 <- function(
     tidyr::pivot_wider(
       names_from = "parent_tag_name", values_from = "tag_name"
     ) %>%
-    dplyr::select(c("sample", parent_tags))
+    dplyr::select(dplyr::all_of(c("sample", parent_tags)))
 }
 
 
