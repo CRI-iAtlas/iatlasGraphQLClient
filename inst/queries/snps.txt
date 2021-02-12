@@ -1,0 +1,38 @@
+query Snps(
+  $name: [String!]
+  $rsid: [String!]
+  $chr: [String!]
+  $minBP: Int
+  $maxBP: Int
+  $paging: PagingInput
+  $distinct: Boolean
+) {
+  snps(
+    name: $name
+    rsid: $rsid
+    chr: $chr
+    minBP: $minBP
+    maxBP: $maxBP
+    paging: $paging
+    distinct: $distinct
+  ){
+    items {
+      name
+      rsid
+      chr
+      bp
+    }
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
+  }
+}
