@@ -30,7 +30,7 @@ perform_api_query <- function(
   variables,
   query_file,
   query_dir = system.file("queries", package = "iatlas.api.client"),
-  api_url = "http://ec2-34-215-55-89.us-west-2.compute.amazonaws.com/api"
+  api_url = "https://sage-api-staging.genui.dev/api"
 ){
   ghql_con <- ghql::GraphqlClient$new(api_url)
   ghql_query_obj <- ghql::Query$new()
