@@ -35,28 +35,28 @@ query_germline_gwas_results <- function(
       "dataset_display" = character(),
       "feature_name" = character(),
       "feature_display" = character(),
+      "feature_germline_module" = character(),
+      "feature_germline_category" = character(),
       "snp_name" = character(),
       "snp_rsid" = character(),
       "snp_chr" = character(),
       "snp_bp" = integer(),
       "p_value" = double(),
-      "maf" = character(),
-      "module" = character(),
-      "category" = character()
+      "maf" = character()
     ),
     select_cols = c(
       "dataset_name" = "dataSet.name",
       "dataset_display" = "dataSet.display",
       "feature_name" = "feature.name",
       "feature_display" = "feature.display",
+      "feature_germline_module" = "feature.germline_module",
+      "feature_germline_category" = "feature.germline_category",
       "snp_name" = "snp.name",
       "snp_rsid" = "snp.rsid",
       "snp_chr" = "snp.chr",
       "snp_bp" = "snp.bp",
       "p_value" = "pValue",
-      "maf",
-      "module",
-      "category"
+      "maf"
     ),
     ...
   )

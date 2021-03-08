@@ -24,6 +24,8 @@ query GermlineGwasResults(
       feature{
         name
         display
+        germline_module
+        germline_category
       }
       snp{
         name
@@ -33,8 +35,6 @@ query GermlineGwasResults(
       }
       pValue
       maf
-      module
-      category
     }
     paging{
       type
