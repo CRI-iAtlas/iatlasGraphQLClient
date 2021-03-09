@@ -8,7 +8,6 @@ query_heritability_results(
   datasets = NA,
   features = NA,
   clusters = NA,
-  modules = NA,
   min_p_value = NA,
   max_p_value = NA,
   paging = NA,
@@ -21,8 +20,6 @@ query_heritability_results(
 \item{features}{A vector of strings}
 
 \item{clusters}{A vector of strings}
-
-\item{modules}{A vector of strings}
 
 \item{min_p_value}{A double}
 
