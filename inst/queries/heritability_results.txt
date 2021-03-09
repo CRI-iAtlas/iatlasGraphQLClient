@@ -1,7 +1,6 @@
 query HeritabilityResults(
   $dataSet: [String!]
   $feature: [String!]
-  $module: [String!]
   $cluster: [String!]
   $minPValue: Float
   $maxPValue: Float
@@ -11,7 +10,6 @@ query HeritabilityResults(
   heritabilityResults(
     dataSet: $dataSet
     feature: $feature
-    module: $module
     cluster: $cluster
     minPValue: $minPValue
     maxPValue: $maxPValue
@@ -26,11 +24,11 @@ query HeritabilityResults(
       feature{
         name
         display
+        germline_module
+        germline_category
       }
-      pValue
       cluster
-      module
-      category
+      pValue
       fdr
       variance
       se

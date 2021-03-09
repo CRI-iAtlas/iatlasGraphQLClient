@@ -5,14 +5,14 @@ test_that("query_germline_gwas_results",{
     "dataset_display",
     "feature_name",
     "feature_display",
+    "feature_germline_module",
+    "feature_germline_category",
     "snp_name",
     "snp_rsid",
     "snp_chr",
     "snp_bp",
     "p_value",
-    "maf",
-    "module",
-    "category"
+    "maf"
   )
   result1 <- query_germline_gwas_results(
     datasets = "TCGA",
@@ -20,6 +20,7 @@ test_that("query_germline_gwas_results",{
     snps = "2:206655924:C:T",
     query_dir = query_dir
   )
+
   expect_named(result1, expected_columns)
   expect_true(nrow(result1) > 0)
 

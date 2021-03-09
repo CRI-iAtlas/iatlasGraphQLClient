@@ -1,51 +1,53 @@
-query GermlineGwasResults(
-  $dataSet: [String!]
-  $feature: [String!]
-  $snp: [String!]
-  $minPValue: Float
-  $maxPValue: Float
+query RareVariantPathwayAssociation(
   $paging: PagingInput
   $distinct: Boolean
+  $dataSet: [String!]
+  $feature: [String!]
+  $pathway: [String!]
+  $minPValue: Float
+  $maxPValue: Float
 ) {
-  germlineGwasResults(
-    dataSet: $dataSet
-    feature: $feature
-    snp: $snp
-    minPValue: $minPValue
-    maxPValue: $maxPValue
+  rareVariantPathwayAssociations(
     paging: $paging
     distinct: $distinct
-  ){
+    dataSet: $dataSet
+    feature: $feature
+    pathway: $pathway
+    minPValue: $minPValue
+    maxPValue: $maxPValue
+  ) {
     items {
-      dataSet{
+      dataSet {
         name
         display
       }
-      feature{
+      feature {
         name
         display
         germline_module
         germline_category
       }
-      snp{
-        name
-        rsid
-        chr
-        bp
-      }
+      pathway
       pValue
-      maf
+      min
+      max
+      mean
+      q1
+      q2
+      q3
+      nMutants
+      nTotal
     }
-    paging{
+    paging {
       type
       pages
       total
-      page
-      limit
-      hasNextPage
-      hasPreviousPage
       startCursor
       endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
     }
     error
   }

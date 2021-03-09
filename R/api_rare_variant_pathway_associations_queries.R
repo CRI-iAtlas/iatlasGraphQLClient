@@ -1,19 +1,19 @@
 
-#' Query Heritability Results
+#' Query Rare Variant Pathway Associations
 #'
 #' @param datasets A vector of strings
 #' @param features A vector of strings
-#' @param clusters A vector of strings
-#' @param min_p_value A double
-#' @param max_p_value A double
+#' @param pathways A vector of strings
+#' @param min_p_value A Double
+#' @param max_p_value A Double
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
-query_heritability_results <- function(
+query_rare_variant_pathway_associations <- function(
   datasets = NA,
   features = NA,
-  clusters = NA,
+  pathways = NA,
   min_p_value = NA,
   max_p_value = NA,
   paging = NA,
@@ -23,13 +23,13 @@ query_heritability_results <- function(
     query_args =  list(
       "dataSet" = datasets,
       "feature" = features,
-      "cluster" = clusters,
+      "pathway" = pathways,
       "minPValue" = min_p_value,
       "maxPValue" = max_p_value,
       "paging" = paging,
       "distinct" = F
     ),
-    query_file = "heritability_results.txt",
+    query_file = "rare_variant_pathway_associations.txt",
     default_tbl = dplyr::tibble(
       "dataset_name" = character(),
       "dataset_display" = character(),
@@ -37,11 +37,16 @@ query_heritability_results <- function(
       "feature_display" = character(),
       "feature_germline_module" = character(),
       "feature_germline_category" = character(),
-      "cluster" = character(),
+      "pathway" = character(),
       "p_value" = double(),
-      "fdr" = double(),
-      "se" = double(),
-      "variance" = double(),
+      "min" = double(),
+      "max" = double(),
+      "mean"= double(),
+      "q1" = double(),
+      "q2" = double(),
+      "q3" = double(),
+      "n_mutants" = integer(),
+      "n_total" = integer()
     ),
     select_cols = c(
       "dataset_name" = "dataSet.name",
@@ -50,11 +55,16 @@ query_heritability_results <- function(
       "feature_display" = "feature.display",
       "feature_germline_module" = "feature.germline_module",
       "feature_germline_category" = "feature.germline_category",
-      "cluster" = "cluster",
+      "pathway",
       "p_value" = "pValue",
-      "fdr" = "fdr",
-      "se" = "se",
-      "variance" = "variance"
+      "min",
+      "max",
+      "mean",
+      "q1",
+      "q2",
+      "q3",
+      "n_mutants" = "nMutants",
+      "n_total" = "nTotal"
     ),
     ...
   )
