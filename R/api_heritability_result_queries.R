@@ -4,7 +4,6 @@
 #' @param datasets A vector of strings
 #' @param features A vector of strings
 #' @param clusters A vector of strings
-#' @param modules A vector of strings
 #' @param min_p_value A double
 #' @param max_p_value A double
 #' @param paging A named list
@@ -15,7 +14,6 @@ query_heritability_results <- function(
   datasets = NA,
   features = NA,
   clusters = NA,
-  modules = NA,
   min_p_value = NA,
   max_p_value = NA,
   paging = NA,
@@ -26,7 +24,6 @@ query_heritability_results <- function(
       "dataSet" = datasets,
       "feature" = features,
       "cluster" = clusters,
-      "module" = modules,
       "minPValue" = min_p_value,
       "maxPValue" = max_p_value,
       "paging" = paging,
@@ -38,9 +35,9 @@ query_heritability_results <- function(
       "dataset_display" = character(),
       "feature_name" = character(),
       "feature_display" = character(),
+      "feature_germline_module" = character(),
+      "feature_germline_category" = character(),
       "cluster" = character(),
-      "module" = character(),
-      "category" = character(),
       "p_value" = double(),
       "fdr" = double(),
       "se" = double(),
@@ -51,9 +48,9 @@ query_heritability_results <- function(
       "dataset_display" = "dataSet.display",
       "feature_name" = "feature.name",
       "feature_display" = "feature.display",
+      "feature_germline_module" = "feature.germline_module",
+      "feature_germline_category" = "feature.germline_category",
       "cluster" = "cluster",
-      "module" = "module",
-      "category" = "category",
       "p_value" = "pValue",
       "fdr" = "fdr",
       "se" = "se",
