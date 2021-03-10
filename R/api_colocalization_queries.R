@@ -56,6 +56,7 @@ query_colocalizations <- function(
       "gene_hgnc" = character(),
       "qtl_type" = character(),
       "ecaviar_pp" = character(),
+      "tissue" = character(),
       "plot_type" = character(),
       "splice_loc" = character(),
       "plot_link" = character()
@@ -77,6 +78,7 @@ query_colocalizations <- function(
       "gene_hgnc" = "gene.hgnc",
       "qtl_type" = "qtlType",
       "ecaviar_pp" = "eCaviarPP",
+      "tissue",
       "plot_type" = "plotType",
       "splice_loc" = "spliceLoc",
       "plot_link" = "plotLink"
