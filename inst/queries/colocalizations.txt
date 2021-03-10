@@ -62,6 +62,7 @@ query Colocalizations(
       qtlType
       eCaviarPP
       plotType
+      tissue
       spliceLoc
       plotLink
     }

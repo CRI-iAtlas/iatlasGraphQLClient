@@ -17,6 +17,7 @@ test_that("query_colocalizations",{
     "gene_hgnc",
     "qtl_type",
     "ecaviar_pp",
+    "tissue",
     "plot_type",
     "splice_loc",
     "plot_link"
