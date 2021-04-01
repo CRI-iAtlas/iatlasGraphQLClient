@@ -105,9 +105,10 @@ test_that("perform_api_query", {
 })
 
 
-test_that("create_result_from_paginated_api_query", {
+test_that("create_result_from_cursor_paginated_api_query", {
+  default_tbl = dplyr::tibble( "pValue" = double())
 
-  result1 <- create_result_from_paginated_api_query(
+  result1 <- create_result_from_cursor_paginated_api_query(
     query_args = list(
       paging = list("first" = 100000),
       feature = "frac_altered",
@@ -115,14 +116,14 @@ test_that("create_result_from_paginated_api_query", {
       distinct = F
     ),
     query_file = "pagination_test.txt",
-    default_tbl = dplyr::tibble("pValue" = double()),
+    default_tbl = default_tbl,
     query_dir = query_dir
   )
   expect_named(result1, c("pValue"))
   expect_true(nrow(result1) > 0)
   expect_true(nrow(result1) < 100000)
 
-  result2 <- create_result_from_paginated_api_query(
+  result2 <- create_result_from_cursor_paginated_api_query(
     query_args = list(
       paging = NA,
       feature = "not_a_feature",
@@ -130,28 +131,130 @@ test_that("create_result_from_paginated_api_query", {
       distinct = F
     ),
     query_file = "pagination_test.txt",
-    default_tbl = dplyr::tibble("pValue" = double()),
+    default_tbl = default_tbl,
     query_dir = query_dir
   )
   expect_named(result2, c("pValue"))
   expect_true(nrow(result2) == 0)
 
-  result3 <- create_result_from_paginated_api_query(
+  result3 <- create_result_from_cursor_paginated_api_query(
     query_args = list(
-      paging = list(
-        "first" = 10
-      ),
+      paging = list("first" = 10),
       feature = "frac_altered",
       maxPValue = 0.1e-170,
       distinct = F
     ),
     query_file = "pagination_test.txt",
-    default_tbl = dplyr::tibble(
-      "pValue" = double()
-    ),
+    default_tbl = default_tbl,
     query_dir = query_dir
   )
   expect_named(result3, c("pValue"))
   expect_true(nrow(result3) > 10)
+})
+
+test_that("create_result_from_offset_paginated_api_query", {
+  default_tbl = dplyr::tibble( "pValue" = double())
+
+  result1 <- create_result_from_offset_paginated_api_query(
+    query_args = list(
+      paging = list("limit" = 100000),
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = T
+    ),
+    query_file = "pagination_test.txt",
+    default_tbl = default_tbl,
+    query_dir = query_dir
+  )
+  expect_named(result1, c("pValue"))
+  expect_true(nrow(result1) > 0)
+  expect_true(nrow(result1) < 100000)
+
+  result2 <- create_result_from_offset_paginated_api_query(
+    query_args = list(
+      paging = NA,
+      feature = "not_a_feature",
+      maxPValue = NA,
+      distinct = T
+    ),
+    query_file = "pagination_test.txt",
+    default_tbl = default_tbl,
+    query_dir = query_dir
+  )
+  expect_named(result2, c("pValue"))
+  expect_true(nrow(result2) == 0)
+
+  result3 <- create_result_from_offset_paginated_api_query(
+    query_args = list(
+      paging = list("limit" = 10),
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = T
+    ),
+    query_file = "pagination_test.txt",
+    default_tbl = default_tbl,
+    query_dir = query_dir
+  )
+  expect_named(result3, c("pValue"))
+  expect_true(nrow(result3) > 1)
+})
+
+test_that("do_cursor_paginated_api_query", {
+
+  result1 <- do_cursor_paginated_api_query(
+    query_args = list(
+      paging = list("first" = 10),
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = F
+    ),
+    query_file = "pagination_test.txt",
+    query_dir = query_dir
+  )
+  expect_type(result1, "list")
+  expect_true(length(result1) > 1)
+
+  result2 <- do_cursor_paginated_api_query(
+    query_args = list(
+      paging = list("first" = 10),
+      feature = "not_a_feature",
+      maxPValue = 0.1e-170,
+      distinct = F
+    ),
+    query_file = "pagination_test.txt",
+    query_dir = query_dir
+  )
+  expect_type(result2, "list")
+  expect_true(length(result2) == 0)
+})
+
+
+test_that("do_offset_paginated_api_query", {
+
+  result1 <- do_offset_paginated_api_query(
+    query_args = list(
+      paging = list("limit" = 10),
+      feature = "frac_altered",
+      maxPValue = 0.1e-170,
+      distinct = T
+    ),
+    query_file = "pagination_test.txt",
+    query_dir = query_dir
+  )
+  expect_type(result1, "list")
+  expect_true(length(result1) > 1)
+
+  result2 <- do_offset_paginated_api_query(
+    query_args = list(
+      paging = list("first" = 10),
+      feature = "not_a_feature",
+      maxPValue = 0.1e-170,
+      distinct = F
+    ),
+    query_file = "pagination_test.txt",
+    query_dir = query_dir
+  )
+  expect_type(result2, "list")
+  expect_true(length(result2) == 0)
 })
 

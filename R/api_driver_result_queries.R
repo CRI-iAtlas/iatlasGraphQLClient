@@ -35,7 +35,7 @@ query_driver_results <- function(
   paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       dataSet = datasets,
       tag = tags,
