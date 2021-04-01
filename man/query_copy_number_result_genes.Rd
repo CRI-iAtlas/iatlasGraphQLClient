@@ -17,7 +17,7 @@ query_copy_number_result_genes(
   min_mean_normal = NA,
   min_mean_cnv = NA,
   min_t_stat = NA,
-  paging = list(first = 1e+05),
+  paging = NA,
   ...
 )
 }

@@ -50,6 +50,9 @@ test_that("query_feature_nodes",{
     network = "extracellular_network",
     query_dir = query_dir
   )
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 0)
+
   result2 <- query_feature_nodes(
     datasets = "none",
     tags = "C1",
@@ -57,8 +60,7 @@ test_that("query_feature_nodes",{
     network = "extracellular_network",
     query_dir = query_dir
   )
-  expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
-  expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
+
 })

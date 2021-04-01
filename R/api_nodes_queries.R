@@ -24,7 +24,7 @@ query_gene_nodes <- function(
   paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "dataSet" = datasets,
       "entrez" = entrez,
@@ -87,7 +87,7 @@ query_feature_nodes <- function(
   paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "dataSet" = datasets,
       "feature" = features,

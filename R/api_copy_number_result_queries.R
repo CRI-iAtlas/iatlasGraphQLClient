@@ -31,10 +31,10 @@ query_copy_number_results <- function(
   min_mean_normal = NA,
   min_mean_cnv = NA,
   min_t_stat = NA,
-  paging = list("first" = 100000),
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       dataSet = datasets,
       tag = tags,
@@ -122,11 +122,11 @@ query_copy_number_result_genes <- function(
   min_mean_normal = NA,
   min_mean_cnv = NA,
   min_t_stat = NA,
-  paging = list("first" = 100000),
+  paging = NA,
   ...
 ){
 
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_offset_paginated_api_query(
     query_args =  list(
       dataSet = datasets,
       tag = tags,

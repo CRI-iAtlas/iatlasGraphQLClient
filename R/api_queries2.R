@@ -24,7 +24,7 @@ query_mutations_by_sample <- function(
   paging = NA,
   ...
 ){
-  tbl <- create_result_from_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "entrez" = entrez,
       "mutationCode" = mutation_codes,

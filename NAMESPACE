@@ -2,7 +2,8 @@
 
 export(add_ghql_query_from_text_file)
 export(create_result_from_api_query)
-export(create_result_from_paginated_api_query)
+export(create_result_from_cursor_paginated_api_query)
+export(create_result_from_offset_paginated_api_query)
 export(format_query_result)
 export(perform_api_query)
 export(query_colocalizations)

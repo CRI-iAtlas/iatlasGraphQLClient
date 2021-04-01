@@ -70,7 +70,7 @@ format_query_result <- function(
     dplyr::as_tibble()
 
   if(!is.null(select_cols)) {
-    tbl <- dplyr::select(tbl, dplyr::all_of(select_cols))
+    tbl <- dplyr::select(tbl, dplyr::any_of(select_cols))
   }
   if(!is.null(arrange_cols)) {
     tbl <- dplyr::arrange(tbl, !!!rlang::syms(arrange_cols))
@@ -109,7 +109,8 @@ create_result_from_api_query <- function(
   format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
 }
 
-#' Create Result From Paginated API Query
+
+#' Create Result From Cursor Paginated API Query
 #'
 #' @param query_args A named list
 #' @param query_file A string, that is a path to a text file
@@ -121,14 +122,109 @@ create_result_from_api_query <- function(
 #'
 #' @export
 #' @importFrom magrittr %>%
-#' @importFrom rlang !!!
-create_result_from_paginated_api_query <- function(
+create_result_from_cursor_paginated_api_query <- function(
   query_args,
   query_file,
   default_tbl,
   unnest_cols = NULL,
   select_cols = NULL,
   arrange_cols = NULL,
+  ...
+){
+  items_list <- do_cursor_paginated_api_query(query_args, query_file, ...)
+  if(length(items_list) == 0) return(default_tbl)
+  results <- items_list %>%
+    rev() %>%
+    purrr::map(
+      format_query_result,
+      unnest_cols,
+      select_cols,
+      arrange_cols
+    ) %>%
+    dplyr::bind_rows()
+}
+
+#' Create Result From Offset Paginated API Query
+#'
+#' @param query_args A named list
+#' @param query_file A string, that is a path to a text file
+#' @param default_tbl A tibble
+#' @param unnest_cols A vector of strings passed to tidyr::unnest
+#' @param select_cols A vector of strings passed to dplyr::select
+#' @param arrange_cols A vector fo strings passed to dplyr::arrange
+#' @param ... Arguments passed to perform_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+create_result_from_offset_paginated_api_query <- function(
+  query_args,
+  query_file,
+  default_tbl,
+  unnest_cols = NULL,
+  select_cols = NULL,
+  arrange_cols = NULL,
+  ...
+){
+  items_list <- do_offset_paginated_api_query(query_args, query_file, ...)
+  if(length(items_list) == 0) return(default_tbl)
+  results <- items_list %>%
+    rev() %>%
+    purrr::map(
+      format_query_result,
+      unnest_cols,
+      select_cols,
+      arrange_cols
+    ) %>%
+    dplyr::bind_rows()
+}
+
+do_cursor_paginated_api_query <- function(
+  query_args,
+  query_file,
+  result_n = 1,
+  ...
+){
+  result <-
+    perform_api_query(query_args, query_file, ...) %>%
+    purrr::pluck(1)
+
+  items <- result$items
+  paging <- result$paging
+  i <- as.character(result_n)
+
+  empty_result <- any(
+    is.null(items),
+    is.null(paging),
+    length(items) == 0,
+    nrow(items) == 0
+  )
+  if (empty_result) {
+    return(list())
+  }
+  if(!is.null(paging$hasNextPage) && paging$hasNextPage){
+    if(length(query_args$paging) == 1 && is.na(query_args$paging)){
+      new_paging <- list("after" = paging$endCursor)
+    } else {
+      new_paging <- query_args$paging
+      new_paging$after <- paging$endCursor
+    }
+    query_args$paging <- new_paging
+    items_list <- do_cursor_paginated_api_query(
+      query_args,
+      query_file,
+      result_n = result_n + 1,
+      ...
+    )
+  } else {
+    items_list <- list()
+  }
+  items_list[[i]] <- items
+  return(items_list)
+}
+
+do_offset_paginated_api_query <- function(
+  query_args,
+  query_file,
   ...
 ){
   result <-
@@ -138,7 +234,6 @@ create_result_from_paginated_api_query <- function(
   items <- result$items
   paging <- result$paging
 
-
   empty_result <- any(
     is.null(items),
     is.null(paging),
@@ -146,29 +241,31 @@ create_result_from_paginated_api_query <- function(
     nrow(items) == 0
   )
   if (empty_result) {
-    return(default_tbl)
+    return(list())
   }
-  if(is.null(paging$hasNextPage)){
-    return(format_query_result(items, unnest_cols, select_cols, arrange_cols))
-  }
-  if(paging$hasNextPage){
-    query_args$paging <- list("before" = paging$endCursor)
-    results1 <- format_query_result(
-      items,
-      unnest_cols,
-      select_cols,
-      arrange_cols
-    )
-    results2 <- create_result_from_paginated_api_query(
+
+  if(paging$page < paging$pages){
+    if(length(query_args$paging) == 1 && is.na(query_args$paging)){
+      new_paging <- list("page" = paging$page + 1)
+    } else {
+      new_paging <- query_args$paging
+      new_paging$page <- paging$page + 1
+    }
+    query_args$paging <- new_paging
+    items_list <- do_offset_paginated_api_query(
       query_args,
       query_file,
-      default_tbl,
-      unnest_cols,
-      select_cols,
-      arrange_cols,
+      ...
     )
-    return(dplyr::bind_rows(results1, results2))
   } else {
-    return(format_query_result(items, unnest_cols, select_cols, arrange_cols))
+    items_list <- list()
   }
+  items_list[[paging$page]] <- items
+  return(items_list)
 }
+
+
+
+
+
+
