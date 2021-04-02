@@ -24,3 +24,5 @@ Imports:
     rlang (>= 0.4),
     stringr (>= 1.0),
     tidyr (>= 1.1)
+URL: https://github.com/CRI-iAtlas/iatlas.api.client
+BugReports: https://github.com/CRI-iAtlas/iatlas.api.client/issues
