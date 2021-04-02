@@ -9,16 +9,21 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: 
+Suggests:
+    devtools
     testthat
+    usethis
 RoxygenNote: 7.1.1
 Config/testthat/edition: 3
 Imports:
-    ghql,
-    stringr,
-    purrr,
-    dplyr,
-    tidyr,
-    magrittr,
-    rlang,
-    jsonlite
+    dplyr(>= 1.0),
+    ghql(>= 0.1),
+    jsonlite(>= 1.7),
+    magrittr(>= 2.0),
+    purrr(>= 0.3),
+    rlang(>= 0.4),
+    stringr(>= 1.0),
+    tidyr(>= 1.1)
+    
+   
+    
