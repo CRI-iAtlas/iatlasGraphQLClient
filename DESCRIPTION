@@ -1,7 +1,7 @@
 Package: iatlas.api.client
 Type: Package
 Title: What the Package Does (Title Case)
-Version:  0.13.2
+Version: 0.13.2
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
@@ -9,16 +9,20 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    testthat
+Suggests:
+  devtools,
+  testthat (>= 3.0),
+  usethis
 RoxygenNote: 7.1.1
 Config/testthat/edition: 3
 Imports:
-    ghql,
-    stringr,
-    purrr,
-    dplyr,
-    tidyr,
-    magrittr,
-    rlang,
-    jsonlite
+    dplyr (>= 1.0),
+    ghql (>= 0.1),
+    jsonlite (>= 1.7),
+    magrittr (>= 2.0),
+    purrr (>= 0.3),
+    rlang (>= 0.4),
+    stringr (>= 1.0),
+    tidyr (>= 1.1)
+URL: https://github.com/CRI-iAtlas/iatlas.api.client
+BugReports: https://github.com/CRI-iAtlas/iatlas.api.client/issues
