@@ -1,0 +1,170 @@
+#' Query Features
+#'
+#' @param features A vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param feature_classes A vector of strings
+#' @param samples A vector of strings
+#' @param max_value A numeric
+#' @param min_value A numeric
+#' @param ... Arguments to create_result_from_api_query
+#' @export
+query_features <- function(
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  features = NA,
+  feature_classes = NA,
+  samples = NA,
+  max_value = NA,
+  min_value = NA,
+  ...
+){
+  create_result_from_api_query(
+    query_args = list(
+      dataSet = datasets,
+      related = parent_tags,
+      tag = tags,
+      feature = features,
+      featureClass = feature_classes,
+      sample = samples,
+      maxValue = max_value,
+      minValue = min_value
+    ),
+    query_file = "features.txt",
+    default_tbl = dplyr::tibble(
+      "name" = character(),
+      "display" = character(),
+      "class" = character(),
+      "order" = integer(),
+      "unit" =  character(),
+      "method_tag" = character()
+    ),
+    select_cols = c(
+      "name",
+      "display",
+      "class",
+      "order",
+      "unit",
+      "method_tag" = "methodTag"
+    ),
+    arrange_cols = "display",
+    ...
+  )
+}
+
+#' Query Feature Values
+#'
+#' @param features A vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param feature_classes A vector of strings
+#' @param samples A vector of strings
+#' @param max_value A numeric
+#' @param min_value A numeric
+#' @param ... Arguments to create_result_from_api_query
+#' @export
+#' @importFrom magrittr %>%
+query_feature_values <- function(
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  features = NA,
+  feature_classes = NA,
+  samples = NA,
+  max_value = NA,
+  min_value = NA,
+  ...
+){
+  tbl <- create_result_from_api_query(
+    query_args =  list(
+      dataSet = datasets,
+      related = parent_tags,
+      tag = tags,
+      feature = features,
+      featureClass = feature_classes,
+      sample = samples,
+      maxValue = max_value,
+      minValue = min_value
+    ),
+    query_file = "feature_values.txt",
+    default_tbl = dplyr::tibble(
+      "sample" = character(),
+      "feature_name" = character(),
+      "feature_display" = character(),
+      "feature_value" = double(),
+      "feature_order" = integer(),
+      "feature_class" = character(),
+    ),
+    select_cols = c(
+      "feature_name" = "name",
+      "feature_display" = "display",
+      "feature_order" = "order",
+      "feature_class" = "class",
+      "samples"
+    ),
+    ...
+  )
+  if(nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "samples", keep_empty = T) %>%
+      dplyr::select(
+        "sample" = "name",
+        "feature_name",
+        "feature_display",
+        "feature_value" = "value",
+        "feature_order",
+        "feature_class"
+      )
+  }
+}
+
+#' Query Features Range
+#'
+#' @param features A vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param feature_classes A vector of strings
+#' @param samples A vector of strings
+#' @param ... Arguments to create_result_from_api_query
+#' @export
+#' @importFrom magrittr %>%
+query_features_range <- function(
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  features = NA,
+  feature_classes = NA,
+  samples = NA,
+  ...
+){
+  create_result_from_api_query(
+    query_args = list(
+      dataSet = datasets,
+      related = parent_tags,
+      tag = tags,
+      feature = features,
+      featureClass = feature_classes,
+      sample = samples
+    ),
+    query_file = "features_range.txt",
+    default_tbl = dplyr::tibble(
+      "name" = character(),
+      "display" = character(),
+      "value_min" = double(),
+      "value_max" = double()
+    ),
+    select_cols = c(
+      "name",
+      "display",
+      "value_min" = "valueMin",
+      "value_max" = "valueMax"
+    ),
+    arrange_cols = "display",
+    ...
+  )
+}
