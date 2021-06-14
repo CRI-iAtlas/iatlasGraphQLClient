@@ -1,10 +1,34 @@
-query IOTargets($geneType: [String!], $entrez: [Int!]) {
-  genes(geneType: $geneType, entrez: $entrez){
-    entrez
-    hgnc
-    description
-    ioLandscapeName
-    pathway
-    therapyType
+query IOTargets(
+    $geneType: [String!]
+    $entrez: [Int!]
+    $paging: PagingInput
+  	$distinct: Boolean
+) {
+  genes(
+    geneType: $geneType
+    entrez: $entrez
+    paging: $paging
+    distinct: $distinct
+  ){
+    items{
+      entrez
+      hgnc
+      description
+      ioLandscapeName
+      pathway
+      therapyType
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

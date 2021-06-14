@@ -1,12 +1,14 @@
 query Genes(
-  $dataSet: [String!]
-  $entrez: [Int!]
-  $geneType: [String!]
-  $maxRnaSeqExpr: Float
-  $minRnaSeqExpr: Float
-  $related: [String!]
-  $sample: [String!]
-  $tag: [String!]
+    $dataSet: [String!]
+    $entrez: [Int!]
+    $geneType: [String!]
+    $maxRnaSeqExpr: Float
+    $minRnaSeqExpr: Float
+    $related: [String!]
+    $sample: [String!]
+    $tag: [String!]
+    $paging: PagingInput
+    $distinct: Boolean
 ) {
   genes(
     dataSet: $dataSet
@@ -17,17 +19,33 @@ query Genes(
     related: $related
     sample: $sample
     tag: $tag
+    paging: $paging
+    distinct: $distinct
   ){
-    entrez
-    hgnc
-    description
-    friendlyName
-    ioLandscapeName
-    geneFamily
-    geneFunction
-    immuneCheckpoint
-    pathway
-    superCategory
-    therapyType
+    items{
+      entrez
+      hgnc
+      description
+      friendlyName
+      ioLandscapeName
+      geneFamily
+      geneFunction
+      immuneCheckpoint
+      pathway
+      superCategory
+      therapyType
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

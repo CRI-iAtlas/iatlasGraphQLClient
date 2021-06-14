@@ -1,15 +1,39 @@
-query Immunomodulators($geneType: [String!], $entrez: [Int!]) {
-  genes(geneType: $geneType, entrez: $entrez){
-    entrez
-    hgnc
-    description
-    friendlyName
-    geneFamily
-    geneFunction
-    immuneCheckpoint
-    superCategory
-    publications{
-      pubmedId
+query Immunomodulators(
+    $geneType: [String!]
+    $entrez: [Int!]
+    $paging: PagingInput
+  	$distinct: Boolean
+) {
+  genes(
+    geneType: $geneType
+    entrez: $entrez
+    paging: $paging
+    distinct: $distinct
+  ){
+    items{
+      entrez
+      hgnc
+      description
+      friendlyName
+      geneFamily
+      geneFunction
+      immuneCheckpoint
+      superCategory
+      publications{
+        pubmedId
+      }
     }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }
