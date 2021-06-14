@@ -4,12 +4,14 @@
 \alias{query_immunomodulators}
 \title{Query Immunomodulators}
 \usage{
-query_immunomodulators(type = "immunomodulator", entrez = NA, ...)
+query_immunomodulators(type = "immunomodulator", entrez = NA, paging = NA, ...)
 }
 \arguments{
 \item{type}{A vector of strings}
 
 \item{entrez}{A vector of integers}
+
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

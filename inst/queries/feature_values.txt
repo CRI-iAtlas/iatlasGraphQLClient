@@ -7,6 +7,8 @@ query FeatureValues(
   $sample: [String!]
   $maxValue: Float
   $minValue: Float
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   features(
     dataSet: $dataSet
@@ -17,14 +19,30 @@ query FeatureValues(
     sample: $sample
     maxValue: $maxValue
     minValue: $minValue
+    paging: $paging
+    distinct: $distinct
   ){
-    name
-    display
-    order
-    class
-    samples {
+    items{
       name
-      value
+      display
+      order
+      class
+      samples {
+        name
+        value
+      }
     }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

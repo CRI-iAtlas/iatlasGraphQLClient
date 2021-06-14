@@ -13,6 +13,7 @@ query_feature_values(
   samples = NA,
   max_value = NA,
   min_value = NA,
+  paging = NA,
   ...
 )
 }
@@ -32,6 +33,8 @@ query_feature_values(
 \item{max_value}{A numeric}
 
 \item{min_value}{A numeric}
+
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

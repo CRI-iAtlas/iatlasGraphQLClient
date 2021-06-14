@@ -1,12 +1,14 @@
 query GeneExpression(
-  $dataSet: [String!]
-  $entrez: [Int!]
-  $geneType: [String!]
-  $maxRnaSeqExpr: Float
-  $minRnaSeqExpr: Float
-  $related: [String!]
-  $sample: [String!]
-  $tag: [String!]
+    $dataSet: [String!]
+    $entrez: [Int!]
+    $geneType: [String!]
+    $maxRnaSeqExpr: Float
+    $minRnaSeqExpr: Float
+    $related: [String!]
+    $sample: [String!]
+    $tag: [String!]
+    $paging: PagingInput
+    $distinct: Boolean
 ) {
   genes(
     dataSet: $dataSet
@@ -17,10 +19,26 @@ query GeneExpression(
     related: $related
     sample: $sample
     tag: $tag
+    paging: $paging
+    distinct: $distinct
   ){
-    entrez
-    hgnc
-    rnaSeqExprs
-    samples
+    items{
+      entrez
+      hgnc
+      rnaSeqExprs
+      samples
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

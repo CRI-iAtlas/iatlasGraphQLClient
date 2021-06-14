@@ -5,6 +5,8 @@ query FeaturesRange(
   $feature: [String!]
   $featureClass: [String!]
   $sample: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   features(
     dataSet: $dataSet
@@ -13,10 +15,26 @@ query FeaturesRange(
     feature: $feature
     featureClass: $featureClass
     sample: $sample
+    paging: $paging
+    distinct: $distinct
   ){
-    name
-    display
-    valueMax
-    valueMin
+    items{
+      name
+      display
+    	valueMax
+    	valueMin
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

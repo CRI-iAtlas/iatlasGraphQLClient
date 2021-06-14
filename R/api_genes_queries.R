@@ -9,6 +9,7 @@
 #' @param parent_tags A vector of strings
 #' @param samples A vector of strings
 #' @param tags A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
@@ -23,9 +24,10 @@ query_genes <- function(
   parent_tags = NA,
   samples = NA,
   tags = NA,
+  paging = NA,
   ...
 ){
-  create_result_from_api_query(
+  create_result_from_cursor_paginated_api_query(
     query_args = list(
       "dataSet" = datasets,
       "entrez" = entrez,
@@ -34,7 +36,9 @@ query_genes <- function(
       "minRnaSeqExpr" = min_rnaseq_expr,
       "related" = parent_tags,
       "sample" = samples,
-      "tag" = tags
+      "tag" = tags,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "genes.txt",
     default_tbl = dplyr::tibble(
@@ -70,6 +74,7 @@ query_genes <- function(
 #'
 #' @param type A vector of strings
 #' @param entrez A vector of integers
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
@@ -78,12 +83,15 @@ query_genes <- function(
 query_immunomodulators <- function(
   type = "immunomodulator",
   entrez = NA,
+  paging = NA,
   ...
 ){
-  create_result_from_api_query(
+  create_result_from_cursor_paginated_api_query(
     query_args = list(
-      geneType = type,
-      entrez = entrez
+      "geneType" = type,
+      "entrez" = entrez,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "immunomodulators.txt",
     default_tbl = dplyr::tibble(
@@ -117,12 +125,23 @@ query_immunomodulators <- function(
 #'
 #' @param gene_types A vector of strings
 #' @param entrez A vector of integers
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
-query_io_targets <- function(gene_types = "io_target", entrez = NA, ...){
-  create_result_from_api_query(
-    query_args = list(geneType = gene_types, entrez = entrez),
+query_io_targets <- function(
+  gene_types = "io_target",
+  entrez = NA,
+  paging = NA,
+  ...
+){
+  create_result_from_cursor_paginated_api_query(
+    query_args = list(
+      "geneType" = gene_types,
+      "entrez" = entrez,
+      "paging" = paging,
+      "distinct" = F
+    ),
     query_file = "io_targets.txt",
     default_tbl = dplyr::tibble(
       "entrez" = integer(),
@@ -156,6 +175,7 @@ query_io_targets <- function(gene_types = "io_target", entrez = NA, ...){
 #' @param parent_tags A vector of strings
 #' @param samples A vector of strings
 #' @param tags A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
@@ -170,9 +190,10 @@ query_gene_expression <- function(
   parent_tags = NA,
   samples = NA,
   tags = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_api_query(
+  create_result_from_cursor_paginated_api_query(
     query_args = list(
       "dataSet" = datasets,
       "entrez" = entrez,
@@ -181,7 +202,9 @@ query_gene_expression <- function(
       "minRnaSeqExpr" = min_rnaseq_expr,
       "related" = parent_tags,
       "sample" = samples,
-      "tag" = tags
+      "tag" = tags,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "gene_expression.txt",
     default_tbl = dplyr::tibble(
@@ -196,15 +219,4 @@ query_gene_expression <- function(
     unnest_cols = c("samples", "rnaSeqExprs"),
     ...
   )
-  # if(nrow(tbl) == 0) return(tbl)
-  # else {
-  #   tbl %>%
-  #     tidyr::unnest(cols = "samples", keep_empty = T) %>%
-  #     dplyr::select(
-  #       "sample" = "name",
-  #       "entrez",
-  #       "hgnc",
-  #       "rna_seq_expr" = "rnaSeqExpr"
-  #     )
-  # }
 }
