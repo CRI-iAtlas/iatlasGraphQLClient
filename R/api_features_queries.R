@@ -8,6 +8,7 @@
 #' @param samples A vector of strings
 #' @param max_value A numeric
 #' @param min_value A numeric
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
 query_features <- function(
@@ -19,18 +20,21 @@ query_features <- function(
   samples = NA,
   max_value = NA,
   min_value = NA,
+  paging = NA,
   ...
 ){
-  create_result_from_api_query(
+  create_result_from_cursor_paginated_api_query(
     query_args = list(
-      dataSet = datasets,
-      related = parent_tags,
-      tag = tags,
-      feature = features,
-      featureClass = feature_classes,
-      sample = samples,
-      maxValue = max_value,
-      minValue = min_value
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "feature" = features,
+      "featureClass" = feature_classes,
+      "sample" = samples,
+      "maxValue" = max_value,
+      "minValue" = min_value,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "features.txt",
     default_tbl = dplyr::tibble(
@@ -64,6 +68,7 @@ query_features <- function(
 #' @param samples A vector of strings
 #' @param max_value A numeric
 #' @param min_value A numeric
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
 #' @importFrom magrittr %>%
@@ -76,18 +81,21 @@ query_feature_values <- function(
   samples = NA,
   max_value = NA,
   min_value = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
-      dataSet = datasets,
-      related = parent_tags,
-      tag = tags,
-      feature = features,
-      featureClass = feature_classes,
-      sample = samples,
-      maxValue = max_value,
-      minValue = min_value
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "feature" = features,
+      "featureClass" = feature_classes,
+      "sample" = samples,
+      "maxValue" = max_value,
+      "minValue" = min_value,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "feature_values.txt",
     default_tbl = dplyr::tibble(
@@ -130,6 +138,7 @@ query_feature_values <- function(
 #' @param tags A vector of strings
 #' @param feature_classes A vector of strings
 #' @param samples A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
 #' @importFrom magrittr %>%
@@ -140,16 +149,19 @@ query_features_range <- function(
   features = NA,
   feature_classes = NA,
   samples = NA,
+  paging = NA,
   ...
 ){
-  create_result_from_api_query(
+  create_result_from_cursor_paginated_api_query(
     query_args = list(
-      dataSet = datasets,
-      related = parent_tags,
-      tag = tags,
-      feature = features,
-      featureClass = feature_classes,
-      sample = samples
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "feature" = features,
+      "featureClass" = feature_classes,
+      "sample" = samples,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "features_range.txt",
     default_tbl = dplyr::tibble(
