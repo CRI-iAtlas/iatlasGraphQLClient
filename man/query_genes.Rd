@@ -13,6 +13,7 @@ query_genes(
   parent_tags = NA,
   samples = NA,
   tags = NA,
+  paging = NA,
   ...
 )
 }
@@ -32,6 +33,8 @@ query_genes(
 \item{samples}{A vector of strings}
 
 \item{tags}{A vector of strings}
+
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

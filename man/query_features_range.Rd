@@ -11,6 +11,7 @@ query_features_range(
   features = NA,
   feature_classes = NA,
   samples = NA,
+  paging = NA,
   ...
 )
 }
@@ -26,6 +27,8 @@ query_features_range(
 \item{feature_classes}{A vector of strings}
 
 \item{samples}{A vector of strings}
+
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }

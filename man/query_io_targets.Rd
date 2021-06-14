@@ -4,12 +4,14 @@
 \alias{query_io_targets}
 \title{Query IO Targets}
 \usage{
-query_io_targets(gene_types = "io_target", entrez = NA, ...)
+query_io_targets(gene_types = "io_target", entrez = NA, paging = NA, ...)
 }
 \arguments{
 \item{gene_types}{A vector of strings}
 
 \item{entrez}{A vector of integers}
+
+\item{paging}{A named list}
 
 \item{...}{Arguments to create_result_from_api_query}
 }
