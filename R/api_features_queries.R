@@ -123,7 +123,6 @@ query_feature_values <- function(
 #' @param cohorts A vector of strings
 #' @param samples A vector of strings
 #' @param features A vector of strings
-#' @param tags A vector of strings
 #' @param feature_classes A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query

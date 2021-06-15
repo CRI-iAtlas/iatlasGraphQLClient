@@ -44,7 +44,7 @@ query_cohorts <- function(
 
 #' Query Cohorts
 #'
-#' @param name A string
+#' @param cohort A string
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
