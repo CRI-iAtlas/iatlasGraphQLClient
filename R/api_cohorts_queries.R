@@ -17,7 +17,7 @@ query_cohorts <- function(
 ){
   create_result_from_cursor_paginated_api_query(
     query_args = list(
-      "name" = cohorts,
+      "cohort" = cohorts,
       "dataSet" = datasets,
       "tag" = tags,
       "clinical" = clinical,
@@ -54,7 +54,7 @@ query_full_cohort <- function(
   ...
 ){
   query_args = list(
-    "name" = cohort,
+    "cohort" = cohort,
     "paging" = paging,
     "distinct" = F
   )

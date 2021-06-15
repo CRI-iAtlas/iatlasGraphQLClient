@@ -35,12 +35,12 @@ test_that("query_feature_values", {
   )
 
   result1 <- query_feature_values(
-    cohorts = "pcawg_immune_subtype",
+    cohorts = "PCAWG_Immune_Subtype",
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
   result2 <- query_feature_values(
-    cohorts = "pcawg_immune_subtype",
+    cohorts = "PCAWG_Immune_Subtype",
     features = "not_a_feature",
     query_dir = query_dir
   )
@@ -55,12 +55,12 @@ test_that("query_feature_values", {
 test_that("query_features_range", {
   expected_columns <- c("name", "display", "value_min", "value_max")
   result1 <- query_features_range(
-    cohorts = "pcawg_gender",
+    cohorts = "PCAWG_Gender",
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
   result2 <- query_features_range(
-    cohorts = "pcawg_gender",
+    cohorts = "PCAWG_Gender",
     features = "not_a_feature",
     query_dir = query_dir
   )

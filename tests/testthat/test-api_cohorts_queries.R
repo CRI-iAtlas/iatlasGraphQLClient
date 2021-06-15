@@ -9,14 +9,6 @@ test_that("query_cohorts", {
     "clinical"
   )
 
-  result1 <- query_cohorts(
-    cohort = "tcga_immune_subtype",
-    query_dir = query_dir
-  )
-
-  expect_named(result1, expected_columns1)
-  expect_equal(nrow(result1), 1)
-
   expected_columns2 <- c(
     "name",
     "dataset_name",
@@ -24,26 +16,37 @@ test_that("query_cohorts", {
     "clinical"
   )
 
+  result1 <- query_cohorts(
+    cohort = "TCGA_Immune_Subtype",
+    query_dir = query_dir
+  )
+
+  expect_named(result1, expected_columns1)
+  expect_equal(nrow(result1), 1)
+
   result2 <- query_cohorts(
-    cohort = "pcawg_gender",
+    cohort = "TCGA_Gender",
     query_dir = query_dir
   )
 
   expect_named(result2, expected_columns2)
   expect_equal(nrow(result2), 1)
 
-  expected_columns3 <- c(
-    "name",
-    "clinical"
+  result3 <- query_cohorts(
+    cohort = "TCGA",
+    query_dir = query_dir
   )
 
-  result3 <- query_cohorts(
+  expect_named(result3, expected_columns2)
+  expect_equal(nrow(result3), 1)
+
+  result4 <- query_cohorts(
     cohort = "not_a_cohort",
     query_dir = query_dir
   )
 
-  expect_named(result3, expected_columns3)
-  expect_equal(nrow(result3), 0)
+  expect_named(result4, c('name', 'clinical'))
+  expect_equal(nrow(result4), 0)
 })
 
 test_that("query_full_cohort", {
@@ -71,7 +74,7 @@ test_that("query_full_cohort", {
   expected_tag_names <- c("long_display", "name", "short_display")
 
   result1 <- query_full_cohort(
-    cohort = "pcawg_immune_subtype",
+    cohort = "PCAWG_Immune_Subtype",
     query_dir = query_dir
   )
   expect_named(result1, expected_names)
@@ -83,7 +86,7 @@ test_that("query_full_cohort", {
 
 
   result2 <- query_full_cohort(
-    cohort = "pcawg_gender",
+    cohort = "PCAWG_Gender",
     query_dir = query_dir
   )
   expect_named(result2, expected_names)
