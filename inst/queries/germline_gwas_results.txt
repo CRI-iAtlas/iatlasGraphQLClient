@@ -24,8 +24,8 @@ query GermlineGwasResults(
       feature{
         name
         display
-        germline_module
-        germline_category
+        germlineModule
+        germlineCategory
       }
       snp{
         name
