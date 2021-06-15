@@ -1,23 +1,19 @@
 #' Query Features
 #'
-#' @param features A vector of strings
-#' @param datasets A vector of strings
-#' @param parent_tags A vector of strings
-#' @param tags A vector of strings
-#' @param feature_classes A vector of strings
+#' @param cohorts A vector of strings
 #' @param samples A vector of strings
+#' @param features A vector of strings
+#' @param feature_classes A vector of strings
 #' @param max_value A numeric
 #' @param min_value A numeric
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
 query_features <- function(
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
+  cohorts = NA,
+  samples = NA,
   features = NA,
   feature_classes = NA,
-  samples = NA,
   max_value = NA,
   min_value = NA,
   paging = NA,
@@ -25,12 +21,10 @@ query_features <- function(
 ){
   create_result_from_cursor_paginated_api_query(
     query_args = list(
-      "dataSet" = datasets,
-      "related" = parent_tags,
-      "tag" = tags,
+      "cohort" = cohorts,
+      "sample" = samples,
       "feature" = features,
       "featureClass" = feature_classes,
-      "sample" = samples,
       "maxValue" = max_value,
       "minValue" = min_value,
       "paging" = paging,
@@ -60,12 +54,10 @@ query_features <- function(
 
 #' Query Feature Values
 #'
-#' @param features A vector of strings
-#' @param datasets A vector of strings
-#' @param parent_tags A vector of strings
-#' @param tags A vector of strings
-#' @param feature_classes A vector of strings
+#' @param cohorts A vector of strings
 #' @param samples A vector of strings
+#' @param features A vector of strings
+#' @param feature_classes A vector of strings
 #' @param max_value A numeric
 #' @param min_value A numeric
 #' @param paging A named list
@@ -73,12 +65,10 @@ query_features <- function(
 #' @export
 #' @importFrom magrittr %>%
 query_feature_values <- function(
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
+  cohorts = NA,
+  samples = NA,
   features = NA,
   feature_classes = NA,
-  samples = NA,
   max_value = NA,
   min_value = NA,
   paging = NA,
@@ -86,12 +76,10 @@ query_feature_values <- function(
 ){
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
-      "dataSet" = datasets,
-      "related" = parent_tags,
-      "tag" = tags,
+      "cohort" = cohorts,
+      "sample" = samples,
       "feature" = features,
       "featureClass" = feature_classes,
-      "sample" = samples,
       "maxValue" = max_value,
       "minValue" = min_value,
       "paging" = paging,
@@ -132,34 +120,29 @@ query_feature_values <- function(
 
 #' Query Features Range
 #'
+#' @param cohorts A vector of strings
+#' @param samples A vector of strings
 #' @param features A vector of strings
-#' @param datasets A vector of strings
-#' @param parent_tags A vector of strings
 #' @param tags A vector of strings
 #' @param feature_classes A vector of strings
-#' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
 #' @importFrom magrittr %>%
 query_features_range <- function(
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
+  cohorts = NA,
+  samples = NA,
   features = NA,
   feature_classes = NA,
-  samples = NA,
   paging = NA,
   ...
 ){
   create_result_from_cursor_paginated_api_query(
     query_args = list(
-      "dataSet" = datasets,
-      "related" = parent_tags,
-      "tag" = tags,
+      "cohort" = cohorts,
+      "sample" = samples,
       "feature" = features,
       "featureClass" = feature_classes,
-      "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
