@@ -1,20 +1,16 @@
 query FeaturesRange(
-  $dataSet: [String!]
-  $related: [String!]
-  $tag: [String!]
+  $cohort: [String!]
+  $sample: [String!]
   $feature: [String!]
   $featureClass: [String!]
-  $sample: [String!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
   features(
-    dataSet: $dataSet
-    related: $related
-    tag: $tag
+    cohort: $cohort
+    sample: $sample
     feature: $feature
     featureClass: $featureClass
-    sample: $sample
     paging: $paging
     distinct: $distinct
   ){

@@ -15,7 +15,7 @@ test_that("query_genes", {
   result2 <- query_genes(entrez = -1, query_dir = query_dir)
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
-  expect_true(nrow(result1) > 0)
+  expect_equal(nrow(result1), 1)
   expect_equal(nrow(result2), 0)
 })
 

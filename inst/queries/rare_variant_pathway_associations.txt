@@ -24,8 +24,8 @@ query RareVariantPathwayAssociation(
       feature {
         name
         display
-        germline_module
-        germline_category
+        germlineModule
+        germlineCategory
       }
       pathway
       pValue

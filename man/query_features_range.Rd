@@ -5,28 +5,22 @@
 \title{Query Features Range}
 \usage{
 query_features_range(
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
+  cohorts = NA,
+  samples = NA,
   features = NA,
   feature_classes = NA,
-  samples = NA,
   paging = NA,
   ...
 )
 }
 \arguments{
-\item{datasets}{A vector of strings}
+\item{cohorts}{A vector of strings}
 
-\item{parent_tags}{A vector of strings}
-
-\item{tags}{A vector of strings}
+\item{samples}{A vector of strings}
 
 \item{features}{A vector of strings}
 
 \item{feature_classes}{A vector of strings}
-
-\item{samples}{A vector of strings}
 
 \item{paging}{A named list}
 
