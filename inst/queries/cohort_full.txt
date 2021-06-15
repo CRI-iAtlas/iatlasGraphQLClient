@@ -1,10 +1,10 @@
 query Cohorts(
-    $name: [String!]
+    $cohort: [String!]
     $paging: PagingInput
   	$distinct: Boolean
 ) {
   cohorts(
-    name: $name
+    cohort: $cohort
     paging: $paging
     distinct: $distinct
   ){

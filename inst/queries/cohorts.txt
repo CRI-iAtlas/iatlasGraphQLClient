@@ -1,5 +1,5 @@
 query Cohorts(
-    $name: [String!]
+    $cohort: [String!]
     $dataSet: [String!]
     $tag: [String!]
     $clinical: [String!]
@@ -7,7 +7,7 @@ query Cohorts(
   	$distinct: Boolean
 ) {
   cohorts(
-    name: $name
+    cohort: $cohort
     dataSet: $dataSet
     tag: $tag
     clinical: $clinical
