@@ -9,14 +9,10 @@ test_that("query_features", {
   )
 
   result1 <- query_features(
-    datasets = "PCAWG",
-    parent_tags = "Immune_Subtype",
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
   result2 <- query_features(
-    datasets = "PCAWG",
-    parent_tags ="Immune_Subtype",
     features = "not_a_feature",
     query_dir = query_dir
   )
@@ -24,7 +20,7 @@ test_that("query_features", {
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
 
-  expect_true(nrow(result1) > 0)
+  expect_equal(nrow(result1), 1)
   expect_equal(nrow(result2), 0)
 })
 

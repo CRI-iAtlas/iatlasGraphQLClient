@@ -1,0 +1,54 @@
+query Cohorts(
+    $name: [String!]
+    $paging: PagingInput
+  	$distinct: Boolean
+) {
+  cohorts(
+    name: $name
+    paging: $paging
+    distinct: $distinct
+  ){
+    items{
+      name
+      dataSet{
+        name
+        display
+      }
+      tag {
+        name
+        shortDisplay
+        longDisplay
+      }
+      clinical
+      samples{
+        name
+        clinical_value
+        tag {
+          name
+          shortDisplay
+          longDisplay
+        }
+      }
+      features {
+        name
+        display
+      }
+      genes {
+        hgnc
+        entrez
+      }
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
+  }
+}
