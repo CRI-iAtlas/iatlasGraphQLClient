@@ -23,6 +23,8 @@ query CohortSamples(
           name
           shortDisplay
           longDisplay
+          color
+          characteristics
         }
       }
     }
