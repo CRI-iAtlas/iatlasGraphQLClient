@@ -1,18 +1,17 @@
 Package: iatlas.api.client
+Title: iAatlas API Client
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.16.1
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Version: 0.16.2
+Author: Andrew Lamb
+Maintainer: Andrew Lamb <Andrew.Lamb@sagebase.org>
+Description: This package is am R Client library for the iAtlas API.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests:
-  devtools,
-  testthat (>= 3.0),
-  usethis
+    devtools,
+    testthat (>= 3.0),
+    usethis
 RoxygenNote: 7.1.1
 Config/testthat/edition: 3
 Imports:
@@ -22,6 +21,7 @@ Imports:
     magrittr (>= 2.0),
     purrr (>= 0.3),
     rlang (>= 0.4),
+    snakecase,
     stringr (>= 1.0),
     tidyr (>= 1.1)
 URL: https://github.com/CRI-iAtlas/iatlas.api.client

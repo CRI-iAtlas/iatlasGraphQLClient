@@ -1,0 +1,40 @@
+query CohortMutations(
+    $cohort: [String!]
+    $dataSet: [String!]
+    $tag: [String!]
+    $clinical: [String!]
+    $paging: PagingInput
+  	$distinct: Boolean
+) {
+  cohorts(
+    cohort: $cohort
+    dataSet: $dataSet
+    tag: $tag
+    clinical: $clinical
+    paging: $paging
+    distinct: $distinct
+  ){
+    items{
+      name
+      mutations {
+        mutationCode
+        gene {
+          entrez
+          hgnc
+        }
+      }
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+    }
+    error
+  }
+}
