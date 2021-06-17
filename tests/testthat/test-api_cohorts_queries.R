@@ -181,6 +181,8 @@ test_that("query_cohort_samples", {
     "cohort_name",
     "sample_name",
     "sample_clinical_value",
+    'tag_characteristics',
+    'tag_color',
     "tag_long_display",
     "tag_name",
     "tag_short_display"
