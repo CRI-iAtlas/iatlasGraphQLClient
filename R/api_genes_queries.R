@@ -1,14 +1,12 @@
 
 #' Query Genes
 #'
-#' @param datasets A vector of integers
+#' @param cohorts A vector of strings
+#' @param samples A vector of strings
 #' @param entrez A vector of integers
 #' @param gene_types A vector of strings
 #' @param max_rnaseq_expr A double
 #' @param min_rnaseq_expr A double
-#' @param parent_tags A vector of strings
-#' @param samples A vector of strings
-#' @param tags A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
@@ -16,27 +14,23 @@
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 query_genes <- function(
-  datasets = NA,
+  cohorts = NA,
+  samples = NA,
   entrez = NA,
   gene_types = NA,
   max_rnaseq_expr = NA,
   min_rnaseq_expr = NA,
-  parent_tags = NA,
-  samples = NA,
-  tags = NA,
   paging = NA,
   ...
 ){
   create_result_from_cursor_paginated_api_query(
     query_args = list(
-      "dataSet" = datasets,
+      "cohort" = cohorts,
+      "sample" = samples,
       "entrez" = entrez,
       "geneType" = gene_types,
       "maxRnaSeqExpr" = max_rnaseq_expr,
       "minRnaSeqExpr" = min_rnaseq_expr,
-      "related" = parent_tags,
-      "sample" = samples,
-      "tag" = tags,
       "paging" = paging,
       "distinct" = F
     ),
@@ -167,14 +161,12 @@ query_io_targets <- function(
 
 #' Query Gene Expression
 #'
-#' @param datasets A vector of integers
+#' @param cohorts A vector of strings
+#' @param samples A vector of strings
 #' @param entrez A vector of integers
 #' @param gene_types A vector of strings
 #' @param max_rnaseq_expr A double
 #' @param min_rnaseq_expr A double
-#' @param parent_tags A vector of strings
-#' @param samples A vector of strings
-#' @param tags A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
@@ -182,27 +174,23 @@ query_io_targets <- function(
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 query_gene_expression <- function(
-  datasets = NA,
+  cohorts = NA,
+  samples = NA,
   entrez = NA,
   gene_types = NA,
   max_rnaseq_expr = NA,
   min_rnaseq_expr = NA,
-  parent_tags = NA,
-  samples = NA,
-  tags = NA,
   paging = NA,
   ...
 ){
-  create_result_from_cursor_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args = list(
-      "dataSet" = datasets,
+      "cohort" = cohorts,
+      "sample" = samples,
       "entrez" = entrez,
       "geneType" = gene_types,
       "maxRnaSeqExpr" = max_rnaseq_expr,
       "minRnaSeqExpr" = min_rnaseq_expr,
-      "related" = parent_tags,
-      "sample" = samples,
-      "tag" = tags,
       "paging" = paging,
       "distinct" = F
     ),
@@ -214,9 +202,21 @@ query_gene_expression <- function(
       "rna_seq_expr" = double()
     ),
     select_cols = c(
-      "sample" = "samples", "entrez", "hgnc", "rna_seq_expr" = "rnaSeqExprs"
+      "samples",
+      "entrez",
+      "hgnc"
     ),
-    unnest_cols = c("samples", "rnaSeqExprs"),
     ...
   )
+  if(nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "samples", keep_empty = T) %>%
+      dplyr::select(
+        "sample" = "name",
+        "entrez",
+        "hgnc",
+        "rna_seq_expr" = "rnaSeqExpr"
+      )
+  }
 }

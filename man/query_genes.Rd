@@ -5,20 +5,20 @@
 \title{Query Genes}
 \usage{
 query_genes(
-  datasets = NA,
+  cohorts = NA,
+  samples = NA,
   entrez = NA,
   gene_types = NA,
   max_rnaseq_expr = NA,
   min_rnaseq_expr = NA,
-  parent_tags = NA,
-  samples = NA,
-  tags = NA,
   paging = NA,
   ...
 )
 }
 \arguments{
-\item{datasets}{A vector of integers}
+\item{cohorts}{A vector of strings}
+
+\item{samples}{A vector of strings}
 
 \item{entrez}{A vector of integers}
 
@@ -27,12 +27,6 @@ query_genes(
 \item{max_rnaseq_expr}{A double}
 
 \item{min_rnaseq_expr}{A double}
-
-\item{parent_tags}{A vector of strings}
-
-\item{samples}{A vector of strings}
-
-\item{tags}{A vector of strings}
 
 \item{paging}{A named list}
 
