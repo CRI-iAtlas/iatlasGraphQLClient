@@ -8,37 +8,39 @@ query FeatureValues(
   $paging: PagingInput
   $distinct: Boolean
 ) {
-  features(
+  featureValues(
     cohort: $cohort
-    sample: $sample
     feature: $feature
     featureClass: $featureClass
+    sample: $sample
     maxValue: $maxValue
     minValue: $minValue
     paging: $paging
     distinct: $distinct
   ){
     items{
-      name
-      display
-      order
-      class
-      samples {
+      value
+      sample {
         name
-        value
+      }
+      feature {
+        name
+        display
+        class
+        order
       }
     }
     paging {
       type
       pages
       total
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
       page
       limit
-      }
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
     error
   }
 }
