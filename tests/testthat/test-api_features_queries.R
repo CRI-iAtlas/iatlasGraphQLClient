@@ -26,10 +26,10 @@ test_that("query_features", {
 
 test_that("query_feature_values", {
   expected_columns <- c(
-    "value",
-    "sample_name",
+    "sample",
     "feature_name",
     "feature_display",
+    "feature_value",
     "feature_order",
     "feature_class"
   )

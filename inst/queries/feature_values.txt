@@ -8,7 +8,7 @@ query FeatureValues(
   $paging: PagingInput
   $distinct: Boolean
 ) {
-  featureValues(
+  features(
     cohort: $cohort
     feature: $feature
     featureClass: $featureClass
@@ -19,15 +19,13 @@ query FeatureValues(
     distinct: $distinct
   ){
     items{
-      value
-      sample {
+      name
+      display
+    	class
+      order
+      samples{
         name
-      }
-      feature {
-        name
-        display
-        class
-        order
+        value
       }
     }
     paging {
