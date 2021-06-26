@@ -1,26 +1,22 @@
 query Mutations(
-  $dataSet: [String!]
+  $cohort: [String!]
   $entrez: [Int!]
   $mutationCode: [String!]
   $mutationId: [Int!]
   $mutationType: [String!]
-  $related: [String!]
   $sample: [String!]
   $status: [StatusEnum!]
-  $tag: [String!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
   mutations(
-    dataSet: $dataSet
+    cohort:$cohort
     entrez: $entrez
     mutationCode: $mutationCode
     mutationId: $mutationId
     mutationType: $mutationType
-    related: $related
     sample: $sample
     status: $status
-    tag: $tag
     paging: $paging
     distinct: $distinct
   ){

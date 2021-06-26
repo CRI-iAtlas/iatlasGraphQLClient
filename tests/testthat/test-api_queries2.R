@@ -1,33 +1,4 @@
 
-# mutations by samples --------------------------------------------------------
-
-test_that("mutations_by_sample", {
-  expected_columns <-  c(
-    "sample",
-    "mutation_id",
-    "entrez",
-    "hgnc",
-    "code",
-    "mutation_type_name",
-    "mutation_type_display",
-    "status",
-    "mutation_name"
-
-  )
-  result1 <- query_mutations_by_sample(
-    "samples"= c("TCGA-D1-A17U", "TCGA-ZX-AA5X"),
-    "entrez" = 25,
-    query_dir = query_dir
-  )
-  result2 <- query_mutations_by_sample(
-    "samples"= "not_a_sample", query_dir = query_dir
-  )
-  expect_named(result1, expected_columns)
-  expect_named(result2, expected_columns)
-  expect_true(nrow(result1) > 0)
-  expect_equal(nrow(result2), 0)
-})
-
 # patients --------------------------------------------------------------------
 
 test_that("query_patients", {
@@ -108,28 +79,6 @@ test_that("query_sample_patients", {
   expect_named(result2, expected_columns)
   expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
-})
-
-# samples by mutation status --------------------------------------------------
-
-test_that("query_samples_by_mutation_status", {
-  expected_names <- c("sample", "status")
-  result1 <- query_samples_by_mutation_status(
-    samples = "TCGA-2Z-A9J8", query_dir = query_dir)
-  expect_named(result1, expected_names)
-  expect_true(nrow(result1) > 0)
-
-  result2 <- query_samples_by_mutation_status(
-    samples = "TCGA-2Z-A9J8", mutation_ids = 777, query_dir = query_dir
-  )
-  expect_named(result2, expected_names)
-  expect_true(nrow(result2) > 0)
-
-  result3 <- query_samples_by_mutation_status(
-    samples = "not_a_sample", query_dir = query_dir
-  )
-  expect_named(result3, expected_names)
-  expect_equal(nrow(result3),  0)
 })
 
 # slides ----------------------------------------------------------------------
