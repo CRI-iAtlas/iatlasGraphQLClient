@@ -2,7 +2,6 @@ query CohortSamples(
     $cohort: [String!]
     $dataSet: [String!]
     $tag: [String!]
-    $clinical: [String!]
     $paging: PagingInput
   	$distinct: Boolean
 ) {
@@ -10,7 +9,6 @@ query CohortSamples(
     cohort: $cohort
     dataSet: $dataSet
     tag: $tag
-    clinical: $clinical
     paging: $paging
     distinct: $distinct
   ){
@@ -18,7 +16,6 @@ query CohortSamples(
       name
       samples{
         name
-        clinical_value
         tag {
           name
           shortDisplay

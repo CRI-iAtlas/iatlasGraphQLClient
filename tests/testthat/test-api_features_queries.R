@@ -39,16 +39,15 @@ test_that("query_feature_values", {
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 0)
+
   result2 <- query_feature_values(
     cohorts = "PCAWG_Immune_Subtype",
     features = "not_a_feature",
     query_dir = query_dir
   )
-
-  expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
-
-  expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
 })
 
@@ -59,14 +58,15 @@ test_that("query_features_range", {
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 0)
+  expect_true(result1$value_min <= result1$value_max)
+
   result2 <- query_features_range(
     cohorts = "PCAWG_Gender",
     features = "not_a_feature",
     query_dir = query_dir
   )
-  expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
-
-  expect_true(nrow(result1) > 0)
   expect_equal(nrow(result2), 0)
 })

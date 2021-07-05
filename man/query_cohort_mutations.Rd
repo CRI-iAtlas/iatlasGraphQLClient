@@ -8,7 +8,6 @@ query_cohort_mutations(
   cohorts = NA,
   datasets = NA,
   tags = NA,
-  clinical = NA,
   paging = NA,
   ...
 )
@@ -19,8 +18,6 @@ query_cohort_mutations(
 \item{datasets}{A vector of strings}
 
 \item{tags}{A vector of strings}
-
-\item{clinical}{A vector of strings}
 
 \item{paging}{A named list}
 

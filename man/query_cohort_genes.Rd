@@ -4,14 +4,7 @@
 \alias{query_cohort_genes}
 \title{Query Cohort Genes}
 \usage{
-query_cohort_genes(
-  cohorts = NA,
-  datasets = NA,
-  tags = NA,
-  clinical = NA,
-  paging = NA,
-  ...
-)
+query_cohort_genes(cohorts = NA, datasets = NA, tags = NA, paging = NA, ...)
 }
 \arguments{
 \item{cohorts}{A vector of strings}
@@ -19,8 +12,6 @@ query_cohort_genes(
 \item{datasets}{A vector of strings}
 
 \item{tags}{A vector of strings}
-
-\item{clinical}{A vector of strings}
 
 \item{paging}{A named list}
 

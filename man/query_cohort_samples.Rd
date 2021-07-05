@@ -4,14 +4,7 @@
 \alias{query_cohort_samples}
 \title{Query Cohort Samples}
 \usage{
-query_cohort_samples(
-  cohorts = NA,
-  datasets = NA,
-  tags = NA,
-  clinical = NA,
-  paging = NA,
-  ...
-)
+query_cohort_samples(cohorts = NA, datasets = NA, tags = NA, paging = NA, ...)
 }
 \arguments{
 \item{cohorts}{A vector of strings}
@@ -19,8 +12,6 @@ query_cohort_samples(
 \item{datasets}{A vector of strings}
 
 \item{tags}{A vector of strings}
-
-\item{clinical}{A vector of strings}
 
 \item{paging}{A named list}
 

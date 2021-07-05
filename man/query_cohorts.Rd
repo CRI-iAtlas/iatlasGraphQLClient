@@ -4,14 +4,7 @@
 \alias{query_cohorts}
 \title{Query Cohorts}
 \usage{
-query_cohorts(
-  cohorts = NA,
-  datasets = NA,
-  tags = NA,
-  clinical = NA,
-  paging = NA,
-  ...
-)
+query_cohorts(cohorts = NA, datasets = NA, tags = NA, paging = NA, ...)
 }
 \arguments{
 \item{cohorts}{A vector of strings}
@@ -19,8 +12,6 @@ query_cohorts(
 \item{datasets}{A vector of strings}
 
 \item{tags}{A vector of strings}
-
-\item{clinical}{A vector of strings}
 
 \item{paging}{A named list}
 
