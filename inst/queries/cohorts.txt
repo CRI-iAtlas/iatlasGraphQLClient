@@ -2,7 +2,6 @@ query Cohorts(
     $cohort: [String!]
     $dataSet: [String!]
     $tag: [String!]
-    $clinical: [String!]
     $paging: PagingInput
   	$distinct: Boolean
 ) {
@@ -10,7 +9,6 @@ query Cohorts(
     cohort: $cohort
     dataSet: $dataSet
     tag: $tag
-    clinical: $clinical
     paging: $paging
     distinct: $distinct
   ){
@@ -25,7 +23,6 @@ query Cohorts(
         shortDisplay
         longDisplay
       }
-      clinical
     }
     paging {
       type

@@ -5,15 +5,13 @@ test_that("query_cohorts", {
     "dataset_display",
     "tag_name",
     "tag_long_display",
-    "tag_short_display",
-    "clinical"
+    "tag_short_display"
   )
 
   expected_columns2 <- c(
     "name",
     "dataset_name",
-    "dataset_display",
-    "clinical"
+    "dataset_display"
   )
 
   result1 <- query_cohorts(
@@ -29,7 +27,7 @@ test_that("query_cohorts", {
     query_dir = query_dir
   )
 
-  expect_named(result2, expected_columns2)
+  expect_named(result2, expected_columns1)
   expect_equal(nrow(result2), 1)
 
   result3 <- query_cohorts(
@@ -45,7 +43,7 @@ test_that("query_cohorts", {
     query_dir = query_dir
   )
 
-  expect_named(result4, c('name', 'clinical'))
+  expect_named(result4, c('name'))
   expect_equal(nrow(result4), 0)
 })
 
@@ -180,7 +178,6 @@ test_that("query_cohort_samples", {
   expected_columns1 <- c(
     "cohort_name",
     "sample_name",
-    "sample_clinical_value",
     'tag_characteristics',
     'tag_color',
     "tag_long_display",
@@ -191,7 +188,6 @@ test_that("query_cohort_samples", {
   expected_columns2 <- c(
     "cohort_name",
     "sample_name",
-    "sample_clinical_value",
     "tag_name"
   )
 
@@ -208,7 +204,7 @@ test_that("query_cohort_samples", {
     query_dir = query_dir
   )
 
-  expect_named(result2, expected_columns2)
+  expect_named(result2, expected_columns1)
   expect_true(nrow(result2) > 1)
 
   result3 <- query_cohort_samples(

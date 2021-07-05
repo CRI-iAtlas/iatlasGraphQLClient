@@ -3,7 +3,6 @@
 #' @param cohorts A vector of strings
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
-#' @param clinical A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
@@ -11,7 +10,6 @@ query_cohorts <- function(
   cohorts = NA,
   datasets = NA,
   tags = NA,
-  clinical = NA,
   paging = NA,
   ...
 ){
@@ -20,14 +18,12 @@ query_cohorts <- function(
       "cohort" = cohorts,
       "dataSet" = datasets,
       "tag" = tags,
-      "clinical" = clinical,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "cohorts.txt",
     default_tbl = dplyr::tibble(
       "name" = character(),
-      "clinical" = character()
     ),
     select_cols = c(
       "name",
@@ -35,8 +31,7 @@ query_cohorts <- function(
       "dataset_display" = "dataSet.display",
       "tag_name" = "tag.name",
       "tag_long_display" = "tag.longDisplay",
-      "tag_short_display" = "tag.shortDisplay",
-      "clinical"
+      "tag_short_display" = "tag.shortDisplay"
     ),
     arrange_cols = "name",
   )
@@ -47,7 +42,6 @@ query_cohorts <- function(
 #' @param cohorts A vector of strings
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
-#' @param clinical A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
@@ -55,7 +49,6 @@ query_cohort_features <- function(
   cohorts = NA,
   datasets = NA,
   tags = NA,
-  clinical = NA,
   paging = NA,
   ...
 ){
@@ -64,7 +57,6 @@ query_cohort_features <- function(
       "cohort" = cohorts,
       "dataSet" = datasets,
       "tag" = tags,
-      "clinical" = clinical,
       "paging" = paging,
       "distinct" = F
     ),
@@ -98,7 +90,6 @@ query_cohort_features <- function(
 #' @param cohorts A vector of strings
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
-#' @param clinical A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
@@ -106,7 +97,6 @@ query_cohort_genes <- function(
   cohorts = NA,
   datasets = NA,
   tags = NA,
-  clinical = NA,
   paging = NA,
   ...
 ){
@@ -115,7 +105,6 @@ query_cohort_genes <- function(
       "cohort" = cohorts,
       "dataSet" = datasets,
       "tag" = tags,
-      "clinical" = clinical,
       "paging" = paging,
       "distinct" = F
     ),
@@ -149,7 +138,6 @@ query_cohort_genes <- function(
 #' @param cohorts A vector of strings
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
-#' @param clinical A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
@@ -157,7 +145,6 @@ query_cohort_mutations <- function(
   cohorts = NA,
   datasets = NA,
   tags = NA,
-  clinical = NA,
   paging = NA,
   ...
 ){
@@ -166,7 +153,6 @@ query_cohort_mutations <- function(
       "cohort" = cohorts,
       "dataSet" = datasets,
       "tag" = tags,
-      "clinical" = clinical,
       "paging" = paging,
       "distinct" = F
     ),
@@ -206,7 +192,6 @@ query_cohort_mutations <- function(
 #' @param cohorts A vector of strings
 #' @param datasets A vector of strings
 #' @param tags A vector of strings
-#' @param clinical A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #' @export
@@ -214,7 +199,6 @@ query_cohort_samples <- function(
   cohorts = NA,
   datasets = NA,
   tags = NA,
-  clinical = NA,
   paging = NA,
   ...
 ){
@@ -223,7 +207,6 @@ query_cohort_samples <- function(
       "cohort" = cohorts,
       "dataSet" = datasets,
       "tag" = tags,
-      "clinical" = clinical,
       "paging" = paging,
       "distinct" = F
     ),
@@ -231,7 +214,6 @@ query_cohort_samples <- function(
     default_tbl = dplyr::tibble(
       "cohort_name" = character(),
       "sample_name" = character(),
-      "sample_clinical_value" = character(),
       "tag_name" = character()
     ),
     select_cols = c(
@@ -247,7 +229,6 @@ query_cohort_samples <- function(
       dplyr::select(
         "cohort_name",
         "sample_name" = "name",
-        "sample_clinical_value" = "clinical_value",
         "tag"
       )
     if(typeof(tbl$tag) == "list"){
