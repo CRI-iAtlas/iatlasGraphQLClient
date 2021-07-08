@@ -5,6 +5,8 @@
 \title{Query Tags With Parent Tags}
 \usage{
 query_tags_with_parent_tags(
+  cohorts = NA,
+  samples = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
@@ -13,6 +15,10 @@ query_tags_with_parent_tags(
 )
 }
 \arguments{
+\item{cohorts}{a vector of strings}
+
+\item{samples}{A vector of strings}
+
 \item{datasets}{A vector of strings}
 
 \item{parent_tags}{A vector of strings}
