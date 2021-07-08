@@ -1,25 +1,42 @@
 query TagSamples(
-  $dataSet: [String!]!
-  $related: [String!]!
+  $cohort: [String!]
+  $dataSet: [String!]
+  $related: [String!]
   $tag: [String!]
-  $feature: [String!]
-  $featureClass: [String!]
   $sample: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   tags(
+    cohort: $cohort
     dataSet: $dataSet
     related: $related
     tag: $tag
-    feature: $feature
-    featureClass: $featureClass
     sample: $sample
+    paging: $paging
+    distinct: $distinct
   ){
-    characteristics
-    longDisplay
-    shortDisplay
-    color
-    name
-    sampleCount
-    samples
+    items{
+      characteristics
+      longDisplay
+      shortDisplay
+      color
+      name
+      samples {
+        name
+      }
+    }
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
   }
 }

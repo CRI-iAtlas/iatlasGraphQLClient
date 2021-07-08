@@ -1,23 +1,28 @@
-query Tags(
+query TagSampleCount(
+  $cohort: [String!]
   $dataSet: [String!]
   $related: [String!]
   $tag: [String!]
+  $sample: [String!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
   tags(
+    cohort: $cohort
     dataSet: $dataSet
     related: $related
     tag: $tag
+    sample: $sample
     paging: $paging
     distinct: $distinct
   ){
     items{
       characteristics
-      color
       longDisplay
       shortDisplay
+      color
       name
+      sampleCount
     }
     paging{
       type
