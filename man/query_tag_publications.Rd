@@ -5,19 +5,25 @@
 \title{Query Tag Publications}
 \usage{
 query_tag_publications(
-  tags = NA,
-  parent_tags = NA,
+  cohorts = NA,
+  samples = NA,
   datasets = NA,
+  parent_tags = NA,
+  tags = NA,
   paging = NA,
   ...
 )
 }
 \arguments{
-\item{tags}{A vector of strings}
+\item{cohorts}{a vector of strings}
+
+\item{samples}{A vector of strings}
+
+\item{datasets}{A vector of strings}
 
 \item{parent_tags}{A vector of strings}
 
-\item{datasets}{A vector of strings}
+\item{tags}{A vector of strings}
 
 \item{paging}{A named list}
 

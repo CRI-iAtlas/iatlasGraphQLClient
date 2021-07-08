@@ -2,8 +2,8 @@ query TagSampleCount(
   $cohort: [String!]
   $dataSet: [String!]
   $related: [String!]
-  $tag: [String!]
   $sample: [String!]
+  $tag: [String!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
@@ -11,8 +11,8 @@ query TagSampleCount(
     cohort: $cohort
     dataSet: $dataSet
     related: $related
-    tag: $tag
     sample: $sample
+    tag: $tag
     paging: $paging
     distinct: $distinct
   ){

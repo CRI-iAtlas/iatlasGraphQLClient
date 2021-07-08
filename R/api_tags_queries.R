@@ -1,25 +1,31 @@
 #' Query Tags
 #'
+#' @param cohorts a vector of strings
+#' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
-#' @param datasets A vector of strings
+#' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
 query_tags <- function(
-  tags = NA,
-  parent_tags = NA,
+  cohorts = NA,
+  samples = NA,
   datasets = NA,
+  parent_tags = NA,
+  tags = NA,
   paging = NA,
   ...
 ){
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
+      "cohort" = cohorts,
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
@@ -164,26 +170,32 @@ query_tag_sample_count <- function(
 
 #' Query Tag Publications
 #'
+#' @param cohorts a vector of strings
+#' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
-#' @param datasets A vector of strings
+#' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
 query_tag_publications <- function(
-  tags = NA,
-  parent_tags = NA,
+  cohorts = NA,
+  samples = NA,
   datasets = NA,
+  parent_tags = NA,
+  tags = NA,
   paging = NA,
   ...
 ){
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
+      "cohort" = cohorts,
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
@@ -234,15 +246,19 @@ query_tag_publications <- function(
 
 #' Query Tags With Parent Tags
 #'
+#' @param cohorts a vector of strings
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
 query_tags_with_parent_tags <- function(
+  cohorts = NA,
+  samples = NA,
   datasets = NA,
   parent_tags = NA,
   tags = NA,
@@ -251,9 +267,11 @@ query_tags_with_parent_tags <- function(
 ){
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
+      "cohort" = cohorts,
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
