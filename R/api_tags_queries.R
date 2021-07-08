@@ -1,58 +1,9 @@
-format_parent_tag <- function(x){
-  if(length(x) == 0){
-    return(x)
-  } else {
-    tbl <- dplyr::select(
-      x,
-      "name",
-      "long_display" =  "longDisplay",
-      "short_display" =  "shortDisplay",
-      "characteristics",
-      "color"
-    )
-    return(tbl)
-  }
-}
-
-format_parent_tag2 <- function(x){
-  if(length(x) == 0){
-    return(x)
-  } else {
-    tbl <- dplyr::select(
-      x,
-      "parent_tag_name" = "name",
-    )
-    return(tbl)
-  }
-}
-
-format_publication <- function(x){
-  if(length(x) == 0){
-    return(x)
-  } else {
-    tbl <- dplyr::select(
-      x,
-      "name",
-      "title",
-      "do_id" = "doId",
-      "pubmed_id" = "pubmedId",
-      "journal",
-      "first_author_last_name" = "firstAuthorLastName",
-      "year"
-    )
-    return(tbl)
-  }
-}
-
-
 #' Query Tags
 #'
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
 #' @param datasets A vector of strings
-#' @param features A vector of strings
-#' @param feature_classes A vector of strings
-#' @param samples A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
@@ -61,19 +12,16 @@ query_tags <- function(
   tags = NA,
   parent_tags = NA,
   datasets = NA,
-  features = NA,
-  feature_classes = NA,
-  samples = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
-      "feature" = features,
-      "featureClass" = feature_classes,
-      "sample" = samples
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "tags.txt",
     default_tbl = dplyr::tibble(
@@ -81,70 +29,125 @@ query_tags <- function(
       "long_display" = character(),
       "short_display" = character(),
       "characteristics" = character(),
-      "color" = character(),
-      "parent_tags" = list(),
-      "publications" = list()
-
+      "color" = character()
     ),
     select_cols = c(
       "name",
       "long_display" =  "longDisplay",
       "short_display" =  "shortDisplay",
       "characteristics",
-      "color",
-      "parent_tags" = "related",
-      "publications"
+      "color"
     ),
     arrange_cols = "name",
     ...
   )
-  tbl %>%
-    dplyr::mutate(
-      "parent_tags" = purrr::map(.data$parent_tags, format_parent_tag),
-      "publications" = purrr::map(.data$publications, format_publication)
-    )
 }
 
-#' Tag Samples
+#' Query Tag Samples
 #'
-#'
+#' @param cohorts a vector of strings
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
-#' @param features A vector of strings
-#' @param feature_classes A vector of strings
 #' @param samples A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
 query_tag_samples <- function(
-  datasets,
-  parent_tags,
-  tags = NA,
-  features = NA,
-  feature_classes = NA,
+  cohorts = NA,
   samples = NA,
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  paging = NA,
   ...
 ){
-  create_result_from_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
+      "cohort" = cohorts,
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
-      "feature" = features,
-      "featureClass" = feature_classes,
-      "sample" = samples
+      "sample" = samples,
+      "paging" = paging,
+      "distinct" = F
     ),
     query_file = "tag_samples.txt",
+    default_tbl = dplyr::tibble(
+      "sample_name" = character(),
+      "tag_name" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
+      "tag_characteristics" = character(),
+      "tag_color" = character()
+    ),
+    select_cols = c(
+      "samples",
+      "tag_name" = "name",
+      "tag_long_display" =  "longDisplay",
+      "tag_short_display" =  "shortDisplay",
+      "tag_characteristics" = "characteristics",
+      "tag_color" = "color"
+    ),
+    arrange_cols = "tag_name",
+    ...
+  )
+  if(nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "samples", keep_empty = T) %>%
+      dplyr::select(
+        "sample_name" = "name",
+        "tag_name",
+        "tag_long_display",
+        "tag_short_display",
+        "tag_characteristics",
+        "tag_color"
+      )
+  }
+}
+
+#' Query Tag Sample Count
+#'
+#' @param cohorts a vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param samples A vector of strings
+#' @param paging A named list
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_tag_sample_count <- function(
+  cohorts = NA,
+  samples = NA,
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  paging = NA,
+  ...
+){
+  create_result_from_cursor_paginated_api_query(
+    query_args =  list(
+      "cohort" = cohorts,
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "sample" = samples,
+      "paging" = paging,
+      "distinct" = F
+    ),
+    query_file = "tag_sample_count.txt",
     default_tbl = dplyr::tibble(
       "name" = character(),
       "long_display" = character(),
       "short_display" = character(),
       "characteristics" = character(),
       "color" = character(),
-      "size" = integer(),
-      "samples" = list()
+      "sample_count" = integer()
     ),
     select_cols = c(
       "name",
@@ -152,68 +155,148 @@ query_tag_samples <- function(
       "short_display" =  "shortDisplay",
       "characteristics",
       "color",
-      "size" = "sampleCount",
-      "samples"
+      "sample_count" = "sampleCount"
     ),
     arrange_cols = "name",
     ...
   )
 }
 
-#' Tag Samples 2
+#' Query Tag Publications
 #'
-#'
-#' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
-#' @param features A vector of strings
-#' @param feature_classes A vector of strings
-#' @param samples A vector of strings
+#' @param datasets A vector of strings
+#' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
 #'
 #' @export
 #' @importFrom magrittr %>%
-query_tag_samples2 <- function(
-  datasets = NA,
-  parent_tags = NA,
+query_tag_publications <- function(
   tags = NA,
-  features = NA,
-  feature_classes = NA,
-  samples = NA,
+  parent_tags = NA,
+  datasets = NA,
+  paging = NA,
   ...
 ){
-  tbl <- create_result_from_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
-      "feature" = features,
-      "featureClass" = feature_classes,
-      "sample" = samples
+      "paging" = paging,
+      "distinct" = F
     ),
-    query_file = "tag_samples2.txt",
+    query_file = "tag_publications.txt",
     default_tbl = dplyr::tibble(
-      "sample" = character()
+      "publication_do_id" = integer(),
+      "publication_first_author_last_name" = character(),
+      "publication_journal" = character(),
+      "publication_name" = character(),
+      "publication_pubmed_id" = integer(),
+      "publication_title" = character(),
+      "tag_name" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
+      "tag_characteristics" = character(),
+      "tag_color" = character()
     ),
     select_cols = c(
+      "publications",
       "tag_name" = "name",
-      "sample" = "samples",
-      "parent_tags" = "related"
+      "tag_long_display" =  "longDisplay",
+      "tag_short_display" =  "shortDisplay",
+      "tag_characteristics" = "characteristics",
+      "tag_color" = "color"
     ),
+    arrange_cols = "tag_name",
     ...
   )
   if(nrow(tbl) == 0) return(tbl)
-  tbl <- tbl %>%
-    dplyr::mutate(
-      "parent_tags" = purrr::map(.data$parent_tags, format_parent_tag2),
-    ) %>%
-    tidyr::unnest("parent_tags") %>%
-    dplyr::filter(.data$parent_tag_name %in% parent_tags) %>%
-    tidyr::unnest("sample") %>%
-    tidyr::pivot_wider(
-      names_from = "parent_tag_name", values_from = "tag_name"
-    ) %>%
-    dplyr::select(dplyr::all_of(c("sample", parent_tags)))
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "publications", keep_empty = T) %>%
+      dplyr::select(
+        "publication_do_id" = "doId",
+        "publication_first_author_last_name" = "firstAuthorLastName",
+        "publication_journal" = "journal",
+        "publication_name" = "name",
+        "publication_pubmed_id" = "pubmedId",
+        "publication_title" = "title",
+        "tag_name",
+        "tag_long_display",
+        "tag_short_display",
+        "tag_characteristics",
+        "tag_color"
+      )
+  }
 }
 
+#' Query Tags With Parent Tags
+#'
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param paging A named list
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_tags_with_parent_tags <- function(
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  paging = NA,
+  ...
+){
+  tbl <- create_result_from_cursor_paginated_api_query(
+    query_args =  list(
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "paging" = paging,
+      "distinct" = F
+    ),
+    query_file = "tag_related.txt",
+    default_tbl = dplyr::tibble(
+      "parent_tag_name" = character(),
+      "parent_tag_long_display" = character(),
+      "parent_tag_short_display" = character(),
+      "parent_tag_characteristics" = character(),
+      "parent_tag_color" = character(),
+      "tag_name" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
+      "tag_characteristics" = character(),
+      "tag_color" = character()
+    ),
+    select_cols = c(
+      "related",
+      "tag_name" = "name",
+      "tag_long_display" =  "longDisplay",
+      "tag_short_display" =  "shortDisplay",
+      "tag_characteristics" = "characteristics",
+      "tag_color" = "color"
+    ),
+    arrange_cols = "tag_name",
+    ...
+  )
+  if(nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "related", keep_empty = T) %>%
+      dplyr::select(
+        "parent_tag_name" = "name",
+        "parent_tag_long_display" =  "longDisplay",
+        "parent_tag_short_display" =  "shortDisplay",
+        "parent_tag_characteristics" = "characteristics",
+        "parent_tag_color" = "color",
+        "tag_name",
+        "tag_long_display",
+        "tag_short_display",
+        "tag_characteristics",
+        "tag_color"
+      )
+  }
+}
 

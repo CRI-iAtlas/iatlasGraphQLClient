@@ -1,4 +1,4 @@
-query Tags(
+query TagRelated(
   $dataSet: [String!]
   $related: [String!]
   $tag: [String!]
@@ -12,12 +12,19 @@ query Tags(
     paging: $paging
     distinct: $distinct
   ){
-    items{
+    items {
       characteristics
-      color
       longDisplay
       shortDisplay
+      color
       name
+      related{
+        characteristics
+        color
+        longDisplay
+        shortDisplay
+        name
+      }
     }
     paging{
       type
