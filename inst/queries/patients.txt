@@ -12,6 +12,8 @@ query Patients(
   $race: [RaceEnum!]
   $sample: [String!]
   $slide: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   patients(
     barcode: $barcode
@@ -27,13 +29,29 @@ query Patients(
     race: $race
     sample: $sample
     slide: $slide
+    paging: $paging
+    distinct: $distinct
   ){
-    ageAtDiagnosis
-    barcode
-    ethnicity
-    gender
-    height
-    race
-    weight
+    items{
+      ageAtDiagnosis
+      barcode
+      ethnicity
+      gender
+      height
+      race
+      weight
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

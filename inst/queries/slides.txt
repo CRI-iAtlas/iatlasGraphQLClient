@@ -1,9 +1,28 @@
-query Slides($name: [String!]) {
-  slides(name: $name){
-    name
-    description
-    patient {
-      barcode
+query Slides(
+  $name: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
+) {
+  slides(
+    name: $name
+    paging: $paging
+    distinct: $distinct
+  ){
+    items{
+      name
+      description
     }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }
