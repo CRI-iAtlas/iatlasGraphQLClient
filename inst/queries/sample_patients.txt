@@ -10,6 +10,8 @@ query SamplePatients(
   $name: [String!]
   $patient: [String!]
   $race: [RaceEnum!]
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   samples(
     ethnicity: $ethnicity
@@ -23,16 +25,32 @@ query SamplePatients(
     name: $name
     patient: $patient
     race: $race
+    paging: $paging
+    distinct: $distinct
   ){
-    name
-    patient{
-      ageAtDiagnosis
-      barcode
-      ethnicity
-      gender
-      height
-      race
-      weight
+    items {
+      name
+      patient{
+        ageAtDiagnosis
+        barcode
+        ethnicity
+        gender
+        height
+        race
+        weight
+      }
     }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }

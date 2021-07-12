@@ -2,14 +2,35 @@ query DatasetSamples(
   $dataSet: [String!]
   $sample: [String!]
   $dataSetType: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
 ) {
   dataSets(
     dataSet: $dataSet
     sample: $sample
     dataSetType: $dataSetType
+    paging: $paging
+    distinct: $distinct
   ){
-    samples{
+    items{
       name
+      display
+      type
+      samples {
+        name
+      }
     }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
   }
 }
