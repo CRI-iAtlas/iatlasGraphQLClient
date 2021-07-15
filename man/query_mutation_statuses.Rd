@@ -5,7 +5,7 @@
 \title{Query Mutation Statuses}
 \usage{
 query_mutation_statuses(
-  ids = NA,
+  mutations = NA,
   entrez = NA,
   codes = NA,
   types = NA,
@@ -17,7 +17,7 @@ query_mutation_statuses(
 )
 }
 \arguments{
-\item{ids}{A vector of integers}
+\item{mutations}{A vector of integers}
 
 \item{entrez}{A vector of integers}
 

@@ -9,6 +9,7 @@ query_driver_results(
   tags = NA,
   features = NA,
   entrez = NA,
+  mutations = NA,
   mutation_codes = NA,
   min_p_value = NA,
   max_p_value = NA,
@@ -30,6 +31,8 @@ query_driver_results(
 \item{features}{A vector of strings}
 
 \item{entrez}{A vector of strings}
+
+\item{mutations}{A vector of strings}
 
 \item{mutation_codes}{A vector of strings}
 
