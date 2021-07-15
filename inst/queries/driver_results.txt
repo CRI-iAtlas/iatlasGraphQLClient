@@ -3,6 +3,7 @@ query DriverResults(
   $tag: [String!]
   $feature: [String!]
   $entrez: [Int!]
+  $mutation: [String!]
   $mutationCode: [String!]
   $minPValue: Float
   $maxPValue: Float
@@ -20,6 +21,7 @@ query DriverResults(
     tag: $tag
     feature: $feature
     entrez: $entrez
+    mutation: $mutation
     mutationCode: $mutationCode
     minPValue: $minPValue
     maxPValue: $maxPValue
@@ -41,16 +43,19 @@ query DriverResults(
         name
         display
       }
-      gene{
-        entrez
-        hgnc
+      mutation{
+        name
+        gene{
+          entrez
+          hgnc
+        }
+        mutationCode
       }
       tag{
         name
         longDisplay
         shortDisplay
       }
-      mutationCode
       pValue
       foldChange
       log10PValue

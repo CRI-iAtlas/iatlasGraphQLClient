@@ -1,8 +1,8 @@
 query Mutations(
   $cohort: [String!]
   $entrez: [Int!]
+  $mutation: [String!]
   $mutationCode: [String!]
-  $mutationId: [Int!]
   $mutationType: [String!]
   $sample: [String!]
   $status: [StatusEnum!]
@@ -12,8 +12,8 @@ query Mutations(
   mutations(
     cohort:$cohort
     entrez: $entrez
+    mutation: $mutation
     mutationCode: $mutationCode
-    mutationId: $mutationId
     mutationType: $mutationType
     sample: $sample
     status: $status
@@ -21,7 +21,7 @@ query Mutations(
     distinct: $distinct
   ){
     items{
-      id
+      name
       gene{
         entrez
         hgnc
