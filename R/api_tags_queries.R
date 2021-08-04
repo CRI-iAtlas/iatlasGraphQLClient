@@ -4,6 +4,7 @@
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -16,6 +17,7 @@ query_tags <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -25,26 +27,31 @@ query_tags <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tags.txt",
     default_tbl = dplyr::tibble(
-      "name" = character(),
-      "long_display" = character(),
-      "short_display" = character(),
-      "characteristics" = character(),
-      "color" = character()
+      "tag_name" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
+      "tag_characteristics" = character(),
+      "tag_color" = character(),
+      "tag_order" = integer(),
+      "tag_type" = character()
     ),
     select_cols = c(
-      "name",
-      "long_display" =  "longDisplay",
-      "short_display" =  "shortDisplay",
-      "characteristics",
-      "color"
+      "tag_name" = "name",
+      "tag_long_display" =  "longDisplay",
+      "tag_short_display" =  "shortDisplay",
+      "tag_characteristics" = "characteristics",
+      "tag_color" = "color",
+      "tag_order" = "order",
+      "tag_type" = "type"
     ),
-    arrange_cols = "name",
+    arrange_cols = "tag_name",
     ...
   )
 }
@@ -55,6 +62,7 @@ query_tags <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -67,6 +75,7 @@ query_tag_samples <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -76,6 +85,7 @@ query_tag_samples <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
@@ -87,7 +97,9 @@ query_tag_samples <- function(
       "tag_long_display" = character(),
       "tag_short_display" = character(),
       "tag_characteristics" = character(),
-      "tag_color" = character()
+      "tag_color" = character(),
+      "tag_order" = integer(),
+      "tag_type" = character()
     ),
     select_cols = c(
       "samples",
@@ -95,7 +107,9 @@ query_tag_samples <- function(
       "tag_long_display" =  "longDisplay",
       "tag_short_display" =  "shortDisplay",
       "tag_characteristics" = "characteristics",
-      "tag_color" = "color"
+      "tag_color" = "color",
+      "tag_order" = "order",
+      "tag_type" = "type"
     ),
     arrange_cols = "tag_name",
     ...
@@ -110,7 +124,9 @@ query_tag_samples <- function(
         "tag_long_display",
         "tag_short_display",
         "tag_characteristics",
-        "tag_color"
+        "tag_color",
+        "tag_order",
+        "tag_type"
       )
   }
 }
@@ -121,6 +137,7 @@ query_tag_samples <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -133,6 +150,7 @@ query_tag_sample_count <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -142,28 +160,33 @@ query_tag_sample_count <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tag_sample_count.txt",
     default_tbl = dplyr::tibble(
-      "name" = character(),
-      "long_display" = character(),
-      "short_display" = character(),
-      "characteristics" = character(),
-      "color" = character(),
+      "tag_name" = character(),
+      "tag_long_display" = character(),
+      "tag_short_display" = character(),
+      "tag_characteristics" = character(),
+      "tag_color" = character(),
+      "tag_order" = integer(),
+      "tag_type" = character(),
       "sample_count" = integer()
     ),
     select_cols = c(
-      "name",
-      "long_display" =  "longDisplay",
-      "short_display" =  "shortDisplay",
-      "characteristics",
-      "color",
+      "tag_name" = "name",
+      "tag_long_display" =  "longDisplay",
+      "tag_short_display" =  "shortDisplay",
+      "tag_characteristics" = "characteristics",
+      "tag_color" = "color",
+      "tag_order" = "order",
+      "tag_type" = "type",
       "sample_count" = "sampleCount"
     ),
-    arrange_cols = "name",
+    arrange_cols = "tag_name",
     ...
   )
 }
@@ -174,6 +197,7 @@ query_tag_sample_count <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -186,6 +210,7 @@ query_tag_publications <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -195,6 +220,7 @@ query_tag_publications <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
@@ -211,7 +237,9 @@ query_tag_publications <- function(
       "tag_long_display" = character(),
       "tag_short_display" = character(),
       "tag_characteristics" = character(),
-      "tag_color" = character()
+      "tag_color" = character(),
+      "tag_order" = integer(),
+      "tag_type" = character()
     ),
     select_cols = c(
       "publications",
@@ -219,7 +247,9 @@ query_tag_publications <- function(
       "tag_long_display" =  "longDisplay",
       "tag_short_display" =  "shortDisplay",
       "tag_characteristics" = "characteristics",
-      "tag_color" = "color"
+      "tag_color" = "color",
+      "tag_order" = "order",
+      "tag_type" = "type"
     ),
     arrange_cols = "tag_name",
     ...
@@ -239,7 +269,9 @@ query_tag_publications <- function(
         "tag_long_display",
         "tag_short_display",
         "tag_characteristics",
-        "tag_color"
+        "tag_color",
+        "tag_order",
+        "tag_type"
       )
   }
 }
@@ -250,6 +282,7 @@ query_tag_publications <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -262,6 +295,7 @@ query_tags_with_parent_tags <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -271,6 +305,7 @@ query_tags_with_parent_tags <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
@@ -282,11 +317,15 @@ query_tags_with_parent_tags <- function(
       "parent_tag_short_display" = character(),
       "parent_tag_characteristics" = character(),
       "parent_tag_color" = character(),
+      "parent_tag_order" = integer(),
+      "parent_tag_type" = character(),
       "tag_name" = character(),
       "tag_long_display" = character(),
       "tag_short_display" = character(),
       "tag_characteristics" = character(),
-      "tag_color" = character()
+      "tag_color" = character(),
+      "tag_order" = integer(),
+      "tag_type" = character()
     ),
     select_cols = c(
       "related",
@@ -294,7 +333,9 @@ query_tags_with_parent_tags <- function(
       "tag_long_display" =  "longDisplay",
       "tag_short_display" =  "shortDisplay",
       "tag_characteristics" = "characteristics",
-      "tag_color" = "color"
+      "tag_color" = "color",
+      "tag_order" = "order",
+      "tag_type" = "type"
     ),
     arrange_cols = "tag_name",
     ...
@@ -302,18 +343,24 @@ query_tags_with_parent_tags <- function(
   if(nrow(tbl) == 0) return(tbl)
   else {
     tbl %>%
+      print() %>%
       tidyr::unnest(cols = "related", keep_empty = T) %>%
+      print() %>%
       dplyr::select(
         "parent_tag_name" = "name",
         "parent_tag_long_display" =  "longDisplay",
         "parent_tag_short_display" =  "shortDisplay",
         "parent_tag_characteristics" = "characteristics",
         "parent_tag_color" = "color",
+        "parent_tag_order" = "order",
+        "parent_tag_type" = "type",
         "tag_name",
         "tag_long_display",
         "tag_short_display",
         "tag_characteristics",
-        "tag_color"
+        "tag_color",
+        "tag_order",
+        "tag_type"
       )
   }
 }
