@@ -9,8 +9,8 @@ test_that("query_edges",{
     "node2"
   )
   result1 <- query_edges(
-    node1 = "tcga_ecn_1",
-    node2 = c("tcga_ecn_2553", "tcga_ecn_2571"),
+    node1 = "PCAWG_cellimage_network_BLCA-US_940",
+    node2 = "PCAWG_cellimage_network_BLCA-US_T_cells_CD8_Aggregate2",
     query_dir = query_dir
   )
   result2 <- query_edges(
@@ -20,6 +20,6 @@ test_that("query_edges",{
   )
   expect_named(result1, expected_columns)
   expect_named(result2, expected_columns)
-  expect_true(nrow(result1) > 0)
+  expect_equal(nrow(result1), 1)
   expect_equal(nrow(result2), 0)
 })

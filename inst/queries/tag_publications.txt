@@ -4,6 +4,7 @@ query TagPublications(
   $related: [String!]
   $sample: [String!]
   $tag: [String!]
+  $type: [TagTypeEnum!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
@@ -13,6 +14,7 @@ query TagPublications(
     related: $related
     sample: $sample
     tag: $tag
+    type: $type
     paging: $paging
     distinct: $distinct
   ){
@@ -20,8 +22,10 @@ query TagPublications(
       characteristics
       color
       longDisplay
-      shortDisplay
       name
+      order
+      shortDisplay
+      type
       publications {
         name
         journal

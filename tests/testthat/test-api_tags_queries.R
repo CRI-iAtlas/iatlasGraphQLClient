@@ -1,11 +1,5 @@
 test_that("query_tags", {
-  expected_columns <- c(
-    "name",
-    "long_display",
-    "short_display",
-    "characteristics",
-    "color"
-  )
+  expected_columns <- get_tag_field_names()
 
   result1 <- query_tags(tags = "ACC_")
   expect_named(result1, expected_columns)
@@ -19,23 +13,16 @@ test_that("query_tags", {
   expect_named(result3, expected_columns)
   expect_equal(nrow(result3), 6)
 
-  result4 <- query_tags(tags = "parent_group")
-  expect_named(result4, expected_columns)
-  expect_equal(nrow(result4), 1)
-
   result5 <- query_tags(parent_tags = "gender")
   expect_named(result5, expected_columns)
-  expect_equal(nrow(result5), 2)
+  expect_equal(nrow(result5), 3)
+
 })
 
 test_that("query_tag_samples", {
   expected_columns <- c(
     "sample_name",
-    "tag_name",
-    "tag_long_display",
-    "tag_short_display",
-    "tag_characteristics",
-    "tag_color"
+    get_tag_field_names()
   )
 
   result1 <- query_tag_samples(cohorts = "TCGA_Immune_Subtype", tag = "C1")
@@ -49,11 +36,7 @@ test_that("query_tag_samples", {
 
 test_that("query_tag_sample_count", {
   expected_columns <- c(
-    "name",
-    "long_display",
-    "short_display",
-    "characteristics",
-    "color",
+    get_tag_field_names(),
     "sample_count"
   )
 
@@ -74,11 +57,7 @@ test_that("query_tag_publications", {
     "publication_name",
     "publication_pubmed_id",
     "publication_title",
-    "tag_name",
-    "tag_long_display",
-    "tag_short_display",
-    "tag_characteristics",
-    "tag_color"
+    get_tag_field_names()
   )
 
   result1 <- query_tag_publications(tag = "ACC_")
@@ -92,21 +71,13 @@ test_that("query_tag_publications", {
 
 test_that("query_tags_with_parent_tags", {
   expected_columns <- c(
-    "parent_tag_name",
-    "parent_tag_long_display",
-    "parent_tag_short_display",
-    "parent_tag_characteristics",
-    "parent_tag_color",
-    "tag_name",
-    "tag_long_display",
-    "tag_short_display",
-    "tag_characteristics",
-    "tag_color"
+    get_tag_field_names(prefix = "parent_tag_"),
+    get_tag_field_names()
   )
 
   result1 <- query_tags_with_parent_tags(tag = "C1")
   expect_named(result1, expected_columns)
-  expect_equal(nrow(result1), 2)
+  expect_equal(nrow(result1), 1)
 
   result2 <- query_tags_with_parent_tags(tag = "not_a_tag")
   expect_named(result2, expected_columns)

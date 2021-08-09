@@ -4,6 +4,7 @@ query TagRelated(
   $related: [String!]
   $sample: [String!]
   $tag: [String!]
+  $type: [TagTypeEnum!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
@@ -13,21 +14,26 @@ query TagRelated(
     related: $related
     sample: $sample
     tag: $tag
+    type: $type
     paging: $paging
     distinct: $distinct
   ){
     items {
       characteristics
-      longDisplay
-      shortDisplay
       color
+      longDisplay
       name
+      order
+      shortDisplay
+      type
       related{
         characteristics
         color
         longDisplay
-        shortDisplay
         name
+        order
+        shortDisplay
+        type
       }
     }
     paging{

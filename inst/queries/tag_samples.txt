@@ -1,9 +1,10 @@
-query TagSamples(
+query TagsSamples(
   $cohort: [String!]
   $dataSet: [String!]
   $related: [String!]
   $sample: [String!]
   $tag: [String!]
+  $type: [TagTypeEnum!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
@@ -13,15 +14,18 @@ query TagSamples(
     related: $related
     sample: $sample
     tag: $tag
+    type: $type
     paging: $paging
     distinct: $distinct
   ){
-    items{
+    items {
       characteristics
-      longDisplay
-      shortDisplay
       color
+      longDisplay
       name
+      order
+      shortDisplay
+      type
       samples {
         name
       }

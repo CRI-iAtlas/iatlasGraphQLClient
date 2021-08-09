@@ -4,6 +4,7 @@
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -16,6 +17,7 @@ query_tags <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -25,26 +27,18 @@ query_tags <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tags.txt",
-    default_tbl = dplyr::tibble(
-      "name" = character(),
-      "long_display" = character(),
-      "short_display" = character(),
-      "characteristics" = character(),
-      "color" = character()
+    default_tbl = purrr::invoke(
+      .f = dplyr::tibble,
+      .x = get_tag_empty_values()
     ),
-    select_cols = c(
-      "name",
-      "long_display" =  "longDisplay",
-      "short_display" =  "shortDisplay",
-      "characteristics",
-      "color"
-    ),
-    arrange_cols = "name",
+    select_cols = get_tag_json_names(),
+    arrange_cols = "tag_name",
     ...
   )
 }
@@ -55,6 +49,7 @@ query_tags <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -67,6 +62,7 @@ query_tag_samples <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -76,27 +72,20 @@ query_tag_samples <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tag_samples.txt",
-    default_tbl = dplyr::tibble(
-      "sample_name" = character(),
-      "tag_name" = character(),
-      "tag_long_display" = character(),
-      "tag_short_display" = character(),
-      "tag_characteristics" = character(),
-      "tag_color" = character()
+    default_tbl = purrr::invoke(
+      .f = dplyr::tibble,
+      .x = c(
+        list("sample_name" = character()),
+        get_tag_empty_values()
+      )
     ),
-    select_cols = c(
-      "samples",
-      "tag_name" = "name",
-      "tag_long_display" =  "longDisplay",
-      "tag_short_display" =  "shortDisplay",
-      "tag_characteristics" = "characteristics",
-      "tag_color" = "color"
-    ),
+    select_cols = c("samples", get_tag_json_names()),
     arrange_cols = "tag_name",
     ...
   )
@@ -106,11 +95,7 @@ query_tag_samples <- function(
       tidyr::unnest(cols = "samples", keep_empty = T) %>%
       dplyr::select(
         "sample_name" = "name",
-        "tag_name",
-        "tag_long_display",
-        "tag_short_display",
-        "tag_characteristics",
-        "tag_color"
+        get_tag_field_names()
       )
   }
 }
@@ -121,6 +106,7 @@ query_tag_samples <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -133,6 +119,7 @@ query_tag_sample_count <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -142,28 +129,21 @@ query_tag_sample_count <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tag_sample_count.txt",
-    default_tbl = dplyr::tibble(
-      "name" = character(),
-      "long_display" = character(),
-      "short_display" = character(),
-      "characteristics" = character(),
-      "color" = character(),
-      "sample_count" = integer()
+    default_tbl = purrr::invoke(
+      .f = dplyr::tibble,
+      .x = c(
+        get_tag_empty_values(),
+        list("sample_count" = integer())
+      )
     ),
-    select_cols = c(
-      "name",
-      "long_display" =  "longDisplay",
-      "short_display" =  "shortDisplay",
-      "characteristics",
-      "color",
-      "sample_count" = "sampleCount"
-    ),
-    arrange_cols = "name",
+    select_cols = c(get_tag_json_names(), "sample_count" = "sampleCount"),
+    arrange_cols = "tag_name",
     ...
   )
 }
@@ -174,6 +154,7 @@ query_tag_sample_count <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -186,6 +167,7 @@ query_tag_publications <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -195,32 +177,27 @@ query_tag_publications <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tag_publications.txt",
-    default_tbl = dplyr::tibble(
-      "publication_do_id" = integer(),
-      "publication_first_author_last_name" = character(),
-      "publication_journal" = character(),
-      "publication_name" = character(),
-      "publication_pubmed_id" = integer(),
-      "publication_title" = character(),
-      "tag_name" = character(),
-      "tag_long_display" = character(),
-      "tag_short_display" = character(),
-      "tag_characteristics" = character(),
-      "tag_color" = character()
+    default_tbl = purrr::invoke(
+      .f = dplyr::tibble,
+      .x = c(
+        list(
+          "publication_do_id" = integer(),
+          "publication_first_author_last_name" = character(),
+          "publication_journal" = character(),
+          "publication_name" = character(),
+          "publication_pubmed_id" = integer(),
+          "publication_title" = character()
+        ),
+        get_tag_empty_values()
+      )
     ),
-    select_cols = c(
-      "publications",
-      "tag_name" = "name",
-      "tag_long_display" =  "longDisplay",
-      "tag_short_display" =  "shortDisplay",
-      "tag_characteristics" = "characteristics",
-      "tag_color" = "color"
-    ),
+    select_cols = c("publications", get_tag_json_names()),
     arrange_cols = "tag_name",
     ...
   )
@@ -235,11 +212,7 @@ query_tag_publications <- function(
         "publication_name" = "name",
         "publication_pubmed_id" = "pubmedId",
         "publication_title" = "title",
-        "tag_name",
-        "tag_long_display",
-        "tag_short_display",
-        "tag_characteristics",
-        "tag_color"
+        get_tag_field_names()
       )
   }
 }
@@ -250,6 +223,7 @@ query_tag_publications <- function(
 #' @param datasets A vector of strings
 #' @param parent_tags A vector of strings
 #' @param tags A vector of strings
+#' @param type A vector of strings
 #' @param samples A vector of strings
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_api_query
@@ -262,6 +236,7 @@ query_tags_with_parent_tags <- function(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 ){
@@ -271,31 +246,20 @@ query_tags_with_parent_tags <- function(
       "dataSet" = datasets,
       "related" = parent_tags,
       "tag" = tags,
+      "type" = type,
       "sample" = samples,
       "paging" = paging,
       "distinct" = F
     ),
     query_file = "tag_related.txt",
-    default_tbl = dplyr::tibble(
-      "parent_tag_name" = character(),
-      "parent_tag_long_display" = character(),
-      "parent_tag_short_display" = character(),
-      "parent_tag_characteristics" = character(),
-      "parent_tag_color" = character(),
-      "tag_name" = character(),
-      "tag_long_display" = character(),
-      "tag_short_display" = character(),
-      "tag_characteristics" = character(),
-      "tag_color" = character()
+    default_tbl = purrr::invoke(
+      .f = dplyr::tibble,
+      .x = c(
+        get_tag_empty_values(prefix = "parent_tag_"),
+        get_tag_empty_values()
+      )
     ),
-    select_cols = c(
-      "related",
-      "tag_name" = "name",
-      "tag_long_display" =  "longDisplay",
-      "tag_short_display" =  "shortDisplay",
-      "tag_characteristics" = "characteristics",
-      "tag_color" = "color"
-    ),
+    select_cols = c("related", get_tag_json_names()),
     arrange_cols = "tag_name",
     ...
   )
@@ -304,17 +268,46 @@ query_tags_with_parent_tags <- function(
     tbl %>%
       tidyr::unnest(cols = "related", keep_empty = T) %>%
       dplyr::select(
-        "parent_tag_name" = "name",
-        "parent_tag_long_display" =  "longDisplay",
-        "parent_tag_short_display" =  "shortDisplay",
-        "parent_tag_characteristics" = "characteristics",
-        "parent_tag_color" = "color",
-        "tag_name",
-        "tag_long_display",
-        "tag_short_display",
-        "tag_characteristics",
-        "tag_color"
+        get_tag_json_names(prefix = "parent_tag_"),
+        get_tag_field_names()
       )
   }
 }
+
+#tag_helpers ----
+
+get_tag_column_tbl <- function(prefix = "tag_"){
+  dplyr::tribble(
+    ~name,             ~json_name,         ~empty_val,
+    "name",            "name",             character(),
+    "long_display",    "longDisplay",      character(),
+    "short_display",   "shortDisplay",     character(),
+    "characteristics", "characteristics",  character(),
+    "color",           "color",            character(),
+    "order",           "order",            integer(),
+    "type",            "type",             character(),
+  ) %>%
+    dplyr::mutate("name" = stringr::str_c(prefix, .data$name))
+}
+
+get_tag_json_names <- function(prefix = "tag_"){
+  lst <-
+    get_tag_column_tbl(prefix) %>%
+    dplyr::select("name", "json_name") %>%
+    tibble::deframe()
+}
+
+get_tag_empty_values <- function(prefix = "tag_"){
+  lst <-
+    get_tag_column_tbl(prefix) %>%
+    dplyr::select("name", "empty_val") %>%
+    tibble::deframe()
+}
+
+get_tag_field_names <- function(prefix = "tag_"){
+  lst <-
+    get_tag_column_tbl(prefix) %>%
+    dplyr::pull("name")
+}
+
 
