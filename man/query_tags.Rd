@@ -10,6 +10,7 @@ query_tags(
   datasets = NA,
   parent_tags = NA,
   tags = NA,
+  type = NA,
   paging = NA,
   ...
 )
@@ -24,6 +25,8 @@ query_tags(
 \item{parent_tags}{A vector of strings}
 
 \item{tags}{A vector of strings}
+
+\item{type}{A vector of strings}
 
 \item{paging}{A named list}
 

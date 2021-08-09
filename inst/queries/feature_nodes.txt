@@ -27,16 +27,19 @@ query FeatureNodes(
       x
       y
       tags {
+        characteristics
+        color
         name
-        shortDisplay
         longDisplay
+        order
+        shortDisplay
       }
-      feature{
+      feature {
         name
         display
       }
     }
-    paging{
+    paging {
       type
       pages
       total

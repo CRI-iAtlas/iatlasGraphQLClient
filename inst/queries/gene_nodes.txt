@@ -27,17 +27,20 @@ query GeneNodes(
       x
       y
       tags {
+        characteristics
+        color
         name
-        shortDisplay
         longDisplay
+        order
+        shortDisplay
       }
-      gene{
+      gene {
         entrez
         hgnc
         friendlyName
       }
     }
-    paging{
+    paging {
       type
       pages
       total
