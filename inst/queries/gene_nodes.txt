@@ -33,6 +33,7 @@ query GeneNodes(
         longDisplay
         order
         shortDisplay
+        type
       }
       gene {
         entrez

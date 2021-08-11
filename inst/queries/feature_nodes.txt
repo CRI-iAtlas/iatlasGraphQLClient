@@ -33,6 +33,7 @@ query FeatureNodes(
         longDisplay
         order
         shortDisplay
+        type
       }
       feature {
         name
