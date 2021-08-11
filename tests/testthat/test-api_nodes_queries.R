@@ -54,3 +54,4 @@ test_that("query_feature_nodes",{
   expect_equal(nrow(result2), 0)
 
 })
+

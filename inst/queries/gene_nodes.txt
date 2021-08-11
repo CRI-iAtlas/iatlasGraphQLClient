@@ -3,8 +3,9 @@ query GeneNodes(
   $entrez: [Int!]
   $maxScore: Float
   $minScore: Float
-  $related: [String!]
   $network: [String!]
+  $nTags: Int
+  $related: [String!]
   $tag: [String!]
   $paging: PagingInput
   $distinct: Boolean
@@ -14,8 +15,9 @@ query GeneNodes(
     entrez: $entrez
     maxScore: $maxScore
     minScore: $minScore
-    related: $related
     network: $network
+    nTags: $nTags
+    related: $related
     tag: $tag
     paging: $paging
     distinct: $distinct
