@@ -26,16 +26,19 @@ query_nodes <- function(
   paging = NA,
   ...
 ){
-  if(!is.na(features) & !is.na(entrez)){
+  has_features <- !(length(features) == 1 && is.na(features))
+  has_genes    <- !(length(entrez) == 1 && is.na(entrez))
+
+  if(has_features & has_genes){
     stop("Can not query for both entrez and features at a the same time")
-  } else if(!is.na(features)) {
+  } else if(has_features) {
     query_file <- "feature_nodes.txt"
     select_cols <- c(
       get_node_json_names(),
       "feature_name" = "feature.name",
       "feature_display" = "feature.display"
     )
-  } else if(!is.na(entrez)) {
+  } else if(has_genes) {
     query_file <- "gene_nodes.txt"
     select_cols <- c(
       get_node_json_names(),
@@ -59,20 +62,47 @@ query_nodes <- function(
   )
   default_tbl <- purrr::invoke(
     .f = dplyr::tibble,
-    .x = get_node_empty_values()
+    .x = c(
+      get_node_empty_values(),
+      list(
+        "feature_name" = character(),
+        "feature_display" = character(),
+        "gene_entrez" = integer(),
+        "gene_hgnc" = character(),
+        "gene_friendly_name" = character()
+      )
+    )
   )
 
-  create_result_from_cursor_paginated_api_query(
+  tbl <-create_result_from_cursor_paginated_api_query(
     query_args = query_args,
     query_file = query_file,
     default_tbl = default_tbl,
     select_cols = select_cols,
     ...
-  ) %>%
+  )
+  if(nrow(tbl) == 0) return(tbl)
+  tbl %>%
     dplyr::mutate("node_tags" = purrr::map(
       .data$node_tags,
       ~dplyr::select(.x, get_tag_json_names())
     ))
+  if(!has_features){
+    tbl <- tbl %>%
+      dplyr::mutate(
+        "feature_name" = NA_character_,
+        "feature_display" = NA_character_,
+      )
+  }
+  if(!has_genes){
+    tbl <- tbl %>%
+      dplyr::mutate(
+        "gene_entrez" = NA_integer_,
+        "gene_hgnc" = NA_character_,
+        "gene_friendly_name" = NA_character_
+      )
+  }
+  return(tbl)
 
 }
 
