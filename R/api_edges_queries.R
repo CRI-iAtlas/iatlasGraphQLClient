@@ -1,5 +1,3 @@
-utils::globalVariables(".")
-
 #' Query Edges
 #'
 #' @param node1 A vector of strings
@@ -45,3 +43,4 @@ query_edges <- function(
     ...
   )
 }
+
