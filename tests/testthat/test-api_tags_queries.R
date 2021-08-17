@@ -34,6 +34,22 @@ test_that("query_tag_samples", {
   expect_equal(nrow(result2), 0)
 })
 
+test_that("query_tag_samples_parents", {
+  expected_columns <- c(
+    "sample_name",
+    get_tag_field_names(prefix = "parent_tag_"),
+    get_tag_field_names()
+  )
+
+  result1 <- query_tag_samples_parents(cohorts = "TCGA_Immune_Subtype", tag = "C1")
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 0)
+
+  result2 <- query_tag_samples_parents(cohorts = "TCGA_Immune_Subtype", tag = "not_a_tag")
+  expect_named(result2, expected_columns)
+  expect_equal(nrow(result2), 0)
+})
+
 test_that("query_tag_sample_count", {
   expected_columns <- c(
     get_tag_field_names(),

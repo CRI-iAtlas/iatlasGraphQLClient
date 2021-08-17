@@ -100,6 +100,71 @@ query_tag_samples <- function(
   }
 }
 
+#' Query Tag Samples Parents
+#'
+#' @param cohorts a vector of strings
+#' @param datasets A vector of strings
+#' @param parent_tags A vector of strings
+#' @param tags A vector of strings
+#' @param type A vector of strings
+#' @param samples A vector of strings
+#' @param paging A named list
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+query_tag_samples_parents <- function(
+  cohorts = NA,
+  samples = NA,
+  datasets = NA,
+  parent_tags = NA,
+  tags = NA,
+  type = NA,
+  paging = NA,
+  ...
+){
+  tbl <- create_result_from_cursor_paginated_api_query(
+    query_args =  list(
+      "cohort" = cohorts,
+      "dataSet" = datasets,
+      "related" = parent_tags,
+      "tag" = tags,
+      "type" = type,
+      "sample" = samples,
+      "paging" = paging,
+      "distinct" = F
+    ),
+    query_file = "tag_samples_related.txt",
+    default_tbl = purrr::invoke(
+      .f = dplyr::tibble,
+      .x = c(
+        list("sample_name" = character()),
+        get_tag_empty_values(prefix = "parent_tag_"),
+        get_tag_empty_values()
+      )
+    ),
+    select_cols = c("samples", "related", get_tag_json_names()),
+    arrange_cols = "tag_name",
+    ...
+  )
+  if(nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "samples", keep_empty = T) %>%
+      dplyr::select(
+        "sample_name" = "name",
+        "related",
+        get_tag_field_names()
+      ) %>%
+      tidyr::unnest(cols = "related", keep_empty = T) %>%
+      dplyr::select(
+        "sample_name",
+        get_tag_json_names(prefix = "parent_tag_"),
+        get_tag_field_names()
+      )
+  }
+}
+
 #' Query Tag Sample Count
 #'
 #' @param cohorts a vector of strings
