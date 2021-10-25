@@ -14,6 +14,10 @@ query CohortSamples(
   ){
     items{
       name
+      dataSet {
+        name
+        display
+      }
       samples{
         name
         tag {
@@ -22,6 +26,7 @@ query CohortSamples(
           longDisplay
           color
           characteristics
+          order
         }
       }
     }
