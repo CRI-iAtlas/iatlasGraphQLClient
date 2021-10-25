@@ -178,16 +178,21 @@ test_that("query_cohort_samples", {
   expected_columns1 <- c(
     "cohort_name",
     "sample_name",
+    "dataset_name",
+    "dataset_display",
     'tag_characteristics',
     'tag_color',
     "tag_long_display",
     "tag_name",
+    "tag_order",
     "tag_short_display"
   )
 
   expected_columns2 <- c(
     "cohort_name",
     "sample_name",
+    "dataset_name",
+    "dataset_display",
     "tag_name"
   )
 

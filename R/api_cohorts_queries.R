@@ -214,11 +214,15 @@ query_cohort_samples <- function(
     default_tbl = dplyr::tibble(
       "cohort_name" = character(),
       "sample_name" = character(),
+      "dataset_name" = character(),
+      "dataset_display" = character(),
       "tag_name" = character()
     ),
     select_cols = c(
       "cohort_name" = "name",
-      "samples"
+      "samples",
+      "dataset_name" = "dataSet.name",
+      "dataset_display" = "dataSet.display"
     ),
     ...
   )
@@ -229,6 +233,8 @@ query_cohort_samples <- function(
       dplyr::select(
         "cohort_name",
         "sample_name" = "name",
+        "dataset_name",
+        "dataset_display",
         "tag"
       )
     if(typeof(tbl$tag) == "list"){
