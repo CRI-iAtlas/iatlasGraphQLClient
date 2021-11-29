@@ -104,6 +104,24 @@ test_that("perform_api_query", {
   expect_equal(length(result5$copyNumberResults$items$pValue), 1)
 })
 
+test_that("perform_api_query2", {
+  result1 <- perform_api_query(list("name" = NA), "gene_types.txt", query_dir)
+  expect_named(result1, "geneTypes")
+  expect_named(result1$geneTypes, c("display", "name"))
+
+  .GlobalEnv$API_URL <- test_api_url
+
+  result2 <- perform_api_query(list("name" = NA), "gene_types.txt", query_dir)
+  expect_named(result2, "geneTypes")
+  expect_named(result2$geneTypes, c("display", "name"))
+
+  .GlobalEnv$API_URL <- NULL
+
+  result3 <- perform_api_query(list("name" = NA), "gene_types.txt", query_dir)
+  expect_named(result3, "geneTypes")
+  expect_named(result3$geneTypes, c("display", "name"))
+})
+
 
 test_that("create_result_from_cursor_paginated_api_query", {
   default_tbl = dplyr::tibble( "pValue" = double())
@@ -227,7 +245,6 @@ test_that("do_cursor_paginated_api_query", {
   expect_type(result2, "list")
   expect_true(length(result2) == 0)
 })
-
 
 test_that("do_offset_paginated_api_query", {
 

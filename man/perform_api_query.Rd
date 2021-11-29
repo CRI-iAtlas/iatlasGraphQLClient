@@ -8,7 +8,7 @@ perform_api_query(
   variables,
   query_file,
   query_dir = system.file("queries", package = "iatlas.api.client"),
-  api_url = "https://sage-api-staging.genui.dev/api"
+  api_url = "https://api.cri-iatlas.org/api"
 )
 }
 \arguments{
