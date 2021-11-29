@@ -1,7 +1,7 @@
 Package: iatlas.api.client
 Title: iAatlas API Client
 Type: Package
-Version: 0.26.4
+Version: 0.27.1
 Author: Andrew Lamb
 Maintainer: Andrew Lamb <Andrew.Lamb@sagebase.org>
 Description: This package is am R Client library for the iAtlas API.
@@ -12,7 +12,7 @@ Suggests:
     devtools,
     testthat (>= 3.0),
     usethis
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Config/testthat/edition: 3
 Imports:
     dplyr (>= 1.0),
