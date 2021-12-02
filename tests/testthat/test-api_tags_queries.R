@@ -13,9 +13,11 @@ test_that("query_tags", {
   expect_named(result3, expected_columns)
   expect_equal(nrow(result3), 6)
 
-  result5 <- query_tags(parent_tags = "gender")
-  expect_named(result5, expected_columns)
-  expect_equal(nrow(result5), 3)
+  result4 <- query_tags(parent_tags = "gender")
+  expect_named(result4, expected_columns)
+  expect_equal(nrow(result4), 3)
+
+  expect_error(query_tags(cohorts = NULL))
 
 })
 

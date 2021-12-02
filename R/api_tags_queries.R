@@ -12,15 +12,19 @@
 #' @export
 #' @importFrom magrittr %>%
 query_tags <- function(
-  cohorts = NA,
-  samples = NA,
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
-  type = NA,
+  cohorts = NA_character_,
+  samples = NA_character_,
+  datasets = NA_character_,
+  parent_tags = NA_character_,
+  tags = NA_character_,
+  type = NA_character_,
   paging = NA,
   ...
 ){
+  validate_arguments(
+    cohorts, samples, datasets, parent_tags, tags, type, paging
+  )
+
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "cohort" = cohorts,
@@ -66,6 +70,10 @@ query_tag_samples <- function(
   paging = NA,
   ...
 ){
+  validate_arguments(
+    cohorts, samples, datasets, parent_tags, tags, type, paging
+  )
+
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "cohort" = cohorts,
@@ -123,6 +131,10 @@ query_tag_samples_parents <- function(
   paging = NA,
   ...
 ){
+  validate_arguments(
+    cohorts, samples, datasets, parent_tags, tags, type, paging
+  )
+
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "cohort" = cohorts,
@@ -188,6 +200,10 @@ query_tag_sample_count <- function(
   paging = NA,
   ...
 ){
+  validate_arguments(
+    cohorts, samples, datasets, parent_tags, tags, type, paging
+  )
+
   create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "cohort" = cohorts,
@@ -236,6 +252,10 @@ query_tag_publications <- function(
   paging = NA,
   ...
 ){
+  validate_arguments(
+    cohorts, samples, datasets, parent_tags, tags, type, paging
+  )
+
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "cohort" = cohorts,
@@ -305,6 +325,10 @@ query_tags_with_parent_tags <- function(
   paging = NA,
   ...
 ){
+  validate_arguments(
+    cohorts, samples, datasets, parent_tags, tags, type, paging
+  )
+
   tbl <- create_result_from_cursor_paginated_api_query(
     query_args =  list(
       "cohort" = cohorts,
@@ -375,4 +399,30 @@ get_tag_field_names <- function(prefix = "tag_"){
     dplyr::pull("name")
 }
 
+validate_arguments <- function(
+  cohorts, samples, datasets, parent_tags, tags, type, paging
+){
+  purrr::walk(
+    .x = c(
+      cohorts,
+      samples,
+      datasets,
+      parent_tags,
+      tags,
+      type
+    ),
+    .f = validate_string_argument
+  )
+  assertthat::assert_that(
+    is.na(paging) || is.list(paging)
+  )
+}
+
+validate_string_argument <- function(arg){
+  assertthat::assert_that(
+    !is.null(arg),
+    is.character(arg),
+    length(arg) > 0
+  )
+}
 
