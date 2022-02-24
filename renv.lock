@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.1.0",
+    "Version": "4.0.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -604,15 +604,10 @@
     },
     "usethis": {
       "Package": "usethis",
-      "Version": "2.0.1.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteUsername": "r-lib",
-      "RemoteRepo": "usethis",
-      "RemoteRef": "master",
-      "RemoteSha": "0281a158f1b8280c048774e02010e2db7892b472",
-      "RemoteHost": "api.github.com",
-      "Hash": "32c67b746ac730855ade38f9ec61f391",
+      "Version": "2.1.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c499f488e6dd7718accffaee5bc5a79b",
       "Requirements": []
     },
     "utf8": {
