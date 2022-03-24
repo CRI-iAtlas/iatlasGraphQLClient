@@ -1,5 +1,3 @@
-query_dir  <- system.file("queries", package = "iatlas.api.client")
-
 test_that("query_gene_nodes",{
   expected_columns <- c(
     get_node_field_names(),

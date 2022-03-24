@@ -7,7 +7,7 @@
 perform_api_query(
   variables,
   query_file,
-  query_dir = system.file("queries", package = "iatlas.api.client"),
+  query_dir = system.file("queries", package = "iatlasGraphqlClient"),
   api_url = "https://api.cri-iatlas.org/api"
 )
 }

@@ -1,4 +1,4 @@
 library(testthat)
-library(iatlas.api.client)
+library(iatlasGraphqlClient)
 
-test_check("iatlas.api.client")
+test_check("iatlasGraphqlClient")
