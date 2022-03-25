@@ -1,5 +1,3 @@
-query_dir  <- system.file("queries", package = "iatlas.api.client")
-
 test_that("query_edges",{
   expected_columns <- c(
     "label",
