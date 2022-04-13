@@ -2,8 +2,8 @@ R client functions for accessing the [iAtlas API](https://gitlab.com/cri-iatlas/
 
 # Install
 
-devtools::install_github("CRI-iAtlas/iatlas.api.client")
+devtools::install_github("CRI-iAtlas/iatlasGraphQLClient")
 
 # Example
 
-iatlas.api.client::query_features()
+iatlasGraphQLClient::query_features()
