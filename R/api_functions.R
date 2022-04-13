@@ -29,7 +29,7 @@ add_ghql_query_from_text_file <- function(
 perform_api_query <- function(
   variables,
   query_file,
-  query_dir = system.file("queries", package = "iatlasGraphqlClient"),
+  query_dir = system.file("queries", package = "iatlas.api.client"),
   api_url = "https://api.cri-iatlas.org/api"
 ){
   if(!is.null(.GlobalEnv$API_URL)){
