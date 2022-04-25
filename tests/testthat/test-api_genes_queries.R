@@ -77,3 +77,25 @@ test_that("query_gene_expression", {
   expect_named(result2, expected_columns)
   expect_equal(nrow(result2), 0L)
 })
+
+test_that("query_gene_nanostring_expression", {
+    expected_columns <- c(
+        "sample",
+        "entrez",
+        "hgnc",
+        "nanostring_expr"
+    )
+    result1 <- query_gene_nanostring_expression(
+        entrez = 259L,
+        samples = "Prins_GBM_2019-SK08-ar-A07",
+        query_dir = query_dir
+    )
+    expect_named(result1, expected_columns)
+    expect_equal(nrow(result1), 1L)
+
+    result2 <- query_gene_nanostring_expression(
+        "entrez" = 0L, samples = "TCGA-XF-A9T8", query_dir = query_dir
+    )
+    expect_named(result2, expected_columns)
+    expect_equal(nrow(result2), 0L)
+})
