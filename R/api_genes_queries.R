@@ -220,3 +220,59 @@ query_gene_expression <- function(
       )
   }
 }
+
+#' Query Gene Nanostring Expression
+#'
+#' @param cohorts A vector of strings
+#' @param samples A vector of strings
+#' @param entrez A vector of integers
+#' @param gene_types A vector of strings
+#' @param paging A named list
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+query_gene_nanostring_expression <- function(
+        cohorts = NA,
+        samples = NA,
+        entrez = NA,
+        gene_types = NA,
+        paging = NA,
+        ...
+){
+    tbl <- create_result_from_cursor_paginated_api_query(
+        query_args = list(
+            "cohort" = cohorts,
+            "sample" = samples,
+            "entrez" = entrez,
+            "geneType" = gene_types,
+            "paging" = paging,
+            "distinct" = F
+        ),
+        query_file = "gene_nanostring_expression.txt",
+        default_tbl = dplyr::tibble(
+            "sample" = character(),
+            "entrez" = character(),
+            "hgnc" = character(),
+            "nanostring_expr" = double()
+        ),
+        select_cols = c(
+            "samples",
+            "entrez",
+            "hgnc"
+        ),
+        ...
+    )
+    if(nrow(tbl) == 0) return(tbl)
+    else {
+        tbl %>%
+            tidyr::unnest(cols = "samples", keep_empty = T) %>%
+            dplyr::select(
+                "sample" = "name",
+                "entrez",
+                "hgnc",
+                "nanostring_expr" = "nanostringExpr"
+            )
+    }
+}

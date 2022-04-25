@@ -1,0 +1,38 @@
+query GeneNanostringExpression(
+    $cohort: [String!]
+    $sample: [String!]
+    $entrez: [Int!]
+    $geneType: [String!]
+    $paging: PagingInput
+    $distinct: Boolean
+) {
+  genes(
+    cohort: $cohort
+    sample: $sample
+    entrez: $entrez
+    geneType: $geneType
+    paging: $paging
+    distinct: $distinct
+  ){
+    items {
+      entrez
+      hgnc
+      samples {
+        name
+        nanostringExpr
+      }
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
+  }
+}
