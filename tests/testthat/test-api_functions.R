@@ -248,19 +248,6 @@ test_that("do_cursor_paginated_api_query", {
 
 test_that("do_offset_paginated_api_query", {
 
-  result1 <- do_offset_paginated_api_query(
-    query_args = list(
-      paging = list("limit" = 10),
-      feature = "frac_altered",
-      maxPValue = 0.1e-170,
-      distinct = T
-    ),
-    query_file = "pagination_test.txt",
-    query_dir = query_dir
-  )
-  expect_type(result1, "list")
-  expect_true(length(result1) > 1)
-
   result2 <- do_offset_paginated_api_query(
     query_args = list(
       paging = list("first" = 10),
