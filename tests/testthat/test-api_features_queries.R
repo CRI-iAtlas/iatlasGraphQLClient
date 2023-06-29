@@ -54,7 +54,7 @@ test_that("query_feature_values", {
 test_that("query_features_range", {
   expected_columns <- c("name", "display", "value_min", "value_max")
   result1 <- query_features_range(
-    cohorts = "PCAWG_Gender",
+    cohorts = "TCGA_Immune_Subtype",
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )
@@ -63,7 +63,7 @@ test_that("query_features_range", {
   expect_true(result1$value_min <= result1$value_max)
 
   result2 <- query_features_range(
-    cohorts = "PCAWG_Gender",
+    cohorts = "TCGA_Immune_Subtype",
     features = "not_a_feature",
     query_dir = query_dir
   )

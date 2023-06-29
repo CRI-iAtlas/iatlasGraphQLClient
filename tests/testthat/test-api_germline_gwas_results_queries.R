@@ -16,8 +16,8 @@ test_that("query_germline_gwas_results",{
   )
   result1 <- query_germline_gwas_results(
     datasets = "TCGA",
-    feature = "Attractors_G_SIGLEC9",
-    snps = "2:206655924:C:T",
+    feature = "Module3_IFN_score",
+    snps = "3:133016759:C:G",
     query_dir = query_dir
   )
 
@@ -27,14 +27,14 @@ test_that("query_germline_gwas_results",{
 
   result2 <- query_germline_gwas_results(
     datasets = "TCGA",
-    min_p_value = 4.24e-25,
-    max_p_value = 5.25e-25,
+    min_p_value = 1.0e-07,
+    max_p_value = 9.9e-07,
     query_dir = query_dir
   )
   expect_named(result2, expected_columns)
   expect_true(nrow(result2) > 0)
-  expect_true(all(result2$p_value >= 4.24e-25))
-  expect_true(all(result2$p_value <= 5.25e-25))
+  expect_true(all(result2$p_value >= 1.0e-07))
+  expect_true(all(result2$p_value <= 9.9e-07))
 
   result3 <- query_germline_gwas_results(
     datasets = "TCGA",

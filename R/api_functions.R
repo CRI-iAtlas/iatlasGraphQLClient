@@ -35,6 +35,7 @@ perform_api_query <- function(
   if(!is.null(.GlobalEnv$API_URL)){
     api_url <- .GlobalEnv$API_URL
   }
+  api_url <- "https://api-staging.cri-iatlas.org/api"
   ghql_con <- ghql::GraphqlClient$new(api_url)
   ghql_query_obj <- ghql::Query$new()
   query_path <- file.path(query_dir, query_file)

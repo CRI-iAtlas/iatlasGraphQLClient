@@ -72,7 +72,7 @@ query_cohort_features <- function(
     ),
     ...
   )
-  if(nrow(tbl) == 0) return(tbl)
+  if (nrow(tbl) == 0) return(tbl)
   else {
     tbl <- tbl %>%
       tidyr::unnest(cols = "features", keep_empty = T) %>%

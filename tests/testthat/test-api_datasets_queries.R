@@ -36,7 +36,7 @@ test_that("query_dataset_tags", {
     "dataset_type"
   )
 
-  result1 <- query_dataset_tags(datasets = "PCAWG", query_dir = query_dir)
+  result1 <- query_dataset_tags(datasets = "TCGA", query_dir = query_dir)
   expect_named(result1, expected_names)
   expect_true(nrow(result1) > 0)
 
