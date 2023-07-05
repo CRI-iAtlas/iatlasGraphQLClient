@@ -21,7 +21,6 @@ test_that("query_copy_number_results",{
     datasets = "TCGA",
     tags = "C1",
     max_p_value = 0.000000000000000000000000000000000000000000000001,
-    entrez =  1,
     query_dir = query_dir
   )
   expect_named(result1, expected_columns)

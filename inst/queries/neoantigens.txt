@@ -1,0 +1,38 @@
+query Neoantigens(
+  $paging: PagingInput
+  $distinct:Boolean
+  $entrez: [Int!]
+  $patient: [String!]
+  $pmhc: [String!]
+){
+  neoantigens(
+    paging: $paging
+    distinct: $distinct
+    entrez: $entrez
+    patient: $patient
+    pmhc: $pmhc
+  ){
+    items {
+      tpm
+      pmhc
+      freqPmhc
+      patient { barcode }
+      gene {
+        entrez
+        hgnc
+      }
+    }
+    paging{
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
+  }
+}

@@ -264,7 +264,7 @@ query_gene_nanostring_expression <- function(
         ),
         ...
     )
-    if(nrow(tbl) == 0) return(tbl)
+    if (nrow(tbl) == 0) return(tbl)
     else {
         tbl %>%
             tidyr::unnest(cols = "samples", keep_empty = T) %>%

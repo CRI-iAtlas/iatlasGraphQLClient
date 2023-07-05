@@ -86,8 +86,8 @@ test_that("query_gene_nanostring_expression", {
         "nanostring_expr"
     )
     result1 <- query_gene_nanostring_expression(
-        entrez = 259L,
-        samples = "Prins_GBM_2019-SK08-ar-A07",
+        entrez = 4282L,
+        samples = "Chen_CanDisc_2016-c25-ar-c25_pre",
         query_dir = query_dir
     )
     expect_named(result1, expected_columns)
