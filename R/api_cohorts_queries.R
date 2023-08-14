@@ -229,9 +229,7 @@ query_cohort_samples <- function(
   if(nrow(tbl) == 0) return(tbl)
   else {
     tbl <- tbl %>%
-      print() %>% 
       tidyr::unnest(cols = "samples", keep_empty = T) %>%
-      print() %>% 
       dplyr::select(
         "cohort_name",
         "sample_name" = "name",
