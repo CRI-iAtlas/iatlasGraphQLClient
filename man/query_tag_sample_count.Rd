@@ -5,12 +5,12 @@
 \title{Query Tag Sample Count}
 \usage{
 query_tag_sample_count(
-  cohorts = NA,
-  samples = NA,
-  datasets = NA,
-  parent_tags = NA,
-  tags = NA,
-  type = NA,
+  cohorts = NA_character_,
+  samples = NA_character_,
+  datasets = NA_character_,
+  parent_tags = NA_character_,
+  tags = NA_character_,
+  type = NA_character_,
   paging = NA,
   ...
 )

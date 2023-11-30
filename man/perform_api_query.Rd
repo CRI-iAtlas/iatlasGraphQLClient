@@ -8,7 +8,7 @@ perform_api_query(
   variables,
   query_file,
   query_dir = system.file("queries", package = "iatlasGraphQLClient"),
-  api_url = "https://api.cri-iatlas.org/api"
+  api_url = "https://api-staging.cri-iatlas.org/api"
 )
 }
 \arguments{
