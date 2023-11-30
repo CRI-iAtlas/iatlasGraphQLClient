@@ -12,7 +12,8 @@ query_nodes(
   min_score = NA,
   parent_tags = NA,
   network = NA,
-  tags = NA,
+  tag1 = NA,
+  tag2 = NA,
   n_tags = NA,
   paging = NA,
   ...
@@ -33,9 +34,11 @@ query_nodes(
 
 \item{network}{A vector of strings}
 
-\item{tags}{A vector of strings}
+\item{tag1}{A vector of strings}
 
-\item{n_tags}{An integer}
+\item{tag2}{A vector of strings}
+
+\item{n_tags}{An integer, either 1 or 2}
 
 \item{paging}{A named list}
 

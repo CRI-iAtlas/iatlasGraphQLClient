@@ -1,14 +1,15 @@
 #' Query Nodes
 #'
 #' @param datasets A vector of strings
-#' @param tags A vector of strings
+#' @param tag1 A vector of strings
+#' @param tag2 A vector of strings
 #' @param max_score A float
 #' @param min_score A float
 #' @param parent_tags A vector of strings
 #' @param network A vector of strings
 #' @param entrez A vector of integers
 #' @param features A vector of strings
-#' @param n_tags An integer
+#' @param n_tags An integer, either 1 or 2
 #' @param paging A named list
 #' @param ... Arguments to create_result_from_paginated_api_query
 #'
