@@ -21,7 +21,8 @@ query_nodes <- function(
   min_score = NA,
   parent_tags = NA,
   network = NA,
-  tags = NA,
+  tag1 = NA,
+  tag2 = NA,
   n_tags = NA,
   paging = NA,
   ...
@@ -29,19 +30,23 @@ query_nodes <- function(
   has_features <- !(length(features) == 1 && is.na(features))
   has_genes    <- !(length(entrez) == 1 && is.na(entrez))
 
-  if(has_features & has_genes){
+  if (has_features & has_genes) {
     stop("Can not query for both entrez and features at a the same time")
-  } else if(has_features) {
+  } else if (has_features) {
     query_file <- "feature_nodes.txt"
     select_cols <- c(
-      get_node_json_names(),
+      get_node_json_names(), 
+      get_tag_one_json_names(),
+      get_tag_two_json_names(),
       "feature_name" = "feature.name",
       "feature_display" = "feature.display"
     )
-  } else if(has_genes) {
+  } else if (has_genes) {
     query_file <- "gene_nodes.txt"
     select_cols <- c(
-      get_node_json_names(),
+      get_node_json_names(), 
+      get_tag_one_json_names(),
+      get_tag_two_json_names(),
       "gene_entrez"  = "gene.entrez",
       "gene_hgnc"  = "gene.hgnc",
       "gene_friendly_name" = "gene.friendlyName"
@@ -55,8 +60,9 @@ query_nodes <- function(
     "minScore" = min_score,
     "related" = parent_tags,
     "network" = network,
-    "tag" = tags,
-    "nTags"= n_tags,
+    "tag1" = tag1,
+    "tag2" = tag2,
+    "nTags" = n_tags,
     "paging" = paging,
     "distinct" = F
   )
@@ -74,27 +80,22 @@ query_nodes <- function(
     )
   )
 
-  tbl <-create_result_from_cursor_paginated_api_query(
+  tbl <- create_result_from_cursor_paginated_api_query(
     query_args = query_args,
     query_file = query_file,
     default_tbl = default_tbl,
     select_cols = select_cols,
     ...
   )
-  if(nrow(tbl) == 0) return(tbl)
-  tbl %>%
-    dplyr::mutate("node_tags" = purrr::map(
-      .data$node_tags,
-      ~dplyr::select(.x, get_tag_json_names())
-    ))
-  if(!has_features){
+  if (nrow(tbl) == 0) return(tbl)
+  if (!has_features) {
     tbl <- tbl %>%
       dplyr::mutate(
         "feature_name" = NA_character_,
         "feature_display" = NA_character_,
       )
   }
-  if(!has_genes){
+  if (!has_genes) {
     tbl <- tbl %>%
       dplyr::mutate(
         "gene_entrez" = NA_integer_,
@@ -114,7 +115,6 @@ get_node_column_tbl <- function(prefix = "node_"){
     "label",           "label",           character(),
     "name",            "name",            character(),
     "score",           "score",           double(),
-    "tags",            "tags",            list(),
     "x",               "x",               character(),
     "y",               "y",               character()
 
@@ -141,3 +141,28 @@ get_node_field_names <- function(prefix = "node_"){
     get_node_column_tbl(prefix) %>%
     dplyr::pull("name")
 }
+
+get_tag_one_json_names <- function(){
+  c(
+    "tag_1_name" = "tag1.name",
+    "tag_1_characteristics" = "tag1.characteristics",
+    "tag_1_color" = "tag1.color",
+    "tag_1_long_display" = "tag1.longDisplay",
+    "tag_1_order" = "tag1.order",
+    "tag_1_short_display" = "tag1.shortDisplay",
+    "tag_1_type" = "tag1.type"
+  )
+}
+
+get_tag_two_json_names <- function(){
+  c(
+    "tag_2_name" = "tag2.name",
+    "tag_2_characteristics" = "tag2.characteristics",
+    "tag_2_color" = "tag2.color",
+    "tag_2_long_display" = "tag2.longDisplay",
+    "tag_2_order" = "tag2.order",
+    "tag_2_short_display" = "tag2.shortDisplay",
+    "tag_2_type" = "tag2.type"
+  )
+}
+

@@ -35,7 +35,6 @@ test_that("query_feature_values", {
   )
 
   result1 <- query_feature_values(
-    cohorts = "PCAWG_Immune_Subtype",
     features = "Lymphocytes_Aggregate1",
     query_dir = query_dir
   )

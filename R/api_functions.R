@@ -32,7 +32,7 @@ perform_api_query <- function(
   query_dir = system.file("queries", package = "iatlasGraphQLClient"),
   api_url = "https://api-staging.cri-iatlas.org/api"
 ){
-  if(!is.null(.GlobalEnv$API_URL)){
+  if (!is.null(.GlobalEnv$API_URL)) {
     api_url <- .GlobalEnv$API_URL
   }
   ghql_con <- ghql::GraphqlClient$new(api_url)
@@ -65,17 +65,18 @@ format_query_result <- function(
   select_cols = NULL,
   arrange_cols = NULL
 ){
-  if(!is.null(unnest_cols)) {
+  if (!is.null(unnest_cols)) {
     tbl <- tidyr::unnest(tbl, dplyr::all_of(unnest_cols), keep_empty = T)
   }
   tbl <- tbl %>%
+    as.data.frame() %>% 
     jsonlite::flatten(.) %>%
     dplyr::as_tibble()
 
-  if(!is.null(select_cols)) {
+  if (!is.null(select_cols)) {
     tbl <- dplyr::select(tbl, dplyr::any_of(select_cols))
   }
-  if(!is.null(arrange_cols)) {
+  if (!is.null(arrange_cols)) {
     tbl <- dplyr::arrange(tbl, !!!rlang::syms(arrange_cols))
   }
   return(tbl)
@@ -109,6 +110,12 @@ create_result_from_api_query <- function(
   if (is.null(tbl)) {
     return(default_tbl)
   }
+  if (length(tbl) == 0) {
+    return(default_tbl)
+  }
+  if (nrow(tbl) == 0) {
+    return(default_tbl)
+  }
   format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
 }
 
@@ -135,7 +142,7 @@ create_result_from_cursor_paginated_api_query <- function(
   ...
 ){
   items_list <- do_cursor_paginated_api_query(query_args, query_file, ...)
-  if(length(items_list) == 0) return(default_tbl)
+  if (length(items_list) == 0) return(default_tbl)
   results <- items_list %>%
     rev() %>%
     purrr::map(
@@ -169,7 +176,7 @@ create_result_from_offset_paginated_api_query <- function(
   ...
 ){
   items_list <- do_offset_paginated_api_query(query_args, query_file, ...)
-  if(length(items_list) == 0) return(default_tbl)
+  if (length(items_list) == 0) return(default_tbl)
   results <- items_list %>%
     rev() %>%
     purrr::map(
@@ -204,8 +211,8 @@ do_cursor_paginated_api_query <- function(
   if (empty_result) {
     return(list())
   }
-  if(!is.null(paging$hasNextPage) && paging$hasNextPage){
-    if(length(query_args$paging) == 1 && is.na(query_args$paging)){
+  if (!is.null(paging$hasNextPage) && paging$hasNextPage) {
+    if (length(query_args$paging) == 1 && is.na(query_args$paging)) {
       new_paging <- list("after" = paging$endCursor)
     } else {
       new_paging <- query_args$paging
@@ -247,8 +254,8 @@ do_offset_paginated_api_query <- function(
     return(list())
   }
 
-  if(paging$page < paging$pages){
-    if(length(query_args$paging) == 1 && is.na(query_args$paging)){
+  if (paging$page < paging$pages) {
+    if (length(query_args$paging) == 1 && is.na(query_args$paging)) {
       new_paging <- list("page" = paging$page + 1)
     } else {
       new_paging <- query_args$paging
