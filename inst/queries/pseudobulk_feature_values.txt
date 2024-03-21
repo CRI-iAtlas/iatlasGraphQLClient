@@ -1,0 +1,37 @@
+query PseudoBulkFeatureValues(
+  $cohort: [String!]
+  $feature: [String!]
+  $paging: PagingInput
+  $distinct: Boolean
+) {
+  features(
+    cohort: $cohort
+    feature: $feature
+    paging: $paging
+    distinct: $distinct
+  ){
+    items{
+      name
+      display
+    	class
+      order
+      cellTypeSamples {
+          name
+          value
+          cellType
+      }
+    }
+    paging {
+      type
+      pages
+      total
+      page
+      limit
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    error
+  }
+}
