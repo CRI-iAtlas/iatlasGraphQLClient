@@ -1,0 +1,32 @@
+query CellStats(
+    $paging: PagingInput
+    $distinct:Boolean
+    $entrez: [Int!]
+) {
+    cellStats(
+        paging: $paging
+        distinct: $distinct
+        entrez: $entrez
+    ) {
+        items {
+            dataSet { name }
+            gene { entrez }
+            type
+            count
+            avgExpr
+            percExpr
+        }
+        paging {
+            type
+            pages
+            total
+            startCursor
+            endCursor
+            hasPreviousPage
+            hasNextPage
+            page
+            limit
+        }
+        error
+    }
+}

@@ -99,3 +99,21 @@ test_that("query_gene_nanostring_expression", {
     expect_named(result2, expected_columns)
     expect_equal(nrow(result2), 0L)
 })
+
+test_that("query_pseudobulk_expression", {
+  expected_columns <- c(
+    'gene_entrez', 'gene_hgnc', 'cell_name', 'cell_type', 'single_cell_seq_sum'
+  )
+  result1 <- query_pseudobulk_expression(
+    entrez = c(135L),
+    query_dir = query_dir
+  )
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 1)
+  
+  result2 <- query_pseudobulk_expression(
+    "entrez" = 0L, query_dir = query_dir
+  )
+  expect_named(result2, expected_columns)
+  expect_equal(nrow(result2), 0L)
+})

@@ -1,0 +1,35 @@
+query PseudobulkExpression(
+    $cohort: [String!]
+    $entrez: [Int!]
+    $paging: PagingInput
+    $distinct: Boolean
+) {
+  genes(
+    cohort: $cohort
+    entrez: $entrez
+    paging: $paging
+    distinct: $distinct
+  ){
+    items {
+      entrez
+      hgnc
+      cellTypeSamples {
+          name
+          singleCellSeqSum
+          cellType
+      }
+    }
+    paging {
+      type
+      pages
+      total
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+      page
+      limit
+      }
+    error
+  }
+}
