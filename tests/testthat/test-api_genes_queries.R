@@ -102,11 +102,7 @@ test_that("query_gene_nanostring_expression", {
 
 test_that("query_pseudobulk_expression", {
   expected_columns <- c(
-    'gene_entrez', 
-    'gene_hgnc', 
-    'sample_name', 
-    'cell_type', 
-    'single_cell_seq_sum'
+    'gene_entrez', 'gene_hgnc', 'cell_name', 'cell_type', 'single_cell_seq_sum'
   )
   result1 <- query_pseudobulk_expression(
     entrez = c(135L),

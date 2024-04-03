@@ -146,7 +146,7 @@ query_pseudobulk_feature_values <- function(
       "feature_display" = character(),
       "feature_order" = integer(),
       "feature_class" = character(),
-      "sample_name" = character(),
+      "cell_name" = character(),
       "cell_type"= character(),
       "value" = double()
     ),
@@ -168,7 +168,7 @@ query_pseudobulk_feature_values <- function(
         "feature_display",
         "feature_order",
         "feature_class",
-        "sample_name" = "name",
+        "cell_name" = "name",
         "cell_type" = "cellType",
         "value"
       )
