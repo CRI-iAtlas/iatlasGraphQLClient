@@ -304,7 +304,7 @@ query_pseudobulk_expression <- function(
     default_tbl = dplyr::tibble(
       "gene_entrez" = integer(),
       "gene_hgnc" = character(),
-      "cell_name" = character(),
+      "sample_name" = character(),
       "cell_type" = character(),
       "single_cell_seq_sum" = double()
     ),
@@ -322,7 +322,7 @@ query_pseudobulk_expression <- function(
       dplyr::select(
         "gene_entrez",
         "gene_hgnc",
-        "cell_name" = "name",
+        "sample_name" = "name",
         "cell_type" = "cellType",
         "single_cell_seq_sum" = "singleCellSeqSum"
       )

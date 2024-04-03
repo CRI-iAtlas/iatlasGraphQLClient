@@ -56,7 +56,7 @@ test_that("query_pseudobulk_feature_values", {
     "feature_display",
     "feature_order",
     "feature_class",
-    "cell_name",
+    "sample_name",
     "cell_type",
     "value"
   )
