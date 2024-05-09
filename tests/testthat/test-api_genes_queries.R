@@ -121,3 +121,25 @@ test_that("query_pseudobulk_expression", {
   expect_named(result2, expected_columns)
   expect_equal(nrow(result2), 0L)
 })
+
+test_that("query_single_cell_seq", {
+  expected_columns <- c(
+    'gene_entrez', 
+    'gene_hgnc', 
+    'sample_name', 
+    'cell_type', 
+    'single_cell_seq'
+  )
+  result1 <- query_single_cell_seq(
+    entrez = c(135L),
+    query_dir = query_dir
+  )
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 1)
+  
+  result2 <- query_single_cell_seq(
+    "entrez" = 0L, query_dir = query_dir
+  )
+  expect_named(result2, expected_columns)
+  expect_equal(nrow(result2), 0L)
+})

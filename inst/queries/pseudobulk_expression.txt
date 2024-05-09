@@ -13,7 +13,7 @@ query PseudobulkExpression(
     items {
       entrez
       hgnc
-      cellTypeSamples {
+      pseudoBulkSamples {
           name
           singleCellSeqSum
           cellType

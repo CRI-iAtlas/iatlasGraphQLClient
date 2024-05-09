@@ -1,4 +1,4 @@
-query PseudoBulkFeatureValues(
+query SingleCellFeatures(
   $cohort: [String!]
   $feature: [String!]
   $paging: PagingInput
@@ -15,10 +15,10 @@ query PseudoBulkFeatureValues(
       display
     	class
       order
-      pseudoBulkSamples {
+      cells {
           name
           value
-          cellType
+          type
       }
     }
     paging {

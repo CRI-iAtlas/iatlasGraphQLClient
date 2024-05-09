@@ -76,6 +76,32 @@ test_that("query_pseudobulk_feature_values", {
   expect_equal(nrow(result2), 0)
 })
 
+test_that("query_single_cell_seq_feature_values", {
+  expected_columns <- c(
+    "feature_name",
+    "feature_display",
+    "feature_order",
+    "feature_class",
+    "sample_name",
+    "cell_type",
+    "value"
+  )
+  
+  result1 <- query_single_cell_seq_feature_values(
+    features = "umap_1",
+    query_dir = query_dir
+  )
+  expect_named(result1, expected_columns)
+  expect_true(nrow(result1) > 0)
+  
+  result2 <- query_single_cell_seq_feature_values(
+    features = "not_a_feature",
+    query_dir = query_dir
+  )
+  expect_named(result2, expected_columns)
+  expect_equal(nrow(result2), 0)
+})
+
 test_that("query_features_range", {
   expected_columns <- c("name", "display", "value_min", "value_max")
   result1 <- query_features_range(
