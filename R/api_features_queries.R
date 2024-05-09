@@ -147,7 +147,7 @@ query_pseudobulk_feature_values <- function(
       "feature_order" = integer(),
       "feature_class" = character(),
       "sample_name" = character(),
-      "cell_type"= character(),
+      "cell_type" = character(),
       "value" = double()
     ),
     select_cols = c(
@@ -155,14 +155,14 @@ query_pseudobulk_feature_values <- function(
       "feature_display" = "display",
       "feature_order" = "order",
       "feature_class" = "class",
-      "cellTypeSamples"
+      "pseudoBulkSamples"
     ),
     ...
   )
   if (nrow(tbl) == 0) return(tbl)
   else {
     tbl %>%
-      tidyr::unnest(cols = "cellTypeSamples", keep_empty = T) %>%
+      tidyr::unnest(cols = "pseudoBulkSamples", keep_empty = T) %>%
       dplyr::select(
         "feature_name",
         "feature_display",
@@ -170,6 +170,62 @@ query_pseudobulk_feature_values <- function(
         "feature_class",
         "sample_name" = "name",
         "cell_type" = "cellType",
+        "value"
+      )
+  }
+}
+
+#' Query Single Cell Seq Feature Values
+#'
+#' @param cohorts A vector of strings
+#' @param features A vector of strings
+#' @param paging A named list
+#' @param ... Arguments to create_result_from_api_query
+#' @export
+#' @importFrom magrittr %>%
+query_single_cell_seq_feature_values <- function(
+    cohorts = NA,
+    features = NA,
+    paging = NA,
+    ...
+){
+  tbl <- create_result_from_cursor_paginated_api_query(
+    query_args =  list(
+      "cohort" = cohorts,
+      "feature" = features,
+      "paging" = paging,
+      "distinct" = F
+    ),
+    query_file = "single_cell_feature_values.txt",
+    default_tbl = dplyr::tibble(
+      "feature_name" = character(),
+      "feature_display" = character(),
+      "feature_order" = integer(),
+      "feature_class" = character(),
+      "sample_name" = character(),
+      "cell_type" = character(),
+      "value" = double()
+    ),
+    select_cols = c(
+      "feature_name" = "name",
+      "feature_display" = "display",
+      "feature_order" = "order",
+      "feature_class" = "class",
+      "cells"
+    ),
+    ...
+  )
+  if (nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "cells", keep_empty = T) %>%
+      dplyr::select(
+        "feature_name",
+        "feature_display",
+        "feature_order",
+        "feature_class",
+        "sample_name" = "name",
+        "cell_type" = "type",
         "value"
       )
   }

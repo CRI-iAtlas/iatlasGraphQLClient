@@ -311,20 +311,73 @@ query_pseudobulk_expression <- function(
     select_cols = c(
       "gene_entrez" = "entrez",
       "gene_hgnc" = "hgnc",
-      "cellTypeSamples"
+      "pseudoBulkSamples"
     ),
     ...
   )
   if (nrow(tbl) == 0) return(tbl)
   else {
     tbl %>%
-      tidyr::unnest(cols = "cellTypeSamples", keep_empty = T) %>%
+      tidyr::unnest(cols = "pseudoBulkSamples", keep_empty = T) %>%
       dplyr::select(
         "gene_entrez",
         "gene_hgnc",
         "sample_name" = "name",
         "cell_type" = "cellType",
         "single_cell_seq_sum" = "singleCellSeqSum"
+      )
+  }
+}
+
+
+#' Query Single Cell Seq
+#'
+#' @param cohorts A vector of strings
+#' @param entrez A vector of integers
+#' @param paging A named list
+#' @param ... Arguments to create_result_from_api_query
+#'
+#' @export
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+query_single_cell_seq <- function(
+    cohorts = NA,
+    entrez = NA,
+    paging = NA,
+    ...
+){
+  tbl <- create_result_from_cursor_paginated_api_query(
+    query_args = list(
+      "cohort" = cohorts,
+      "entrez" = entrez,
+      "paging" = paging,
+      "distinct" = F
+    ),
+    query_file = "single_cell_seq.txt",
+    default_tbl = dplyr::tibble(
+      "gene_entrez" = integer(),
+      "gene_hgnc" = character(),
+      "sample_name" = character(),
+      "cell_type" = character(),
+      "single_cell_seq" = double()
+    ),
+    select_cols = c(
+      "gene_entrez" = "entrez",
+      "gene_hgnc" = "hgnc",
+      "cells"
+    ),
+    ...
+  )
+  if (nrow(tbl) == 0) return(tbl)
+  else {
+    tbl %>%
+      tidyr::unnest(cols = "cells", keep_empty = T) %>%
+      dplyr::select(
+        "gene_entrez",
+        "gene_hgnc",
+        "sample_name" = "name",
+        "cell_type" = "type",
+        "single_cell_seq" = "singleCellSeq"
       )
   }
 }
