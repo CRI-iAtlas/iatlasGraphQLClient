@@ -6,7 +6,6 @@ query GeneNodes(
   $network: [String!]
   $nTags: Int
   $related: [String!]
-  $tag: [String!]
   $paging: PagingInput
   $distinct: Boolean
 ) {
@@ -18,7 +17,6 @@ query GeneNodes(
     network: $network
     nTags: $nTags
     related: $related
-    tag: $tag
     paging: $paging
     distinct: $distinct
   ) {
@@ -28,7 +26,16 @@ query GeneNodes(
       score
       x
       y
-      tags {
+      tag1 {
+        characteristics
+        color
+        name
+        longDisplay
+        order
+        shortDisplay
+        type
+      }
+      tag2 {
         characteristics
         color
         name

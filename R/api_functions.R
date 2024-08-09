@@ -64,15 +64,18 @@ format_query_result <- function(
   tbl,
   unnest_cols = NULL,
   select_cols = NULL,
-  arrange_cols = NULL
+  arrange_cols = NULL,
+  flatten = TRUE
 ){
-  if(!is.null(unnest_cols)) {
-    tbl <- tidyr::unnest(tbl, dplyr::all_of(unnest_cols), keep_empty = T)
-  }
-  tbl <- tbl %>%
-    jsonlite::flatten(.) %>%
-    dplyr::as_tibble()
 
+  if(!is.null(unnest_cols)) {
+    tbl <- tidyr::unnest(tbl, dplyr::all_of(unnest_cols), keep_empty = T, names_repair = "unique")
+  }
+
+  if (flatten) {
+    tbl = jsonlite::flatten(tbl)
+  }
+  tbl <- dplyr::as_tibble(tbl)
   if(!is.null(select_cols)) {
     tbl <- dplyr::select(tbl, dplyr::any_of(select_cols))
   }
@@ -107,7 +110,7 @@ create_result_from_api_query <- function(
   tbl <-
     perform_api_query(query_args, query_file, ...) %>%
     purrr::pluck(1)
-  if (is.null(tbl)) {
+  if (length(tbl) == 0 | is.null(tbl)) {
     return(default_tbl)
   }
   format_query_result(tbl, unnest_cols, select_cols, arrange_cols)
@@ -133,6 +136,7 @@ create_result_from_cursor_paginated_api_query <- function(
   unnest_cols = NULL,
   select_cols = NULL,
   arrange_cols = NULL,
+  flatten = TRUE,
   ...
 ){
   items_list <- do_cursor_paginated_api_query(query_args, query_file, ...)
@@ -143,7 +147,8 @@ create_result_from_cursor_paginated_api_query <- function(
       format_query_result,
       unnest_cols,
       select_cols,
-      arrange_cols
+      arrange_cols,
+      flatten
     ) %>%
     dplyr::bind_rows()
 }

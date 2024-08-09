@@ -7,8 +7,8 @@ test_that("query_edges",{
     "node2"
   )
   result1 <- query_edges(
-    node1 = "PCAWG_cellimage_network_BLCA-US_940",
-    node2 = "PCAWG_cellimage_network_BLCA-US_T_cells_CD8_Aggregate2",
+    node1 = "PCAWG_extracellular_network_C2_8754",
+    node2 = "PCAWG_extracellular_network_C2_3693",
     query_dir = query_dir
   )
   result2 <- query_edges(

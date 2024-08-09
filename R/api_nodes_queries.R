@@ -21,7 +21,6 @@ query_nodes <- function(
   min_score = NA,
   parent_tags = NA,
   network = NA,
-  tags = NA,
   n_tags = NA,
   paging = NA,
   ...
@@ -35,16 +34,17 @@ query_nodes <- function(
     query_file <- "feature_nodes.txt"
     select_cols <- c(
       get_node_json_names(),
-      "feature_name" = "feature.name",
-      "feature_display" = "feature.display"
+      "tag1",
+      "tag2",
+      "feature"
     )
   } else if(has_genes) {
     query_file <- "gene_nodes.txt"
     select_cols <- c(
       get_node_json_names(),
-      "gene_entrez"  = "gene.entrez",
-      "gene_hgnc"  = "gene.hgnc",
-      "gene_friendly_name" = "gene.friendlyName"
+      "tag1",
+      "tag2",
+      "gene"
     )
   }
   query_args <- list(
@@ -55,7 +55,6 @@ query_nodes <- function(
     "minScore" = min_score,
     "related" = parent_tags,
     "network" = network,
-    "tag" = tags,
     "nTags"= n_tags,
     "paging" = paging,
     "distinct" = F
@@ -73,20 +72,63 @@ query_nodes <- function(
       )
     )
   )
-
   tbl <-create_result_from_cursor_paginated_api_query(
     query_args = query_args,
     query_file = query_file,
     default_tbl = default_tbl,
     select_cols = select_cols,
+    flatten = FALSE,
     ...
   )
-  if(nrow(tbl) == 0) return(tbl)
-  tbl %>%
-    dplyr::mutate("node_tags" = purrr::map(
-      .data$node_tags,
-      ~dplyr::select(.x, get_tag_json_names())
-    ))
+  tbl <-  tbl %>% 
+    jsonlite::flatten() %>% 
+    dplyr::as_tibble()
+  
+  if(has_genes){
+    tbl <- tbl %>%
+    dplyr::select(
+      c(
+        get_node_field_names(),
+        "gene_entrez" = "gene.entrez", 
+        "gene_friendly_name" = "gene.friendlyName",
+        "gene_hgnc" = "gene.hgnc",
+        "tag1_long_display" = "tag1.longDisplay",
+        "tag1_short_display" = "tag1.shortDisplay",
+        "tag1_name" = "tag1.name",           
+        "tag1_order" = "tag1.order",
+        "tag1_type"  = "tag1.type",
+        "tag2_long_display" = "tag2.longDisplay",
+        "tag2_short_display" = "tag2.shortDisplay",
+        "tag2_name" = "tag2.name",           
+        "tag2_order" = "tag2.order",
+        "tag2_type"  = "tag2.type"
+      )
+    ) 
+  }
+  
+  if(has_features){
+    tbl <- tbl %>%
+    dplyr::select(
+      c(
+        get_node_field_names(),
+        "feature_name" = "feature.name",
+        "feature_display" = "feature.display",
+        "tag1_long_display" = "tag1.longDisplay",
+        "tag1_short_display" = "tag1.shortDisplay",
+        "tag1_name" = "tag1.name",           
+        "tag1_order" = "tag1.order",
+        "tag1_type"  = "tag1.type",
+        "tag2_long_display" = "tag2.longDisplay",
+        "tag2_short_display" = "tag2.shortDisplay",
+        "tag2_name" = "tag2.name",           
+        "tag2_order" = "tag2.order",
+        "tag2_type"  = "tag2.type"
+      )
+    ) 
+  }
+  
+    
+  
   if(!has_features){
     tbl <- tbl %>%
       dplyr::mutate(
@@ -114,9 +156,8 @@ get_node_column_tbl <- function(prefix = "node_"){
     "label",           "label",           character(),
     "name",            "name",            character(),
     "score",           "score",           double(),
-    "tags",            "tags",            list(),
     "x",               "x",               character(),
-    "y",               "y",               character()
+    "y",               "y",               character(),
 
   ) %>%
     dplyr::mutate("name" = stringr::str_c(prefix, .data$name))
