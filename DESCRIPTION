@@ -1,7 +1,7 @@
 Package: iatlasGraphQLClient
 Title: iatlas API Client
 Type: Package
-Version: 0.2.7
+Version: 0.2.8
 Author: Andrew Lamb
 Maintainer: Andrew Lamb <Andrew.Lamb@sagebase.org>
 Description: This package is am R Client library for the iAtlas API.
