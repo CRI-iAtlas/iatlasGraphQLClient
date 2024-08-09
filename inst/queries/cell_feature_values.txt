@@ -1,0 +1,34 @@
+query Cells(
+    $paging: PagingInput
+    $distinct:Boolean
+    $cohort: [String!]
+    $cell: [String!]
+) {
+  cells(
+      paging: $paging
+      distinct: $distinct
+      cohort: $cohort
+      cell: $cell
+  ){
+  items {
+      name
+      type
+      features {
+        name
+        value
+      }
+    }
+    paging {
+        type
+        pages
+        total
+        startCursor
+        endCursor
+        hasPreviousPage
+        hasNextPage
+        page
+        limit
+    }
+    error
+  }
+}
